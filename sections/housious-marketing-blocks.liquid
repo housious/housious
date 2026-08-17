@@ -110,6 +110,7 @@
               </div>
 
               {%- assign fbt_main_variant = product.selected_or_first_available_variant -%}
+              {%- assign fbt_main_image = fbt_main_variant.featured_image | default: product.featured_image -%}
               {%- assign fbt_eligible_count = 0 -%}
               {%- assign fbt_total_price = 0 -%}
               {%- if fbt_main_variant != blank -%}
@@ -160,8 +161,8 @@
                       data-price="{{ fbt_main_variant.price }}"
                     >
                       <img
-                        src="{{ product.featured_image | image_url: width: 120 }}"
-                        alt="{{ product.title | escape }}"
+                        src="{{ fbt_main_image | image_url: width: 120 }}"
+                        alt="{{ fbt_main_image.alt | default: product.title | escape }}"
                         loading="lazy"
                       >
                     </div>
@@ -554,6 +555,13 @@
         if (mainNode) {
           mainNode.dataset.variantId = mainVariantId || '';
           mainNode.dataset.price = String(mainPrice);
+
+          const mainImage = mainNode.querySelector('img');
+          const selectedImage = variant?.media?.src400 || variant?.media?.src || '';
+          if (mainImage && selectedImage) {
+            mainImage.src = selectedImage;
+            if (variant?.media?.alt) mainImage.alt = variant.media.alt;
+          }
         }
 
         const totalPrice = mainPrice + associatedItems.reduce((sum, item) => sum + item.price, 0);
