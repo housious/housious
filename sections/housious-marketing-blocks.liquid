@@ -112,98 +112,190 @@
               {%- assign fbt_main_variant = product.selected_or_first_available_variant -%}
               {%- assign fbt_main_image = fbt_main_variant.featured_image | default: product.featured_image -%}
               {%- assign fbt_eligible_count = 0 -%}
-              {%- assign fbt_total_price = 0 -%}
               {%- if fbt_main_variant != blank -%}
                 {%- assign fbt_eligible_count = 1 -%}
-                {%- assign fbt_total_price = fbt_main_variant.price -%}
               {%- endif -%}
 
-              {%- capture fbt_associated_items -%}
+              {%- capture fbt_associated_cards -%}
                 {%- if product.metafields.custom.frequently_bought_together.value != blank -%}
                   {%- for associative_product in product.metafields.custom.frequently_bought_together.value limit: 2 -%}
                     {%- assign fbt_associated_variant = associative_product.first_available_variant -%}
                     {%- if fbt_associated_variant != blank -%}
                       {%- assign fbt_associated_image = fbt_associated_variant.featured_image | default: associative_product.featured_image -%}
                       {%- assign fbt_eligible_count = fbt_eligible_count | plus: 1 -%}
-                      {%- assign fbt_total_price = fbt_total_price | plus: fbt_associated_variant.price -%}
-                      <div class="fbt-plus-sign-divider">+</div>
-                      <div
-                        class="fbt-single-img-node"
+                      <article
+                        class="h-fbt-product-card is-selected"
                         data-fbt-item
                         data-variant-id="{{ fbt_associated_variant.id }}"
                         data-price="{{ fbt_associated_variant.price }}"
-                        data-variant-title="{{ fbt_associated_variant.title | escape }}"
+                        data-product-url="{{ associative_product.url }}"
                       >
+                        <label class="h-fbt-check" aria-label="Include {{ associative_product.title | escape }}">
+                          <input type="checkbox" data-fbt-toggle checked>
+                          <span aria-hidden="true">✓</span>
+                        </label>
+
                         <a
                           href="{{ associative_product.url }}?variant={{ fbt_associated_variant.id }}"
+                          class="h-fbt-product-link h-fbt-product-image-link"
+                          data-fbt-product-link
                           aria-label="View {{ associative_product.title | escape }}"
-                          style="display:block;color:inherit;text-decoration:none;"
                         >
                           <img
-                            src="{{ fbt_associated_image | image_url: width: 120 }}"
+                            src="{{ fbt_associated_image | image_url: width: 360 }}"
                             alt="{{ fbt_associated_image.alt | default: associative_product.title | escape }}"
                             loading="lazy"
+                            data-fbt-product-image
                           >
-                          {%- unless associative_product.has_only_default_variant -%}
-                            <span
-                              class="fbt-selected-variant-label"
-                              style="display:block;max-width:120px;margin-top:5px;font-size:10px;line-height:1.25;color:#666;text-align:center;"
-                            >
-                              Selected: {{ fbt_associated_variant.title }}
-                            </span>
-                          {%- endunless -%}
                         </a>
-                      </div>
+
+                        <div class="h-fbt-product-meta">
+                          <a
+                            href="{{ associative_product.url }}?variant={{ fbt_associated_variant.id }}"
+                            class="h-fbt-product-link h-fbt-product-title"
+                            data-fbt-product-link
+                          >
+                            {{ associative_product.title }}
+                          </a>
+
+                          <div class="h-fbt-price-row">
+                            <strong data-fbt-item-price>{{ fbt_associated_variant.price | money }}</strong>
+                            <span
+                              class="h-fbt-compare-price"
+                              data-fbt-compare-price
+                              {% unless fbt_associated_variant.compare_at_price > fbt_associated_variant.price %}hidden{% endunless %}
+                            >
+                              {%- if fbt_associated_variant.compare_at_price > fbt_associated_variant.price -%}
+                                {{ fbt_associated_variant.compare_at_price | money }}
+                              {%- endif -%}
+                            </span>
+                          </div>
+
+                          {%- unless associative_product.has_only_default_variant -%}
+                            <select
+                              class="h-fbt-variant-select"
+                              data-fbt-variant-select
+                              aria-label="Choose variation for {{ associative_product.title | escape }}"
+                            >
+                              {%- for variant in associative_product.variants -%}
+                                {%- if variant.available -%}
+                                  {%- assign fbt_option_image = variant.featured_image | default: associative_product.featured_image -%}
+                                  <option
+                                    value="{{ variant.id }}"
+                                    data-price="{{ variant.price }}"
+                                    data-compare-price="{{ variant.compare_at_price | default: 0 }}"
+                                    data-image="{% if fbt_option_image != blank %}{{ fbt_option_image | image_url: width: 360 }}{% endif %}"
+                                    data-url="{{ associative_product.url }}?variant={{ variant.id }}"
+                                    {% if variant.id == fbt_associated_variant.id %}selected{% endif %}
+                                  >
+                                    {{ variant.title }}
+                                  </option>
+                                {%- endif -%}
+                              {%- endfor -%}
+                            </select>
+                          {%- else -%}
+                            <span class="h-fbt-single-variant">Ready to add</span>
+                          {%- endunless -%}
+                        </div>
+                      </article>
                     {%- endif -%}
                   {%- endfor -%}
                 {%- endif -%}
               {%- endcapture -%}
 
               {%- if fbt_eligible_count > 1 -%}
-              <div
-                class="canva-fbt-integrated-footer-panel"
-                data-fbt-panel
-                data-fbt-main-variant-id="{{ fbt_main_variant.id }}"
-                data-fbt-main-price="{{ fbt_main_variant.price }}"
-                data-fbt-main-available="{{ fbt_main_variant.available }}"
-              >
-                <div class="fbt-products-preview-master-wrapper">
-                  <h4 class="fbt-panel-header-title">Frequently Bought Together</h4>
-
-                  <div class="fbt-images-plus-flex-row">
-                    <div
-                      class="fbt-single-img-node"
-                      data-fbt-main-item
-                      data-variant-id="{{ fbt_main_variant.id }}"
-                      data-price="{{ fbt_main_variant.price }}"
-                    >
-                      <img
-                        src="{{ fbt_main_image | image_url: width: 120 }}"
-                        alt="{{ fbt_main_image.alt | default: product.title | escape }}"
-                        loading="lazy"
-                      >
+                <div
+                  class="canva-fbt-integrated-footer-panel h-fbt-panel"
+                  data-fbt-panel
+                  data-fbt-main-variant-id="{{ fbt_main_variant.id }}"
+                  data-fbt-main-price="{{ fbt_main_variant.price }}"
+                  data-fbt-main-available="{{ fbt_main_variant.available }}"
+                  data-fbt-main-url="{{ product.url }}"
+                >
+                  <div class="h-fbt-heading-row">
+                    <div>
+                      <span class="h-fbt-kicker">Recommended Set</span>
+                      <h4 class="fbt-panel-header-title">Frequently Bought Together</h4>
                     </div>
-                    {{ fbt_associated_items }}
-                  </div>
-                </div>
-
-                <div class="fbt-action-pricing-checkout-block">
-                  <div class="fbt-checkout-pricing-header-line">
-                    Total Price:
-                    <span class="fbt-vibrant-active-price" data-fbt-total-price>{{ fbt_total_price | money }}</span>
+                    <span class="h-fbt-selected-count" data-fbt-selected-count></span>
                   </div>
 
-                  <button
-                    type="button"
-                    class="canva-huge-action-submit-btn"
-                    id="HousiousAddAllToCartTrigger"
-                    data-fbt-count="{{ fbt_eligible_count }}"
-                    {% unless fbt_main_variant.available %}disabled{% endunless %}
-                  >
-                    {% if fbt_eligible_count == 2 %}Add Both to Cart{% else %}Add All {{ fbt_eligible_count }} to Cart{% endif %}
-                  </button>
+                  <div class="h-fbt-layout">
+                    <div class="h-fbt-products-grid">
+                      <article
+                        class="h-fbt-product-card is-selected is-required"
+                        data-fbt-main-item
+                        data-fbt-item
+                        data-variant-id="{{ fbt_main_variant.id }}"
+                        data-price="{{ fbt_main_variant.price }}"
+                      >
+                        <span class="h-fbt-check is-locked" aria-label="Current product included">
+                          <input type="checkbox" checked disabled>
+                          <span aria-hidden="true">✓</span>
+                        </span>
+
+                        <a
+                          href="{{ product.url }}?variant={{ fbt_main_variant.id }}"
+                          class="h-fbt-product-link h-fbt-product-image-link"
+                          data-fbt-main-link
+                        >
+                          <img
+                            src="{{ fbt_main_image | image_url: width: 360 }}"
+                            alt="{{ fbt_main_image.alt | default: product.title | escape }}"
+                            loading="lazy"
+                            data-fbt-main-image
+                          >
+                        </a>
+
+                        <div class="h-fbt-product-meta">
+                          <a
+                            href="{{ product.url }}?variant={{ fbt_main_variant.id }}"
+                            class="h-fbt-product-link h-fbt-product-title"
+                            data-fbt-main-link
+                          >
+                            {{ product.title }}
+                          </a>
+
+                          <div class="h-fbt-price-row">
+                            <strong data-fbt-main-price-label>{{ fbt_main_variant.price | money }}</strong>
+                            <span
+                              class="h-fbt-compare-price"
+                              data-fbt-main-compare-price
+                              {% unless fbt_main_variant.compare_at_price > fbt_main_variant.price %}hidden{% endunless %}
+                            >
+                              {%- if fbt_main_variant.compare_at_price > fbt_main_variant.price -%}
+                                {{ fbt_main_variant.compare_at_price | money }}
+                              {%- endif -%}
+                            </span>
+                          </div>
+
+                          {%- unless product.has_only_default_variant -%}
+                            <span class="h-fbt-main-variant" data-fbt-main-variant-label>
+                              Selected: {{ fbt_main_variant.title }}
+                            </span>
+                          {%- else -%}
+                            <span class="h-fbt-single-variant">Current product</span>
+                          {%- endunless -%}
+                        </div>
+                      </article>
+
+                      {{ fbt_associated_cards }}
+                    </div>
+
+                    <aside class="h-fbt-summary">
+                      <span class="h-fbt-summary-label">Selected Total</span>
+                      <strong class="h-fbt-summary-price" data-fbt-total-price></strong>
+                      <span class="h-fbt-summary-note">Quantity offers, if eligible, apply in cart.</span>
+                      <button
+                        type="button"
+                        class="canva-huge-action-submit-btn h-fbt-add-btn"
+                        id="HousiousAddAllToCartTrigger"
+                      >
+                        Add Selected to Cart
+                      </button>
+                    </aside>
+                  </div>
                 </div>
-              </div>
               {%- endif -%}
             </div>
 
@@ -534,6 +626,251 @@
 {% endschema %}
 
 {{ 'housious-marketing-blocks.css' | asset_url | stylesheet_tag }}
+<style>
+  .h-fbt-panel {
+    display: block;
+    padding: 18px;
+    border-color: #f2d7c8;
+    background: linear-gradient(180deg, #fff 0%, #fffaf7 100%);
+  }
+  .h-fbt-heading-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+  .h-fbt-heading-row .fbt-panel-header-title {
+    margin-top: 3px;
+    text-align: left;
+    font-size: clamp(18px, 2vw, 24px);
+  }
+  .h-fbt-kicker {
+    display: inline-flex;
+    padding: 4px 8px;
+    border-radius: 999px;
+    background: #fff0e8;
+    color: #ff5600;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+  }
+  .h-fbt-selected-count {
+    flex: 0 0 auto;
+    padding: 6px 9px;
+    border-radius: 999px;
+    background: #fff;
+    border: 1px solid #f0e3dc;
+    color: #555;
+    font-size: 10px;
+    font-weight: 700;
+  }
+  .h-fbt-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(180px, 220px);
+    gap: 16px;
+    align-items: stretch;
+  }
+  .h-fbt-products-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    min-width: 0;
+  }
+  .h-fbt-product-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    overflow: hidden;
+    border: 1px solid #ececec;
+    border-radius: 10px;
+    background: #fff;
+    transition: opacity .2s ease, border-color .2s ease, box-shadow .2s ease;
+  }
+  .h-fbt-product-card.is-selected {
+    border-color: #f7cbb4;
+    box-shadow: 0 3px 12px rgba(255, 86, 0, .06);
+  }
+  .h-fbt-product-card:not(.is-selected) {
+    opacity: .56;
+  }
+  .h-fbt-check {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    z-index: 2;
+    display: inline-flex;
+    width: 23px;
+    height: 23px;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #d8d8d8;
+    border-radius: 6px;
+    background: #fff;
+    cursor: pointer;
+  }
+  .h-fbt-check input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .h-fbt-check > span {
+    display: none;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 900;
+  }
+  .h-fbt-check:has(input:checked) {
+    border-color: #ff5600;
+    background: #ff5600;
+  }
+  .h-fbt-check:has(input:checked) > span {
+    display: block;
+  }
+  .h-fbt-check.is-locked {
+    cursor: default;
+  }
+  .h-fbt-product-image-link {
+    display: flex;
+    aspect-ratio: 1 / .78;
+    padding: 12px;
+    align-items: center;
+    justify-content: center;
+    background: #fafafa;
+  }
+  .h-fbt-product-image-link img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+  .h-fbt-product-meta {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    gap: 7px;
+    padding: 10px;
+  }
+  .h-fbt-product-link {
+    color: inherit;
+    text-decoration: none;
+  }
+  .h-fbt-product-title {
+    display: -webkit-box;
+    min-height: 34px;
+    overflow: hidden;
+    color: #171717;
+    font-size: 11px;
+    font-weight: 750;
+    line-height: 1.35;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+  .h-fbt-price-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 5px;
+    color: #111;
+    font-size: 12px;
+  }
+  .h-fbt-compare-price {
+    color: #999;
+    font-size: 10px;
+    text-decoration: line-through;
+  }
+  .h-fbt-variant-select {
+    width: 100%;
+    min-height: 34px;
+    margin-top: auto;
+    padding: 6px 28px 6px 8px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background: #fff;
+    color: #333;
+    font-size: 10px;
+  }
+  .h-fbt-main-variant,
+  .h-fbt-single-variant {
+    margin-top: auto;
+    color: #666;
+    font-size: 9px;
+    line-height: 1.3;
+  }
+  .h-fbt-summary {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    justify-content: center;
+    padding: 16px;
+    border-left: 1px solid #f0e3dc;
+  }
+  .h-fbt-summary-label {
+    color: #666;
+    font-size: 10px;
+    font-weight: 700;
+  }
+  .h-fbt-summary-price {
+    margin: 3px 0 4px;
+    color: #111;
+    font-size: clamp(22px, 2.4vw, 30px);
+    line-height: 1.1;
+  }
+  .h-fbt-summary-note {
+    margin-bottom: 12px;
+    color: #777;
+    font-size: 9px;
+    line-height: 1.35;
+  }
+  .h-fbt-add-btn {
+    margin: 0;
+  }
+  @media (max-width: 1100px) {
+    .h-fbt-layout {
+      grid-template-columns: 1fr;
+    }
+    .h-fbt-summary {
+      border-top: 1px solid #f0e3dc;
+      border-left: 0;
+    }
+  }
+  @media (max-width: 640px) {
+    .h-fbt-panel {
+      padding: 13px;
+    }
+    .h-fbt-heading-row {
+      align-items: center;
+    }
+    .h-fbt-products-grid {
+      grid-template-columns: 1fr;
+    }
+    .h-fbt-product-card {
+      display: grid;
+      grid-template-columns: 88px minmax(0, 1fr);
+      min-height: 112px;
+    }
+    .h-fbt-product-image-link {
+      grid-row: 1;
+      grid-column: 1;
+      aspect-ratio: auto;
+      min-height: 112px;
+      padding: 9px;
+    }
+    .h-fbt-product-meta {
+      grid-row: 1;
+      grid-column: 2;
+      padding: 10px;
+    }
+    .h-fbt-check {
+      top: 6px;
+      left: 6px;
+    }
+    .h-fbt-summary {
+      padding: 13px 0 0;
+    }
+  }
+</style>
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     const addAllBtn = document.getElementById('HousiousAddAllToCartTrigger');
@@ -547,70 +884,156 @@
         maximumFractionDigits: 2
       }).format((Number(paise) || 0) / 100);
 
-      const getAssociatedItems = () => Array.from(
-        fbtPanel.querySelectorAll('[data-fbt-item][data-variant-id]')
-      ).map((node) => ({
-        id: parseInt(node.dataset.variantId, 10),
+      const getMainItem = () => ({
+        id: parseInt(fbtPanel.dataset.fbtMainVariantId, 10),
         quantity: 1,
-        price: parseInt(node.dataset.price, 10) || 0
-      })).filter((item) => item.id);
+        price: parseInt(fbtPanel.dataset.fbtMainPrice, 10) || 0
+      });
 
-      const updateFbtState = (variant) => {
-        const mainNode = fbtPanel.querySelector('[data-fbt-main-item]');
-        const totalPriceEl = fbtPanel.querySelector('[data-fbt-total-price]');
-        const associatedItems = getAssociatedItems();
+      const getAssociatedCards = () => Array.from(fbtPanel.querySelectorAll('[data-fbt-item]:not([data-fbt-main-item])'));
 
-        const mainVariantId = parseInt(variant?.id ?? fbtPanel.dataset.fbtMainVariantId, 10);
-        const mainPrice = parseInt(variant?.price ?? fbtPanel.dataset.fbtMainPrice, 10) || 0;
-        const mainAvailable = variant ? variant.available === true : fbtPanel.dataset.fbtMainAvailable === 'true';
-        const itemCount = mainVariantId ? associatedItems.length + 1 : associatedItems.length;
+      const getSelectedItems = () => {
+        const mainItem = getMainItem();
+        const items = mainItem.id ? [mainItem] : [];
 
-        fbtPanel.dataset.fbtMainVariantId = mainVariantId || '';
-        fbtPanel.dataset.fbtMainPrice = String(mainPrice);
-        fbtPanel.dataset.fbtMainAvailable = String(mainAvailable);
+        getAssociatedCards().forEach((card) => {
+          const toggle = card.querySelector('[data-fbt-toggle]');
+          if (toggle && !toggle.checked) return;
 
-        if (mainNode) {
-          mainNode.dataset.variantId = mainVariantId || '';
-          mainNode.dataset.price = String(mainPrice);
+          const id = parseInt(card.dataset.variantId, 10);
+          const price = parseInt(card.dataset.price, 10) || 0;
+          if (id) items.push({ id, quantity: 1, price });
+        });
 
-          const mainImage = mainNode.querySelector('img');
-          const selectedImage = variant?.media?.src400 || variant?.media?.src || '';
-          if (mainImage && selectedImage) {
-            mainImage.src = selectedImage;
-            if (variant?.media?.alt) mainImage.alt = variant.media.alt;
-          }
-        }
-
-        const totalPrice = mainPrice + associatedItems.reduce((sum, item) => sum + item.price, 0);
-        if (totalPriceEl) totalPriceEl.textContent = formatMoney(totalPrice);
-
-        addAllBtn.dataset.fbtCount = String(itemCount);
-        addAllBtn.textContent = itemCount === 2 ? 'Add Both to Cart' : `Add All ${itemCount} to Cart`;
-        addAllBtn.disabled = !mainAvailable || itemCount < 2;
+        return items;
       };
 
-      updateFbtState();
+      const updateSummary = () => {
+        const items = getSelectedItems();
+        const count = items.length;
+        const total = items.reduce((sum, item) => sum + item.price, 0);
+        const totalEl = fbtPanel.querySelector('[data-fbt-total-price]');
+        const countEl = fbtPanel.querySelector('[data-fbt-selected-count]');
+
+        if (totalEl) totalEl.textContent = formatMoney(total);
+        if (countEl) countEl.textContent = `${count} item${count === 1 ? '' : 's'} selected`;
+
+        addAllBtn.textContent = count === 1
+          ? 'Add 1 Selected Item'
+          : `Add ${count} Selected Items`;
+        addAllBtn.disabled = fbtPanel.dataset.fbtMainAvailable !== 'true' || count === 0;
+      };
+
+      getAssociatedCards().forEach((card) => {
+        const toggle = card.querySelector('[data-fbt-toggle]');
+        const select = card.querySelector('[data-fbt-variant-select]');
+
+        if (toggle) {
+          toggle.addEventListener('change', () => {
+            card.classList.toggle('is-selected', toggle.checked);
+            updateSummary();
+          });
+        }
+
+        if (select) {
+          select.addEventListener('change', () => {
+            const option = select.options[select.selectedIndex];
+            const variantId = parseInt(option.value, 10);
+            const price = parseInt(option.dataset.price, 10) || 0;
+            const comparePrice = parseInt(option.dataset.comparePrice, 10) || 0;
+            const imageUrl = option.dataset.image || '';
+            const productUrl = option.dataset.url || card.dataset.productUrl || '';
+
+            card.dataset.variantId = variantId || '';
+            card.dataset.price = String(price);
+
+            const image = card.querySelector('[data-fbt-product-image]');
+            if (image && imageUrl) image.src = imageUrl;
+
+            card.querySelectorAll('[data-fbt-product-link]').forEach((link) => {
+              if (productUrl) link.href = productUrl;
+            });
+
+            const priceEl = card.querySelector('[data-fbt-item-price]');
+            if (priceEl) priceEl.textContent = formatMoney(price);
+
+            const compareEl = card.querySelector('[data-fbt-compare-price]');
+            if (compareEl) {
+              const hasCompare = comparePrice > price;
+              compareEl.hidden = !hasCompare;
+              compareEl.textContent = hasCompare ? formatMoney(comparePrice) : '';
+            }
+
+            updateSummary();
+          });
+        }
+      });
+
+      const updateMainFbtState = (variant) => {
+        if (!variant) return;
+
+        const mainNode = fbtPanel.querySelector('[data-fbt-main-item]');
+        const mainPriceEl = fbtPanel.querySelector('[data-fbt-main-price-label]');
+        const mainCompareEl = fbtPanel.querySelector('[data-fbt-main-compare-price]');
+        const mainVariantLabel = fbtPanel.querySelector('[data-fbt-main-variant-label]');
+        const mainImage = fbtPanel.querySelector('[data-fbt-main-image]');
+        const mainLinks = fbtPanel.querySelectorAll('[data-fbt-main-link]');
+
+        const price = parseInt(variant.price, 10) || 0;
+        const comparePrice = parseInt(variant.compareAtPrice, 10) || 0;
+        const variantId = parseInt(variant.id, 10);
+
+        fbtPanel.dataset.fbtMainVariantId = variantId || '';
+        fbtPanel.dataset.fbtMainPrice = String(price);
+        fbtPanel.dataset.fbtMainAvailable = String(variant.available === true);
+
+        if (mainNode) {
+          mainNode.dataset.variantId = variantId || '';
+          mainNode.dataset.price = String(price);
+        }
+
+        if (mainPriceEl) mainPriceEl.textContent = formatMoney(price);
+
+        if (mainCompareEl) {
+          const hasCompare = comparePrice > price;
+          mainCompareEl.hidden = !hasCompare;
+          mainCompareEl.textContent = hasCompare ? formatMoney(comparePrice) : '';
+        }
+
+        if (mainVariantLabel && Array.isArray(variant.options)) {
+          mainVariantLabel.textContent = `Selected: ${variant.options.join(' / ')}`;
+        }
+
+        const selectedImage = variant.media?.src400 || variant.media?.src || '';
+        if (mainImage && selectedImage) {
+          mainImage.src = selectedImage;
+          if (variant.media?.alt) mainImage.alt = variant.media.alt;
+        }
+
+        if (variantId) {
+          const mainUrl = `${fbtPanel.dataset.fbtMainUrl}?variant=${variantId}`;
+          mainLinks.forEach((link) => { link.href = mainUrl; });
+        }
+
+        updateSummary();
+      };
+
+      updateSummary();
 
       document.addEventListener('variant:change', function (event) {
         const variant = event.detail?.variant;
         if (!variant || !event.target.closest('.housious-product-page')) return;
-        updateFbtState(variant);
+        updateMainFbtState(variant);
       });
 
       addAllBtn.addEventListener('click', async function (e) {
         e.preventDefault();
 
-        const mainVariantId = parseInt(fbtPanel.dataset.fbtMainVariantId, 10);
-        const mainAvailable = fbtPanel.dataset.fbtMainAvailable === 'true';
-        const associatedItems = getAssociatedItems().map(({ id, quantity }) => ({ id, quantity }));
+        const selectedItems = getSelectedItems();
+        if (!selectedItems.length || fbtPanel.dataset.fbtMainAvailable !== 'true') return;
 
-        if (!mainVariantId || !mainAvailable || associatedItems.length === 0) return;
-
-        const items = [
-          { id: mainVariantId, quantity: 1 },
-          ...associatedItems
-        ];
-
+        const items = selectedItems.map(({ id, quantity }) => ({ id, quantity }));
+        const originalText = addAllBtn.textContent;
         addAllBtn.disabled = true;
         addAllBtn.textContent = 'Adding...';
 
@@ -638,7 +1061,8 @@
           console.error(error);
           alert(error.message || 'Something went wrong');
         } finally {
-          updateFbtState();
+          addAllBtn.textContent = originalText;
+          updateSummary();
         }
       });
     }
