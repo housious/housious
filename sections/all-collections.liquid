@@ -1,0 +1,95 @@
+{{ 'collection.css' | asset_url | stylesheet_tag }}
+
+<div class="section-container">
+  
+  {% comment %} 1. TOP: Scrollable Subcollection Grid {% endcomment %}
+  <div class="all-collections-container">
+    <div class="subcollection-grid">
+      {% for collection in collections %}
+        {% unless collection.handle == 'frontpage' %}
+          <a href="{{ collection.url }}" class="subcollection-card {% if request.path == collection.url %}active-sub-card{% endif %}">
+            <div class="subcollection-image">
+              {% if collection.featured_image %}
+                <img src="{{ collection.featured_image | img_url: '120x120', crop: 'center' }}" alt="{{ collection.title }}" width="44" height="44" loading="lazy">
+              {% else %}
+                {{ 'collection-1' | placeholder_svg_tag: 'collection-card-placeholder' }}
+              {% endif %}
+            </div>
+            <div class="subcollection-info">
+              <span class="subcollection-title">{{ collection.title }}</span>
+              <span class="subcollection-count">{{ collection.all_products_count }} Products</span>
+            </div>
+          </a>
+        {% endunless %}
+      {% endfor %}
+    </div>
+  </div>
+
+  {% comment %} 2. BOTTOM: Sidebar + Product Grid (With Filters) {% endcomment %}
+  <div class="collection-layout-wrapper">
+    
+    {% comment %} Yahan wahi snippet use karein jo aapke main grid me hai {% endcomment %}
+    {% comment %} {% render 'collection-filters', collection: collections['all'] %} {% endcomment %}
+{% comment %} Yahan 'all' collection hardcode kar dein taaki filters ko product list mile {% endcomment %}
+{% comment %} {% render 'collection-filters', collection: collections['all'] %} {% endcomment %}
+
+{% comment %} Yahan ek variable 'is_all_collections_page' pass karein {% endcomment %}
+{% render 'collection-filters', collection: collections['all'], is_all_collections_page: true %}
+    <div class="collection-products-content-side" id="ProductGridContainer">
+      <div class="collection-meta-topbar">
+        <span class="showing-products-count">Showing All Products</span>
+        <button type="button" class="mobile-filter-toggle-btn" id="MobileFilterToggleBtn">⚙️ Filter & Sort</button>
+      </div>
+
+      {% comment %} <div class="products-grid-layout">
+        {% for product in collections['all'].products %}
+          {% render 'product-card', card_product: product %}
+        {% endfor %}
+      </div> {% endcomment %}
+
+      {%- liquid
+  assign raw_url = content_for_header | split: '"pageurl":"' | last | split: '"' | first
+
+  assign target_min = 0
+  if raw_url contains 'filter.v.price.gte='
+    assign min_part = raw_url | split: 'filter.v.price.gte=' | last | split: '&' | first | split: '%' | first
+    assign target_min = min_part | plus: 0
+  endif
+
+  assign target_max = 999999
+  if raw_url contains 'filter.v.price.lte='
+    assign max_part = raw_url | split: 'filter.v.price.lte=' | last | split: '&' | first | split: '%' | first
+    assign target_max = max_part | plus: 0
+  endif
+-%}
+
+<div class="products-grid-layout">
+
+  {% assign has_products = false %}
+
+  {% for product in collections['all'].products %}
+
+    {% assign current_price = product.price | divided_by: 100 %}
+
+    {% if current_price >= target_min and current_price <= target_max %}
+
+      {% assign has_products = true %}
+      {% render 'product-card', card_product: product %}
+
+    {% endif %}
+
+  {% endfor %}
+
+  {% unless has_products %}
+    <div class="collection-empty-fallback">
+      No products found within this price range.
+    </div>
+  {% endunless %}
+
+</div>
+    </div>
+  </div>
+</div>
+
+<div class="filter-drawer-overlay" id="FilterDrawerOverlay"></div>
+<script src="{{ 'collection-filters.js' | asset_url }}" defer="defer"></script>

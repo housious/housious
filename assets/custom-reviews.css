@@ -1,0 +1,109 @@
+/* .customer-reviews {
+  padding: 40px 0;
+}
+
+.AirReviews-Widget {
+  max-width: 100%;
+} */
+
+/* .customer-reviews{
+  background:red;
+}
+
+.AirReviews-Widget {
+  background: yellowgreen;
+} */
+
+
+/* Container Adjustment */
+.customer-reviews {
+  margin-top: 50px;
+  margin-bottom: 60px;
+}
+
+.reviews-section-header h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: 25px;
+  letter-spacing: 0.5px;
+}
+
+/* Forcing AirReviews Widget Container to act like your Canva layout */
+.housious-custom-reviews-wrapper .AirReviews-Widget {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 30px !important;
+  background: #ffffff !important;
+  border: 1px solid #ebebeb !important;
+  border-radius: 8px !important;
+  padding: 30px !important;
+  align-items: center !important;
+}
+
+/* Big Rating Number Column Override */
+.housious-custom-reviews-wrapper .air-reviews-summary-score,
+.housious-custom-reviews-wrapper [class*="summary-score"] {
+  flex: 1 !important;
+  min-width: 180px !important;
+  text-align: center !important;
+  font-size: 54px !important;
+  font-weight: 800 !important;
+  color: #111 !important;
+}
+
+/* Rating Progress Bars Layout Adjustment */
+.housious-custom-reviews-wrapper .air-reviews-rating-breakdown,
+.housious-custom-reviews-wrapper [class*="rating-breakdown"] {
+  flex: 2 !important;
+  min-width: 280px !important;
+}
+
+/* Formatting the bar lines inside AirReviews */
+.housious-custom-reviews-wrapper [class*="progress-bar"],
+.housious-custom-reviews-wrapper [class*="bar-bg"] {
+  height: 8px !important;
+  background-color: #f0f0f0 !important;
+  border-radius: 4px !important;
+}
+
+/* Custom Yellow/Gold for Star Accent & Fills */
+.housious-custom-reviews-wrapper [class*="bar-fill"],
+.housious-custom-reviews-wrapper [class*="progress-fill"] {
+  background-color: #ffb400 !important; /* Perfect Golden Yellow */
+  border-radius: 4px !important;
+}
+
+.housious-custom-reviews-wrapper [class*="star"],
+.housious-custom-reviews-wrapper .filled {
+  color: #ffb400 !important;
+}
+
+/* Right-side Call To Action Box (Click to review button) */
+.housious-custom-reviews-wrapper [class*="write-review-btn"],
+.housious-custom-reviews-wrapper button[class*="review"] {
+  background: #111 !important;
+  color: #fff !important;
+  border: none !important;
+  padding: 12px 24px !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  border-radius: 4px !important;
+  text-transform: none !important;
+  transition: background 0.2s ease-in-out !important;
+  cursor: pointer !important;
+}
+
+/* Hover Effect match matching Housious Brand Elements */
+.housious-custom-reviews-wrapper button[class*="review"]:hover {
+  background: #ff5a36 !important;
+}
+
+/* Responsive Grid for Mobile Viewports */
+@media screen and (max-width: 768px) {
+  .housious-custom-reviews-wrapper .AirReviews-Widget {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    padding: 20px !important;
+  }
+}

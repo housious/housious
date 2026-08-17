@@ -1,0 +1,82 @@
+{{ 'newsletter-premium.css' | asset_url | stylesheet_tag }}
+
+<section class="newsletter-premium section-container {{ section.settings.container_width }}">
+  <div class="page-width">
+    <div class="newsletter-premium__wrapper">
+      <div class="newsletter-premium__content">
+        <div class="newsletter-premium__intro">
+          <h2>{{ section.settings.heading }}</h2>
+          <p>{{ section.settings.description }}</p>
+        </div>
+
+        <div class="newsletter-premium__center">
+          {% form 'customer' %}
+            <input type="hidden" name="contact[tags]" value="newsletter">
+            <div class="newsletter-form">
+              <label class="housious-visually-hidden" for="NewsletterEmail-{{ section.id }}">Email address</label>
+              <input id="NewsletterEmail-{{ section.id }}" type="email" name="contact[email]" placeholder="{{ section.settings.placeholder }}" autocomplete="email" required>
+              <button type="submit">{{ section.settings.button_label }}</button>
+            </div>
+          {% endform %}
+
+          <div class="newsletter-features">
+            {% for block in section.blocks %}
+              <div class="feature-item" {{ block.shopify_attributes }}>
+                {% if block.settings.icon != blank %}
+                  {{ block.settings.icon | image_url: width: 84 | image_tag: loading: 'lazy', alt: '' }}
+                {% endif %}
+                <span>{{ block.settings.text }}</span>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+
+        {% if section.settings.side_image %}
+          <div class="newsletter-premium__image">
+            <img
+              src="{{ section.settings.side_image | image_url: width: 500 }}"
+              srcset="{{ section.settings.side_image | image_url: width: 280 }} 280w, {{ section.settings.side_image | image_url: width: 500 }} 500w"
+              sizes="(max-width:767px) 280px, 180px"
+              width="{{ section.settings.side_image.width }}"
+              height="{{ section.settings.side_image.height }}"
+              alt=""
+              loading="lazy"
+            >
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Premium Newsletter",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Exclusive Offers, New Arrivals & Expert Tips – Straight to You!" },
+    { "type": "textarea", "id": "description", "label": "Description", "default": "Join our community for new arrivals, expert tips and member-only offers." },
+    { "type": "text", "id": "placeholder", "label": "Placeholder", "default": "Enter your email address" },
+    { "type": "text", "id": "button_label", "label": "Button Label", "default": "Subscribe" },
+    { "type": "image_picker", "id": "side_image", "label": "Right Side Image" },
+    {
+      "type": "select", "id": "container_width", "label": "Container Width",
+      "options": [
+        { "value": "section-container--lg", "label": "Large" },
+        { "value": "section-container--xl", "label": "Extra Large" },
+        { "value": "section-container--full", "label": "Full Width" }
+      ],
+      "default": "section-container--lg"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature", "name": "Feature",
+      "settings": [
+        { "type": "image_picker", "id": "icon", "label": "Icon" },
+        { "type": "text", "id": "text", "label": "Text" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Premium Newsletter" }]
+}
+{% endschema %}

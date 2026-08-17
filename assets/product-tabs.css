@@ -1,0 +1,481 @@
+/* ==========================================================================
+   CANVA CORE-ALIGNED PRODUCT DESCRIPTION TABS ENGINE
+   ========================================================================== */
+.product-tabs-section {
+  /* max-width: 1280px;  */
+  margin: 0 auto;
+  padding: 20px 20px;
+  box-sizing: border-box;
+}
+
+/* Tabs Header Spacing Framework */
+.tabs-header {
+  display: flex;
+  gap: 35px;
+  border-bottom: 2px solid #f1f5f9;
+  margin-bottom: 28px;
+  overflow-x: auto;
+  white-space: nowrap;
+  scrollbar-width: none; /* Hides horizontal bars on firefox */
+}
+
+.tabs-header::-webkit-scrollbar {
+  display: none; /* Hides native tracking bar on chrome views */
+}
+
+.tab-btn {
+  background: none;
+  border: none;
+  padding: 14px 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: #64748b; /* Clean muted gray dashboard font tab link */
+  cursor: pointer;
+  position: relative;
+  transition: color 0.2s ease;
+}
+
+.tab-btn:hover {
+  color: #000000;
+}
+
+.tab-btn.active {
+  color: #ff5600; /* Pure Canva Highlight Vibrant Orange Brand Identity */
+}
+
+.tab-btn.active::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: #ff5600;
+}
+
+/* Tab Panels Switching Core Engine */
+.tab-panel-item {
+  display: none;
+  width: 100%;
+}
+
+.tab-panel-item.active {
+  display: block;
+  animation: canvaPanelFadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Three Column Structural Grid Custom Proportions */
+/* .description-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr 1fr; 
+  gap: 20px;
+  align-items: stretch; 
+} */
+
+.description-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr 1fr;
+  gap: 20px;
+  align-items: flex-start; /* 'stretch' ko 'flex-start' kiya taaki card faltu lamba na ho */
+}
+
+/* .content-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+} */
+
+.content-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  height: fit-content; /* Card sirf content ke mutabik hi space lega */
+}
+
+/* --- Left Card Typography Core Design Specs --- */
+.content-card .canva-headline-main {
+  font-size: 17px;
+  font-weight: 800;
+  line-height: 1.4;
+  color: #000000; /* Sharp dark contrast hierarchy */
+  margin: 0 0 16px 0;
+  letter-spacing: -0.2px;
+}
+
+.description-text-wrapper {
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: #334155;
+}
+
+.description-text-wrapper p {
+  margin-bottom: 14px;
+}
+
+.canva-highlight-subline-box {
+  margin-top: 18px;
+}
+
+.canva-highlight-bold-tag {
+  font-size: 14px;
+  font-weight: 700;
+  color: #000000;
+  display: block;
+}
+
+.canva-ideal-usage-line {
+  margin: 4px 0 0 0 !important;
+  font-size: 13px !important;
+  color: #64748b !important; /* Elegant muted slate gray text formatting */
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+/* --- Middle Card Structure: What's Included Components --- */
+.canva-card-title {
+  font-size: 15px;
+  font-weight: 700;
+  margin: 0 0 18px 0;
+  color: #000000;
+}
+
+/* .included-bullets-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+} */
+
+.included-bullets-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 12px 0; /* Spacing ko tight kiya */
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+
+
+.included-bullets-list li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Circular Background Green Check Badge Icon */
+.bullet-tick {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  background-color: #e6f7ed; /* Soft Canva Pastel Olive Green Circle */
+  color: #14a049; /* Sharp Green Tick checkmark */
+  border-radius: 50%;
+  font-size: 10px;
+  font-weight: 800;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.bullet-text {
+  font-size: 13px;
+  font-weight: 500;
+  color: #1e293b;
+  line-height: 1.2;
+}
+
+/* .included-meta-img-box {
+  width: 100%;
+  margin-top: auto; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 15px;
+} */
+
+.included-meta-img-box {
+  width: 100%;
+  margin-top: 0; /* 'auto' hata diya taaki image bullets ke paas aa jaye */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 10px;
+}
+
+
+
+/* .included-meta-img-box img {
+  width: 100%;
+  max-width: 230px;
+  height: auto;
+  object-fit: contain;
+} */
+
+.included-meta-img-box img {
+  width: 100%;
+  max-width: 200px; /* Canva size match karne ke liye thoda chota kiya */
+  height: auto;
+  object-fit: contain;
+}
+
+
+
+/* --- Right Card Structure: Canva Premium Custom Tint Layer --- */
+/* .brand-highlight-card {
+  background-color: #f6f8f6; 
+  border: 1px solid #eef2ee;
+} */
+
+.brand-highlight-card {
+  background-color: #f6f8f6; 
+  border: 1px solid #eef2ee;
+  padding: 0; /* Pure bounds ko fill karne ke liye padding 0 ki */
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+
+
+.brand-canva-title {
+  font-size: 17px;
+  font-weight: 800;
+  line-height: 1.3;
+  color: #000000;
+  margin: 0 0 18px 0;
+  letter-spacing: -0.2px;
+}
+
+.brand-features-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.brand-feature-row {
+  font-size: 13.5px;
+  display: block; /* Flex ki jagah block taaki inline space handle ho sake */
+  margin-bottom: 8px;
+  color: #1e293b;
+}
+
+.brand-feature-label {
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.brand-feature-sub {
+  font-size: 13px;
+  color: #64748b;
+  font-weight: 500;
+  display: inline-block;
+  padding-left: 4px; /* Canva me text pass me hai, isliye padding kam ki hai */
+}
+
+/* .brand-right-showcase-img {
+  width: 100%;
+  margin-top: 15px; 
+  border-radius: 8px;
+  overflow: hidden;
+} */
+
+.brand-right-showcase-img {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  display: block;
+}
+
+
+/* 
+.brand-right-showcase-img img {
+  width: 100%;
+  max-height: 220px; 
+  object-fit: cover; 
+  display: block;
+} */
+
+.brand-right-showcase-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Canva frame ki tarah borders se stretch lock karega */
+  display: block;
+}
+
+/* --- Secondary Fallback Panels Style --- */
+.content-panel-inner-fallback {
+  background: #ffffff;
+  /* border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 30px; */
+}
+
+.fallback-panel-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0 0 12px 0;
+  color: #0f172a;
+}
+
+.fallback-panel-text {
+  font-size: 14px;
+  color: #475569;
+  line-height: 1.5;
+}
+
+.housious-spec-table {
+  width: 100%;
+  max-width: 600px;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+.housious-spec-table td {
+  padding: 12px;
+  border-bottom: 1px solid #f1f5f9;
+  font-size: 13.5px;
+  color: #334155;
+}
+
+/* Fluid Animation Scaling Keyframes */
+@keyframes canvaPanelFadeIn {
+  from { opacity: 0; transform: translateY(3px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive Tablet and Mobile Breakpoints Custom Architecture */
+@media (max-width: 991px) {
+  .description-grid {
+    grid-template-columns: 1fr; /* Clean continuous structural card stack on smaller viewports */
+    gap: 16px;
+  }
+  .content-card {
+    padding: 20px;
+  }
+  .tabs-header {
+    gap: 24px;
+    margin-bottom: 20px;
+  }
+}
+
+
+/* ==========================================================================
+   HOUSIOUS PREMIUM CLEAN ACCORDION ENGINE (UPDATED)
+   ========================================================================== */
+.housious-accordion-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0; /* Gaps hata diye taaki ek clean list bane */
+  margin-top: 15px;
+}
+
+.qa-accordion-item {
+  border: none; /* Faltu ki borders hata di */
+  border-bottom: 1px solid #f1f5f9; /* Sirf niche ek halke rang ki line */
+  background: transparent;
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.qa-accordion-item:last-child {
+  border-bottom: none; /* Aakhri item ki line hatayi */
+}
+
+.qa-accordion-item[open] {
+  background-color: #fafafa; /* Khulne par soft premium gray background */
+}
+
+.qa-accordion-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 8px; /* Clean breathing space */
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+}
+
+.qa-accordion-header::-webkit-details-marker {
+  display: none;
+}
+
+.qa-question-title-box {
+  display: flex;
+  align-items: center;
+  gap: 14px; /* Text aur Badge ke beech spacing badhayi */
+}
+
+.qa-accordion-content {
+  padding: 0 8px 20px 44px; /* Answer ko direct question ke text ke niche align kiya */
+  animation: accordionFadeIn 0.25s ease-out;
+}
+
+.qa-answer-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.qa-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%; /* Pure round circles for modern look */
+  font-size: 10px;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.q-badge {
+  background-color: #ff5600; /* Pure Canva Orange */
+  color: #ffffff;
+}
+
+.a-badge {
+  background-color: #f1f5f9;
+  color: #64748b;
+}
+
+.qa-question-text {
+  font-size: 14.5px;
+  font-weight: 600; /* Over-bold se hata kar clean semi-bold kiya */
+  color: #1e293b;
+  margin: 0;
+}
+
+.qa-answer-text {
+  font-size: 13.5px;
+  color: #475569;
+  line-height: 1.6;
+}
+
+.accordion-icon {
+  color: #94a3b8;
+  transition: transform 0.2s ease;
+  display: flex;
+  align-items: center;
+}
+
+.qa-accordion-item[open] .accordion-icon {
+  transform: rotate(180deg);
+  color: #ff5600;
+}
+
+@keyframes accordionFadeIn {
+  from { opacity: 0; transform: translateY(-3px); }
+  to { opacity: 1; transform: translateY(0); }
+}

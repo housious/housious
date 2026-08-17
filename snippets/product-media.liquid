@@ -1,0 +1,604 @@
+{%- liquid
+  assign selected_variant = product.selected_or_first_available_variant
+  assign initial_media = selected_variant.featured_media
+
+  if initial_media == blank
+    assign initial_media = product.featured_media
+  endif
+
+  assign initial_image = initial_media.preview_image
+
+  if initial_image == blank
+    assign initial_image = product.featured_image
+  endif
+
+  assign total_images = 0
+
+  for media in product.media
+    if media.media_type == 'image'
+      assign total_images = total_images | plus: 1
+    endif
+  endfor
+-%}
+
+<div
+  class="product-gallery"
+  data-product-gallery
+  data-current-media-id="{{ initial_media.id }}"
+>
+  <!-- Desktop thumbnails -->
+  <div class="product-thumbnails">
+    {%- assign image_index = 0 -%}
+
+    {%- for media in product.media -%}
+      {%- if media.media_type == 'image' -%}
+        <button
+          type="button"
+          class="thumbnail{% if media.id == initial_media.id %} active{% endif %}"
+          data-gallery-thumbnail
+          data-media-id="{{ media.id }}"
+          data-image-url="{{ media.preview_image | image_url: width: 900 }}"
+          data-image-alt="{{ media.alt | default: product.title | escape }}"
+          data-slide-index="{{ image_index }}"
+          aria-label="Show product image {{ image_index | plus: 1 }}"
+          aria-current="{% if media.id == initial_media.id %}true{% else %}false{% endif %}"
+        >
+          <img
+            src="{{ media.preview_image | image_url: width: 180 }}"
+            alt="{{ media.alt | default: product.title | escape }}"
+            width="90"
+            height="90"
+            loading="lazy"
+          >
+        </button>
+
+        {%- assign image_index = image_index | plus: 1 -%}
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+
+  <div class="product-main-image">
+    <!-- Desktop image -->
+    {%- if initial_image != blank -%}
+      <picture>
+        <source
+          media="(max-width: 768px)"
+          srcset="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs="
+        >
+        <img
+          id="MainProductImage"
+          data-main-product-image
+          data-media-id="{{ initial_media.id }}"
+          src="{{ initial_image | image_url: width: 900 }}"
+          srcset="{{ initial_image | image_url: width: 600 }} 600w, {{ initial_image | image_url: width: 900 }} 900w, {{ initial_image | image_url: width: 1200 }} 1200w"
+          sizes="(min-width: 1200px) 560px, (min-width: 769px) 46vw, 1px"
+          alt="{{ initial_media.alt | default: product.title | escape }}"
+          width="{{ initial_image.width }}"
+          height="{{ initial_image.height }}"
+          loading="eager"
+          fetchpriority="high"
+        >
+      </picture>
+    {%- else -%}
+      {{ 'product-1' | placeholder_svg_tag: 'product-main-placeholder' }}
+    {%- endif -%}
+
+    <!-- Mobile swipe slider -->
+    <div
+      class="mobile-gallery-slider"
+      data-mobile-gallery-slider
+    >
+      {%- assign mobile_index = 0 -%}
+
+      {%- for media in product.media -%}
+        {%- if media.media_type == 'image' -%}
+          <div
+            class="mobile-slide"
+            data-mobile-slide
+            data-media-id="{{ media.id }}"
+            data-slide-index="{{ mobile_index }}"
+          >
+            <picture>
+              <source
+                media="(min-width: 769px)"
+                srcset="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs="
+              >
+              <img
+                src="{{ media.preview_image | image_url: width: 720 }}"
+                srcset="{{ media.preview_image | image_url: width: 360 }} 360w, {{ media.preview_image | image_url: width: 540 }} 540w, {{ media.preview_image | image_url: width: 720 }} 720w"
+                sizes="100vw"
+                alt="{{ media.alt | default: product.title | escape }}"
+                width="{{ media.preview_image.width }}"
+                height="{{ media.preview_image.height }}"
+                loading="{% if media.id == initial_media.id %}eager{% else %}lazy{% endif %}"
+                {% if media.id == initial_media.id %}fetchpriority="high"{% endif %}
+              >
+            </picture>
+          </div>
+
+          {%- assign mobile_index = mobile_index | plus: 1 -%}
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+    <!-- Floating left icon -->
+    {% comment %} <span class="gallery-floating-badge" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none">
+        <circle
+          cx="12"
+          cy="12"
+          r="8"
+          stroke="currentColor"
+          stroke-width="1.8"
+        />
+        <path
+          d="M12 8V12L14.5 14"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </span> {% endcomment %}
+
+    <!-- Floating share button -->
+    {% comment %} <button
+      type="button"
+      class="gallery-share-button"
+      aria-label="Share this product"
+      data-gallery-share
+    >
+      <svg viewBox="0 0 24 24" fill="none">
+        <path
+          d="M12 16V4"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+        />
+        <path
+          d="M8 8L12 4L16 8"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          d="M7 11H6C4.9 11 4 11.9 4 13V19C4 20.1 4.9 21 6 21H18C19.1 21 20 20.1 20 19V13C20 11.9 19.1 11 18 11H17"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+        />
+      </svg>
+    </button> {% endcomment %}
+
+    <!-- Image counter -->
+    <div class="gallery-image-counter">
+      <span data-current-slide-number>1</span>/<span>{{ total_images }}</span>
+    </div>
+  </div>
+
+  <!-- Mobile dots -->
+  {% comment %} <div class="slider-dots" data-slider-dots>
+    {%- assign dot_index = 0 -%}
+
+    {%- for media in product.media -%}
+      {%- if media.media_type == 'image' -%}
+        <button
+          type="button"
+          class="dot{% if media.id == initial_media.id %} active{% endif %}"
+          data-slider-dot
+          data-media-id="{{ media.id }}"
+          data-slide-index="{{ dot_index }}"
+          aria-label="Show product image {{ dot_index | plus: 1 }}"
+          aria-current="{% if media.id == initial_media.id %}true{% else %}false{% endif %}"
+        ></button>
+
+        {%- assign dot_index = dot_index | plus: 1 -%}
+      {%- endif -%}
+    {%- endfor -%}
+  </div> {% endcomment %}
+</div>
+
+{{ 'product-media.css' | asset_url | stylesheet_tag }}
+
+<script>
+  (() => {
+    const initializeProductGallery = (container = document) => {
+      container
+        .querySelectorAll('[data-product-gallery]')
+        .forEach((gallery) => {
+          if (gallery.dataset.galleryInitialized === 'true') {
+            return;
+          }
+
+          gallery.dataset.galleryInitialized = 'true';
+
+          const mainImage = gallery.querySelector(
+            '[data-main-product-image]'
+          );
+
+          const thumbnails = Array.from(
+            gallery.querySelectorAll('[data-gallery-thumbnail]')
+          );
+
+          const mobileSlider = gallery.querySelector(
+            '[data-mobile-gallery-slider]'
+          );
+
+          const mobileSlides = Array.from(
+            gallery.querySelectorAll('[data-mobile-slide]')
+          );
+
+          const dots = Array.from(
+            gallery.querySelectorAll('[data-slider-dot]')
+          );
+
+          const counter = gallery.querySelector(
+            '[data-current-slide-number]'
+          );
+
+          const shareButton = gallery.querySelector(
+            '[data-gallery-share]'
+          );
+
+          const updateCounter = (index) => {
+            if (!counter || Number.isNaN(index)) return;
+
+            counter.textContent = String(index + 1);
+          };
+
+          const getMediaIndex = (mediaId) => {
+            const thumbnail = thumbnails.find(
+              (item) =>
+                String(item.dataset.mediaId) === String(mediaId)
+            );
+
+            if (thumbnail) {
+              return Number.parseInt(
+                thumbnail.dataset.slideIndex,
+                10
+              );
+            }
+
+            const slide = mobileSlides.find(
+              (item) =>
+                String(item.dataset.mediaId) === String(mediaId)
+            );
+
+            if (slide) {
+              return Number.parseInt(
+                slide.dataset.slideIndex,
+                10
+              );
+            }
+
+            return -1;
+          };
+
+          const updateActiveStates = (mediaId) => {
+            thumbnails.forEach((thumbnail) => {
+              const isActive =
+                String(thumbnail.dataset.mediaId) ===
+                String(mediaId);
+
+              thumbnail.classList.toggle(
+                'active',
+                isActive
+              );
+
+              thumbnail.setAttribute(
+                'aria-current',
+                isActive ? 'true' : 'false'
+              );
+            });
+
+            dots.forEach((dot) => {
+              const isActive =
+                String(dot.dataset.mediaId) ===
+                String(mediaId);
+
+              dot.classList.toggle(
+                'active',
+                isActive
+              );
+
+              dot.setAttribute(
+                'aria-current',
+                isActive ? 'true' : 'false'
+              );
+            });
+
+            const index = getMediaIndex(mediaId);
+
+            if (index >= 0) {
+              updateCounter(index);
+            }
+          };
+
+          const updateDesktopImage = (
+            mediaId,
+            mediaData = null
+          ) => {
+            if (!mainImage) return;
+
+            const matchingThumbnail = thumbnails.find(
+              (thumbnail) =>
+                String(thumbnail.dataset.mediaId) ===
+                String(mediaId)
+            );
+
+            /*
+             * First use the thumbnail data.
+             * If no matching thumbnail exists, use variant JSON media.src.
+             */
+            const imageUrl =
+              matchingThumbnail?.dataset.imageUrl ||
+              mediaData?.src700 ||
+              mediaData?.src1000 ||
+              mediaData?.src1400 ||
+              mediaData?.src ||
+              null;
+
+            const imageAlt =
+              matchingThumbnail?.dataset.imageAlt ||
+              mediaData?.alt ||
+              '';
+
+            if (!imageUrl) {
+              console.warn(
+                'No image URL found for media:',
+                mediaId
+              );
+
+              return;
+            }
+
+            mainImage.removeAttribute('srcset');
+            mainImage.src = imageUrl;
+            mainImage.alt = imageAlt;
+            mainImage.dataset.mediaId = String(mediaId);
+          };
+
+          const scrollMobileToMedia = (
+            mediaId,
+            behavior = 'smooth'
+          ) => {
+            if (!mobileSlider) return;
+
+            const matchingSlide = mobileSlides.find(
+              (slide) =>
+                String(slide.dataset.mediaId) ===
+                String(mediaId)
+            );
+
+            if (!matchingSlide) {
+              console.warn(
+                'No mobile slide found for media:',
+                mediaId
+              );
+
+              return;
+            }
+
+            mobileSlider.scrollTo({
+              left: matchingSlide.offsetLeft,
+              behavior
+            });
+          };
+
+          const selectMedia = (
+            mediaId,
+            {
+              media = null,
+              updateImage = true,
+              scrollMobile = true,
+              behavior = 'smooth'
+            } = {}
+          ) => {
+            if (!mediaId) return;
+
+            gallery.dataset.currentMediaId =
+              String(mediaId);
+
+            updateActiveStates(mediaId);
+
+            if (updateImage) {
+              updateDesktopImage(
+                mediaId,
+                media
+              );
+            }
+
+            const matchingThumbnail = thumbnails.find(
+              (thumbnail) =>
+                String(thumbnail.dataset.mediaId) ===
+                String(mediaId)
+            );
+
+            if (matchingThumbnail) {
+              matchingThumbnail.scrollIntoView({
+                behavior,
+                block: 'nearest',
+                inline: 'nearest'
+              });
+            }
+
+            if (scrollMobile) {
+              scrollMobileToMedia(
+                mediaId,
+                behavior
+              );
+            }
+          };
+
+          /*
+           * Thumbnail selection
+           */
+          thumbnails.forEach((thumbnail) => {
+            thumbnail.addEventListener(
+              'click',
+              () => {
+                selectMedia(
+                  thumbnail.dataset.mediaId
+                );
+              }
+            );
+          });
+
+          /*
+           * Dot selection
+           */
+          dots.forEach((dot) => {
+            dot.addEventListener(
+              'click',
+              () => {
+                selectMedia(
+                  dot.dataset.mediaId
+                );
+              }
+            );
+          });
+
+          /*
+           * IMPORTANT:
+           * Variant picker sends this event.
+           * This listener must remain outside updateActiveStates().
+           */
+          gallery.addEventListener('gallery:select-media', (event) => {
+
+
+            const mediaId = event.detail.mediaId;
+
+            const media = event.detail.media;
+
+            selectMedia(mediaId,{
+              media,
+              updateImage:true,
+              scrollMobile:true
+            });
+
+          });
+
+          /*
+           * Mobile swipe handling
+           */
+          let scrollFrame = null;
+
+          mobileSlider?.addEventListener(
+            'scroll',
+            () => {
+              if (scrollFrame) {
+                cancelAnimationFrame(scrollFrame);
+              }
+
+              scrollFrame =
+                requestAnimationFrame(() => {
+                  const slideWidth =
+                    mobileSlider.clientWidth;
+
+                  if (!slideWidth) return;
+
+                  const activeIndex = Math.round(
+                    mobileSlider.scrollLeft /
+                      slideWidth
+                  );
+
+                  const activeSlide =
+                    mobileSlides[activeIndex];
+
+                  if (!activeSlide) return;
+
+                  const mediaId =
+                    activeSlide.dataset.mediaId;
+
+                  gallery.dataset.currentMediaId =
+                    String(mediaId);
+
+                  updateActiveStates(mediaId);
+
+                  /*
+                   * Keep desktop image synchronized,
+                   * but do not scroll mobile slider again.
+                   */
+                  updateDesktopImage(mediaId);
+
+                  updateCounter(activeIndex);
+                });
+            },
+            { passive: true }
+          );
+
+          /*
+           * Share button
+           */
+          shareButton?.addEventListener(
+            'click',
+            async () => {
+              const shareData = {
+                title: {{ product.title | json }},
+                text: {{ product.title | json }},
+                url: window.location.href
+              };
+
+              try {
+                if (navigator.share) {
+                  await navigator.share(shareData);
+                } else if (
+                  navigator.clipboard
+                ) {
+                  await navigator.clipboard.writeText(
+                    window.location.href
+                  );
+
+                  alert(
+                    'Product link copied'
+                  );
+                }
+              } catch (error) {
+                if (
+                  error.name !== 'AbortError'
+                ) {
+                  console.error(
+                    'Unable to share product:',
+                    error
+                  );
+                }
+              }
+            }
+          );
+        });
+    };
+
+    const initialize = () => {
+      initializeProductGallery();
+
+      /*
+       * Re-run after variant picker initialization,
+       * in case scripts load in a different order.
+       */
+      requestAnimationFrame(() => {
+        initializeProductGallery();
+      });
+    };
+
+    if (
+      document.readyState === 'loading'
+    ) {
+      document.addEventListener(
+        'DOMContentLoaded',
+        initialize
+      );
+    } else {
+      initialize();
+    }
+
+    document.addEventListener(
+      'shopify:section:load',
+      (event) => {
+        initializeProductGallery(
+          event.target
+        );
+      }
+    );
+  })();
+</script>

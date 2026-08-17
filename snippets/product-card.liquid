@@ -1,0 +1,351 @@
+{% comment %} <script src="{{ 'product-wishlist.js' | asset_url }}" defer></script> {% endcomment %}
+
+<div class="product-item-card">
+  <a href="{{ card_product.url }}" class="product-card-link">
+    
+    <div class="product-card-image">
+      {%- if card_product.metafields.custom.product_badge.value != blank -%}
+        {%- assign badge_text = card_product.metafields.custom.product_badge.value -%}
+        {%- assign badge_class = badge_text | handleize -%}
+        <span class="product-custom-badge {{ badge_class }}">
+          {{ badge_text }}
+        </span>
+      {%- endif -%}
+
+ 
+      {% comment %} <div class="product-card-wishlist-wrapper">
+        <button type="button" class="card-wishlist-toggle-btn" aria-label="Add to Wishlist" data-product-id="{{ card_product.id }}">
+          <svg class="icon-heart-shape" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+          </svg>
+        </button>
+      </div>  {% endcomment %}
+      
+
+
+      {% comment %} {%- if card_product.featured_image -%}
+        <img src="{{ card_product.featured_image | image_url: width: 360, height: 360, crop: 'center' }}" alt="{{ card_product.title | escape }}" loading="lazy" width="360" height="360">
+      {%- else -%}
+        {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+      {%- endif -%} {% endcomment %}
+
+          {%- assign card_images = card_product.media | where: 'media_type', 'image' -%}
+          {%- if card_images.size > 0 -%}
+            <div
+              class="product-card-media-slider"
+              data-product-card-slider
+              data-product-id="{{ card_product.id }}"
+            >
+              <div class="product-card-media-track" data-slider-track>
+                {%- for media in card_images limit: 2 -%}
+                  <div
+                    class="product-card-media-slide"
+                    data-slider-slide
+                    aria-hidden="{% if forloop.first %}false{% else %}true{% endif %}"
+                  >
+                    <img
+                      class="product-card-media-image"
+                      src="{{ media.preview_image | image_url: width: 480, height: 480, crop: 'center' }}"
+                      srcset="
+                        {{ media.preview_image | image_url: width: 240, height: 240, crop: 'center' }} 240w,
+                        {{ media.preview_image | image_url: width: 360, height: 360, crop: 'center' }} 360w,
+                        {{ media.preview_image | image_url: width: 480, height: 480, crop: 'center' }} 480w
+                      "
+                      sizes="(max-width: 749px) 50vw, 280px"
+                      alt="{{ media.alt | default: card_product.title | escape }}"
+                      width="480"
+                      height="480"
+                      loading="{% if forloop.first and image_loading == 'eager' %}eager{% else %}lazy{% endif %}"
+                      {% if forloop.first and image_loading == 'eager' %}fetchpriority="high"{% endif %}
+                    >
+                  </div>
+                {%- endfor -%}
+              </div>
+
+              {%- if card_images.size > 1 -%}
+                <button
+                  type="button"
+                  class="product-card-slider-arrow product-card-slider-arrow--previous"
+                  data-slider-previous
+                  aria-label="Show previous image"
+                >
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18L9 12L15 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+                <button
+                  type="button"
+                  class="product-card-slider-arrow product-card-slider-arrow--next"
+                  data-slider-next
+                  aria-label="Show next image"
+                >
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6L15 12L9 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+                <div class="product-card-slider-dots" aria-label="Product images">
+                  <button type="button" class="product-card-slider-dot is-active" data-slider-dot="0" aria-label="Show image 1" aria-current="true"></button>
+                  <button type="button" class="product-card-slider-dot" data-slider-dot="1" aria-label="Show image 2" aria-current="false"></button>
+                </div>
+              {%- endif -%}
+            </div>
+          {%- else -%}
+            {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+          {%- endif -%}
+    </div>
+
+    <div class="product-card-meta">
+      <h3 class="product-title-text">{{ card_product.title }}</h3>
+      
+      <div class="product-price-row">
+        <div class="price-wrapper">
+          <span class="regular-price">{{ card_product.price | money }}</span>
+          
+          {%- if card_product.compare_at_price > card_product.price -%}
+            <span class="compare-price">{{ card_product.compare_at_price | money }}</span>
+            
+            {%- assign original_price = card_product.compare_at_price | plus: 0 -%}
+            {%- assign sale_price = card_product.price | plus: 0 -%}
+            {%- assign money_saved = original_price | minus: sale_price -%}
+            {%- assign discount_percentage = money_saved | times: 100 | divided_by: original_price -%}
+            
+            <span class="discount-percentage-badge">
+              {{ discount_percentage }}% OFF
+            </span>
+          {%- endif -%}
+        </div>
+      </div>
+ 
+      {%- assign air_review_count = card_product.metafields.air_reviews_product.review_count.value | default: card_product.metafields.air_reviews_product.review_count -%}
+      <div class="rating rating--dynamic" data-air-reviews-summary>
+        <div class="air-reviews-product-stars" data-js-air-reviews-product-stars data-id="{{ card_product.id }}"></div>
+        {%- if air_review_count != blank and air_review_count != 0 -%}
+          <span class="divider"></span>
+          <div class="reviews">
+            <span>{{ air_review_count }} reviews</span>
+          </div>
+        {%- endif -%}
+      </div>
+
+      
+      {% comment %} <div class="product-price-row">
+        <span class="regular-price">{{ card_product.price | money }}</span>
+        
+        {%- if card_product.compare_at_price > card_product.price -%}
+          <span class="compare-price">{{ card_product.compare_at_price | money }}</span>
+          
+          {%- assign original_price = card_product.compare_at_price | plus: 0 -%}
+          {%- assign sale_price = card_product.price | plus: 0 -%}
+          {%- assign money_saved = original_price | minus: sale_price -%}
+          {%- assign discount_percentage = money_saved | times: 100 | divided_by: original_price -%}
+          
+          <span class="discount-percentage-badge">
+            {{ discount_percentage }}% OFF
+          </span>
+        {%- endif -%}
+      </div> {% endcomment %}
+
+      
+
+      {% comment %} {%- if card_product.metafields.custom.prepaid_price.value != blank -%}
+        <div class="canva-prepaid-price-row">
+          <span class="canva-prepaid-label">Prepaid Price</span>
+          <span class="canva-prepaid-amount">
+            {%- assign prepaid_paisa = card_product.metafields.custom.prepaid_price.value | times: 100 -%}
+            {{ prepaid_paisa | money_without_trailing_zeros }}
+          </span>
+        </div>
+      {%- endif -%} {% endcomment %}
+
+      {% comment %} {%- assign prepaid_paisa = card_product.price | times: 93 | divided_by: 100 -%}
+<div class="canva-prepaid-price-row">
+  <span class="canva-prepaid-label">Prepaid Price (7% OFF)</span>
+  <span class="canva-prepaid-amount">{{ prepaid_paisa | money_without_trailing_zeros }}</span>
+</div> {% endcomment %}
+
+{%- assign prepaid_paisa = card_product.price | times: 93 | divided_by: 100 -%}
+<div class="canva-prepaid-price-row">
+  <span class="canva-prepaid-label">Prepaid Price (7% OFF)</span>
+  <span class="canva-prepaid-amount">{{ prepaid_paisa | money_without_trailing_zeros }}</span>
+</div>
+    </div>
+  </a>
+
+ 
+  {% comment %} <div class="product-card-action-form">
+    {%- form 'product', card_product, id: null, class: 'form-add-to-cart-wrapper', novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
+      <input type="hidden" name="id" value="{{ card_product.selected_or_first_available_variant.id }}">
+      <input type="hidden" name="quantity" value="1">
+
+      <button type="submit" name="add" class="card-add-to-cart-btn">
+        <span class="btn-icon">🛒</span> Add to Cart
+      </button>
+    {%- endform -%}
+  </div> {% endcomment %}
+  <div class="product-card-action-form">
+
+  {% if card_product.has_only_default_variant == false %}
+
+    <a
+      href="{{ card_product.url }}"
+      class="card-add-to-cart-btn"
+      aria-label="Choose options for {{ card_product.title | escape }}"
+    >
+      <span class="btn-icon">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          aria-hidden="true"
+        >
+          <path
+            d="M9 18L15 12L9 6"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </span>
+
+      Choose Options
+    </a>
+
+  {% else %}
+
+    {%- form 'product',
+      card_product,
+      id: null,
+      class: 'form-add-to-cart-wrapper',
+      data-type: 'add-to-cart-form',
+      novalidate: 'novalidate'
+    -%}
+
+      <input
+        type="hidden"
+        name="id"
+        value="{{ card_product.selected_or_first_available_variant.id }}"
+      >
+
+      <input
+        type="hidden"
+        name="quantity"
+        value="1"
+      >
+
+      {% if settings.cart_type == 'page' %}
+
+        <button
+          type="submit"
+          name="add"
+          class="card-add-to-cart-btn"
+          {% unless card_product.available %}disabled{% endunless %}
+        >
+          <span class="btn-icon">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path
+                d="M3 4H5L7.4 15.2C7.5 15.7 7.9 16 8.4 16H18.8C19.3 16 19.7 15.7 19.8 15.2L21 7H7"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+
+              <circle
+                cx="9"
+                cy="20"
+                r="1.5"
+                fill="currentColor"
+              />
+
+              <circle
+                cx="18"
+                cy="20"
+                r="1.5"
+                fill="currentColor"
+              />
+            </svg>
+          </span>
+
+          {% if card_product.available %}
+            Add to Cart
+          {% else %}
+            Sold Out
+          {% endif %}
+        </button>
+
+      {% else %}
+
+        <button
+          type="submit"
+          name="add"
+          class="card-add-to-cart-btn"
+          {% unless card_product.available %}disabled{% endunless %}
+        >
+          <span class="btn-icon">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path
+                d="M3 4H5L7.4 15.2C7.5 15.7 7.9 16 8.4 16H18.8C19.3 16 19.7 15.7 19.8 15.2L21 7H7"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+
+              <circle
+                cx="9"
+                cy="20"
+                r="1.5"
+                fill="currentColor"
+              />
+
+              <circle
+                cx="18"
+                cy="20"
+                r="1.5"
+                fill="currentColor"
+              />
+            </svg>
+          </span>
+
+          {% if card_product.available %}
+            Add to Cart
+          {% else %}
+            Sold Out
+          {% endif %}
+        </button>
+
+      {% endif %}
+
+    {%- endform -%}
+
+  {% endif %}
+
+</div>
+
+  {% comment %} {% if settings.cart_type == 'page' %}
+
+        <a href="{{ routes.cart_url }}" class="icon-box cart-box">
+
+      {% else %}
+
+
+          <button type="submit" name="add" class="card-add-to-cart-btn icon-box cart-box">
+                <span class="btn-icon">🛒</span> Add to Cart
+          </button>
+
+      {% endif %} {% endcomment %}
+  
+</div>

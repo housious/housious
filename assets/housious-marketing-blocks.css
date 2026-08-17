@@ -1,0 +1,1075 @@
+/* =========================================================
+   GLOBAL SECTION RESET
+   ========================================================= */
+
+.canva-marketing-engine,
+.canva-marketing-engine *,
+.canva-marketing-engine *::before,
+.canva-marketing-engine *::after {
+  box-sizing: border-box;
+}
+
+.canva-marketing-engine {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  padding: clamp(16px, 3vw, 30px) clamp(10px, 2vw, 20px);
+  overflow: hidden;
+}
+
+.canva-marketing-engine > .section-container {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  margin-inline: auto;
+}
+
+.canva-main-split-layout-grid,
+.canva-left-side-stack,
+.canva-combo-gift-sub-row,
+.canva-card,
+.combo-card-split-content,
+.gift-card-split-content,
+.canva-fbt-integrated-footer-panel,
+.fbt-products-preview-master-wrapper,
+.fbt-action-pricing-checkout-block,
+.you-may-like-wide-card,
+.canva-products-horizontal-row-grid,
+.vertical-product-card-node,
+.card-link-wrapper,
+.card-meta-details {
+  min-width: 0;
+  max-width: 100%;
+}
+
+/* Prevent text from forcing horizontal overflow */
+
+.canva-marketing-engine h1,
+.canva-marketing-engine h2,
+.canva-marketing-engine h3,
+.canva-marketing-engine h4,
+.canva-marketing-engine p,
+.canva-marketing-engine span,
+.canva-marketing-engine button,
+.canva-marketing-engine a {
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
+/* Responsive images */
+
+.canva-marketing-engine img,
+.canva-marketing-engine svg {
+  max-width: 100%;
+}
+
+.canva-marketing-engine img {
+  height: auto;
+}
+
+/* =========================================================
+   MAIN DESKTOP LAYOUT
+   ========================================================= */
+
+.canva-main-split-layout-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+  align-items: stretch;
+  gap: clamp(16px, 2vw, 24px);
+  width: 100%;
+  margin: 0 auto;
+}
+/* .combo-card-text-side .desktop-btn{
+  display:block;
+} */
+.combo-card-text-side .mobile-btn{
+  display:block;
+}
+.canva-left-side-stack {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(16px, 2vw, 24px);
+}
+
+.canva-combo-gift-sub-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(12px, 1.5vw, 20px);
+}
+
+/* =========================================================
+   COMMON CARDS
+   ========================================================= */
+
+.canva-card {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  padding: clamp(14px, 2vw, 24px);
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.combo-box-card {
+  border: 0;
+  background: #fff9f5;
+}
+
+.orange-star-tag,
+.gift-icon-badge {
+  display: block;
+  margin-bottom: 8px;
+  font-size: clamp(9px, 1vw, 11px);
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.orange-star-tag {
+  color: #ff5600;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.gift-icon-badge {
+  color: #000000;
+}
+
+.canva-card-title {
+  margin: 0;
+  color: #000000;
+  font-size: clamp(13px, 1.35vw, 16px);
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.gift-truncated-title {
+  display: -webkit-box;
+  max-height: 4.2em;
+  overflow: hidden;
+  line-height: 1.4;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+/* =========================================================
+   COMBO AND GIFT CARD CONTENT
+   ========================================================= */
+
+.combo-card-split-content,
+.gift-card-split-content {
+  display: flex;
+  width: 100%;
+  flex: 1 1 auto;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.gift-card-split-content {
+  gap: 16px;
+}
+
+.combo-card-text-side,
+.combo-card-image-side,
+.gift-card-text-side,
+.gift-card-image-side {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.combo-card-text-side {
+  flex: 1 1 52%;
+}
+
+.combo-card-image-side {
+  flex: 1 1 48%;
+  align-items: center;
+}
+
+.gift-card-text-side {
+  flex: 1 1 60%;
+}
+
+.gift-card-image-side {
+  flex: 1 1 40%;
+  align-items: center;
+}
+
+.canva-image-frame {
+  display: flex;
+  width: 100%;
+  height: clamp(100px, 11vw, 150px);
+  margin: 20px 0;
+  align-items: center;
+  justify-content: center;
+}
+
+.combo-box-card .canva-image-frame,
+.free-gift-card .canva-image-frame {
+  width: 100%;
+  margin: 0;
+}
+
+.combo-box-card .canva-image-frame {
+  height: clamp(95px, 10vw, 120px);
+}
+
+.free-gift-card .canva-image-frame {
+  height: clamp(90px, 9vw, 110px);
+}
+
+.canva-image-frame img {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: 100%;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+}
+
+.position-relative-gift {
+  position: relative;
+}
+
+.canva-round-sticker-badge {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  max-width: 100%;
+  padding: 5px 9px;
+  border-radius: 50px;
+  background: #ff5600;
+  color: #ffffff;
+  font-size: 8px;
+  font-weight: 800;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.canva-solid-orange-btn {
+  display: flex !important;
+  gap:10px;
+  width: min(100%, 190px);
+  min-height: 42px;
+  margin-top: 14px;
+  padding: 10px 14px;
+  border: 0;
+  border-radius: 4px;
+  background: #ff5600;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.3;
+  text-align: center;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  text-decoration:none;
+}
+
+/* =========================================================
+   FREQUENTLY BOUGHT TOGETHER
+   ========================================================= */
+
+.canva-fbt-integrated-footer-panel {
+  display: flex;
+  width: 100%;
+  /* margin-top: auto; */
+  padding: clamp(14px, 2vw, 20px);
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: #ffffff;
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(14px, 2vw, 20px);
+}
+
+.fbt-products-preview-master-wrapper {
+  display: flex;
+  flex: 1 1 52%;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.fbt-panel-header-title {
+  margin: 0;
+  color: #000000;
+  font-size: clamp(23px, 1.2vw, 15px);
+  font-weight: 800;
+  line-height: 1.35;
+  text-align: center;
+}
+
+.fbt-images-plus-flex-row {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  align-items: center;
+  gap: clamp(5px, 1vw, 12px);
+  justify-content: center;
+}
+
+.fbt-single-img-node {
+  display: flex;
+  width: clamp(52px, 7vw, 85px);
+  height: clamp(52px, 7vw, 85px);
+  min-width: 0;
+  flex: 0 1 85px;
+  padding: clamp(4px, 0.8vw, 8px);
+  border: 1px solid #FEF8F5;
+  border-radius: 6px;
+  background: #FEF8F5;
+  align-items: center;
+  justify-content: center;
+}
+
+.fbt-single-img-node img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.fbt-plus-sign-divider {
+  flex: 0 0 auto;
+    color: #ffffff;
+    background: #FD8B3E;
+    font-size: clamp(14px, 1.6vw, 20px);
+    font-weight: 700;
+    width: 22px;
+    height: 22px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    display: flex;
+    border-radius: 25px;
+}
+
+.fbt-action-pricing-checkout-block {
+  display: flex;
+  flex: 1 1 48%;
+  flex-direction: column;
+  text-align: right;
+}
+
+.fbt-checkout-pricing-header-line {
+  display: flex;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 3px 5px;
+  color: #000000;
+  font-size: clamp(11px, 1.1vw, 14px);
+  font-weight: 700;
+  line-height: 1.4;
+  align-items:center;
+}
+
+.fbt-strike-old-label {
+  color: #94a3b8;
+  text-decoration: line-through;
+}
+
+.fbt-vibrant-active-price {
+  margin-left: 2px;
+  color: #ff5600;
+  font-size: clamp(15px, 1.5vw, 18px);
+  font-weight: 900;
+}
+
+.fbt-discount-pill-badge {
+  color: #ff5600;
+  font-size: clamp(10px, 1vw, 12px);
+  font-weight: 800;
+}
+
+.canva-huge-action-submit-btn {
+  width: 100%;
+  min-height: 44px;
+  margin-bottom: 10px;
+  padding: 12px 14px;
+  border: 0;
+  border-radius: 4px;
+  background: #ff5600;
+  color: #ffffff;
+  font-size: clamp(12px, 1.1vw, 14px);
+  font-weight: 800;
+  line-height: 1.3;
+  cursor: pointer;
+}
+
+.fbt-save-alert-text {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+/* =========================================================
+   YOU MAY ALSO LIKE
+   ========================================================= */
+
+.you-may-like-wide-card {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  background: #ffffff;
+  padding:10px 12px;
+}
+
+.collection-main-heading {
+  margin: 0 0 12px;
+  color: #000000;
+  font-size: clamp(14px, 1.4vw, 16px);
+  font-weight: 800;
+}
+
+.canva-products-horizontal-row-grid {
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  flex-grow: 1;
+  overflow: visible;
+}
+
+.vertical-product-card-node {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid #f1f5f9;
+  border-radius: 6px;
+  background: #ffffff;
+}
+
+.card-link-wrapper {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  height: 100%;
+  flex-direction: column;
+  color: inherit;
+  text-decoration: none;
+}
+
+.card-img-holder {
+  display: flex;
+  width: 100%;
+  min-height: 130px;
+  aspect-ratio: 1 / 0.8;
+  overflow: hidden;
+  background: #fafafa;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-img-holder img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-meta-details {
+  display: flex;
+  width: 100%;
+  flex: 1 1 auto;
+  padding: 12px 10px;
+  flex-direction: column;
+}
+
+.card-product-title {
+  display: -webkit-box;
+  height: auto;
+  min-height: 14px;
+  margin: 0 0px;
+  overflow: hidden;
+  color: #1e293b;
+  font-size: clamp(10px, 1vw, 12px);
+  font-weight: 700;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.card-pricing-line {
+  display: flex;
+  margin: 4px 0;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 6px;
+}
+
+.card-sale-price {
+  color: #000000;
+  font-size: clamp(12px, 1.2vw, 14px);
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.card-strike-price {
+  color: #94a3b8;
+  font-size: clamp(9px, 1vw, 11px);
+  text-decoration: line-through;
+  white-space: nowrap;
+}
+
+.card-pct-discount {
+  color: #ff5600;
+  font-size: 10px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+/* Rating */
+
+.rating {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  padding: 8px 0;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px;
+  font-size: 10px;
+}
+
+.stars,
+.reviews,
+.verified-icon {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  justify-content: center;
+}
+
+.stars,
+.reviews {
+  gap: 2px;
+}
+
+.stars svg,
+.verified-icon svg {
+  width: 15px;
+  height: 15px;
+  flex: 0 0 15px;
+}
+
+.stars p {
+  margin: 0;
+  line-height: 1.4;
+}
+
+.reviews span:last-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.divider {
+  width: 1px;
+  height: 14px;
+  flex: 0 0 1px;
+  background: #d6d6d6;
+}
+
+.prepaid-price-pill {
+  width: 100%;
+  max-width: 100%;
+  margin-top: auto;
+  margin-bottom: 10px;
+  padding: 5px 7px;
+  border-radius: 4px;
+  background: #f0fdf4;
+  color: #166534;
+  font-size: 9px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.pill-bold-amt {
+  font-weight: 800;
+}
+
+/* Product-card Add to Cart */
+
+.card-meta-details form,
+.card-meta-details .form-add-to-cart-wrapper {
+  width: 100%;
+  max-width: 100%;
+  margin-top: auto;
+}
+
+.card-add-to-cart-btn,
+.card-meta-details .btn-add-to-cart {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  min-height: 38px;
+  padding: 8px;
+  border: 1px solid #ff4500;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #ff4500;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1.25;
+  cursor: pointer;
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.card-add-to-cart-btn svg,
+.card-meta-details .btn-add-to-cart svg {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 16px;
+}
+
+.card-add-to-cart-btn:hover,
+.card-meta-details .btn-add-to-cart:hover {
+  background: #e04c00;
+  color: #ffffff;
+}
+
+/* =========================================================
+   TABLET — 992PX AND BELOW
+   ========================================================= */
+
+@media screen and (max-width: 991px) {
+  .canva-main-split-layout-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .you-may-like-wide-card {
+    width: 100%;
+  }
+
+  .canva-products-horizontal-row-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* =========================================================
+   SMALL TABLET — 768PX AND BELOW
+   ========================================================= */
+
+@media screen and (max-width: 767px) {
+  .canva-marketing-engine {
+    padding: 18px 12px;
+  }
+
+  .canva-main-split-layout-grid,
+  .canva-left-side-stack {
+    gap: 16px;
+  }
+
+  .canva-combo-gift-sub-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .canva-card {
+    padding: 14px;
+  }
+
+  .combo-card-split-content,
+  .gift-card-split-content {
+    align-items: center;
+  }
+
+  .canva-fbt-integrated-footer-panel {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .fbt-products-preview-master-wrapper,
+  .fbt-action-pricing-checkout-block {
+    width: 100%;
+    flex-basis: auto;
+  }
+
+  .fbt-action-pricing-checkout-block {
+    text-align: center;
+  }
+
+  .fbt-checkout-pricing-header-line {
+    justify-content: center;
+    align-items:center;
+  }
+
+  /*
+   * No horizontal slider:
+   * cards wrap into two columns.
+   */
+  .canva-products-horizontal-row-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    overflow: visible;
+  }
+
+  .vertical-product-card-node {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .fbt-single-img-node {
+      width: clamp(75px, 7vw, 85px);
+      height: clamp(120px, 7vw, 85px);
+      min-width: 0;
+      flex: 0 1 150px;
+  }
+}
+
+/* =========================================================
+   MOBILE — 480PX AND BELOW
+   ========================================================= */
+
+@media screen and (max-width: 480px) {
+  .canva-marketing-engine {
+    width: 100%;
+    max-width: 100%;
+    padding: 0px;
+    overflow: hidden;
+  }
+
+  /* .canva-marketing-engine > .section-container {
+    padding-right: 0;
+    padding-left: 0;
+  } */
+
+  .canva-combo-gift-sub-row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+  }
+
+  .canva-card {
+    width: 100%;
+    padding: 12px;
+  }
+
+  .combo-card-split-content,
+  .gift-card-split-content {
+    flex-direction: row;
+    align-items: center;
+    text-align: left;
+    gap: 8px;
+  }
+
+  .combo-card-text-side,
+  .gift-card-text-side {
+    width: auto;
+    flex: 1 1 58%;
+  }
+
+  .combo-card-image-side,
+  .gift-card-image-side {
+    width: auto;
+    margin: 0;
+    flex: 1 1 42%;
+  }
+
+  .combo-box-card .canva-image-frame,
+  .free-gift-card .canva-image-frame {
+    width: 100%;
+    height: 90px;
+  }
+
+  .canva-image-frame img {
+    transform: none;
+  }
+
+  .canva-solid-orange-btn {
+    width: 100%;
+    max-width: none;
+    min-height: 40px;
+    margin-top: 10px;
+    padding: 9px 10px;
+    font-size: 11px;
+  }
+
+  .canva-fbt-integrated-footer-panel {
+    padding: 12px;
+    gap: 14px;
+  }
+
+  .fbt-images-plus-flex-row {
+    justify-content: center;
+  }
+
+  .fbt-single-img-node {
+    width: clamp(52px, 20vw, 68px);
+    height: clamp(52px, 20vw, 68px);
+    flex-basis: clamp(52px, 20vw, 68px);
+    padding: 4px;
+  }
+
+  .fbt-panel-header-title {
+    text-align: center;
+    font-size:16px;
+  }
+
+  .canva-huge-action-submit-btn {
+    min-height: 40px;
+    padding: 10px;
+    font-size: 12px;
+  }
+
+  .you-may-like-wide-card {
+    padding: 12px;
+  }
+
+  /*
+   * At 480px and below, use one full-width card per row.
+   * This prevents any horizontal scrolling.
+   */
+  .canva-products-horizontal-row-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+
+  .vertical-product-card-node {
+    width: 100%;
+  }
+
+  .card-link-wrapper {
+    display: grid;
+    grid-template-columns: minmax(90px, 36%) minmax(0, 1fr);
+    height: auto;
+    align-items: stretch;
+  }
+
+  .card-img-holder {
+    width: 100%;
+    min-height: 150px;
+    aspect-ratio: auto;
+  }
+
+  .card-meta-details {
+    min-width: 0;
+    padding: 10px 8px;
+  }
+
+  .card-product-title {
+    font-size: 11px;
+  }
+
+  .rating {
+    flex-wrap: wrap;
+    font-size: 9px;
+  }
+
+  .prepaid-price-pill {
+    font-size: 9px;
+  }
+
+  .card-add-to-cart-btn,
+  .card-meta-details .btn-add-to-cart {
+    min-height: 36px;
+    padding: 7px 5px;
+    font-size: 9px;
+  }
+}
+
+/* =========================================================
+   EXTRA SMALL MOBILE — 360PX AND BELOW
+   ========================================================= */
+
+@media screen and (max-width: 360px) {
+  .canva-marketing-engine {
+    padding: 0px;
+  }
+
+  .canva-card {
+    padding: 10px;
+  }
+
+  .combo-card-split-content,
+  .gift-card-split-content {
+    gap: 6px;
+  }
+
+  .combo-card-text-side,
+  .gift-card-text-side {
+    flex-basis: 60%;
+  }
+
+  .combo-card-image-side,
+  .gift-card-image-side {
+    flex-basis: 40%;
+  }
+
+  .combo-box-card .canva-image-frame,
+  .free-gift-card .canva-image-frame {
+    height: 80px;
+  }
+
+  .orange-star-tag,
+  .gift-icon-badge {
+    margin-bottom: 5px;
+    font-size: 8px;
+    letter-spacing: 0;
+  }
+
+  .canva-card-title {
+    font-size: 11px;
+    line-height: 1.3;
+  }
+
+  .canva-round-sticker-badge {
+    padding: 3px 5px;
+    font-size: 6px;
+  }
+
+  .fbt-images-plus-flex-row {
+    gap: 4px;
+  }
+
+  .fbt-single-img-node {
+    width: 70px;
+    height: 70px;
+    flex-basis: 70px;
+  }
+
+  .fbt-plus-sign-divider {
+    font-size: 13px;
+  }
+
+  .fbt-checkout-pricing-header-line {
+    font-size: 12px;
+  }
+
+  .fbt-vibrant-active-price {
+    font-size: 14px;
+  }
+
+  /*
+   * Compact horizontal-style cards, but every card stays
+   * within the 320px viewport.
+   */
+  .card-link-wrapper {
+    grid-template-columns: minmax(82px, 34%) minmax(0, 1fr);
+  }
+
+  .card-img-holder {
+    min-height: 140px;
+  }
+
+  .card-meta-details {
+    padding: 8px 6px;
+  }
+
+  .card-product-title {
+    min-height: 30px;
+    margin-bottom: 3px;
+    font-size: 10px;
+  }
+
+  .card-pricing-line {
+    gap: 3px;
+  }
+
+  .card-sale-price {
+    font-size: 11px;
+  }
+
+  .card-strike-price {
+    font-size: 9px;
+  }
+
+  .rating {
+    padding: 5px 0;
+    gap: 2px;
+    font-size: 8px;
+  }
+
+  .stars svg,
+  .verified-icon svg {
+    width: 12px;
+    height: 12px;
+    flex-basis: 12px;
+  }
+
+  .divider {
+    height: 11px;
+  }
+
+  .prepaid-price-pill {
+    margin-bottom: 6px;
+    padding: 4px;
+    font-size: 8px;
+  }
+
+  .card-add-to-cart-btn,
+  .card-meta-details .btn-add-to-cart {
+    min-height: 32px;
+    padding: 5px 3px;
+    gap: 3px;
+    font-size: 8px;
+  }
+
+  .card-add-to-cart-btn svg,
+  .card-meta-details .btn-add-to-cart svg {
+    width: 13px;
+    height: 13px;
+    flex-basis: 13px;
+  }
+}
+
+/* =========================================================
+   320PX SAFETY
+   ========================================================= */
+
+@media screen and (max-width: 320px) {
+  .canva-marketing-engine {
+    padding:0px;
+  }
+
+  .canva-card,
+  .canva-fbt-integrated-footer-panel,
+  .you-may-like-wide-card {
+    padding: 8px;
+  }
+
+  .combo-card-split-content,
+  .gift-card-split-content {
+    align-items: center;
+  }
+
+  .combo-box-card .canva-image-frame,
+  .free-gift-card .canva-image-frame {
+    height: 72px;
+  }
+
+  .canva-solid-orange-btn {
+    min-height: 36px;
+    padding: 7px;
+    font-size: 10px;
+  }
+
+  .fbt-single-img-node {
+    width: 70px;
+    height: 70px;
+    flex-basis: 70px;
+  }
+
+  .card-link-wrapper {
+    grid-template-columns: 82px minmax(0, 1fr);
+  }
+
+  .card-img-holder {
+    min-height: 132px;
+  }
+
+  .reviews span:last-child {
+    max-width: 70px;
+  }
+}

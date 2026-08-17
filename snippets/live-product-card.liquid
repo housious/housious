@@ -1,0 +1,57 @@
+{%- liquid
+  assign live_variant = product.selected_or_first_available_variant
+  assign prepaid_price = live_variant.price | times: 93 | divided_by: 100
+  assign air_review_count = product.metafields.air_reviews_product.review_count.value | default: product.metafields.air_reviews_product.review_count
+-%}
+<div class="product-card">
+  {% if product.featured_image %}
+    <img
+      src="{{ product.featured_image | image_url: width: 300, height: 300, crop: 'center' }}"
+      alt="{{ product.featured_image.alt | default: product.title | escape }}"
+      width="300"
+      height="300"
+      loading="lazy"
+    >
+  {% endif %}
+
+  <div class="product-info">
+    <span class="badge-best-seller">Featured</span>
+    <h4 class="product-title">{{ product.title }}</h4>
+
+    <div class="rating">
+      <div class="air-reviews-product-stars" data-js-air-reviews-product-stars data-id="{{ product.id }}"></div>
+      {% if air_review_count != blank and air_review_count != 0 %}<span class="review-count">({{ air_review_count }})</span>{% endif %}
+    </div>
+
+    <div class="price-box">
+      <span class="current-price">{{ live_variant.price | money }}</span>
+      {% if live_variant.compare_at_price > live_variant.price %}
+        <span class="original-price">{{ live_variant.compare_at_price | money }}</span>
+        {%- assign money_saved = live_variant.compare_at_price | minus: live_variant.price -%}
+        {%- assign discount_percentage = money_saved | times: 100 | divided_by: live_variant.compare_at_price -%}
+        <span class="discount-badge">{{ discount_percentage }}% OFF</span>
+      {% endif %}
+    </div>
+
+    <div class="live-price-pill">
+      <span>Prepaid Price (7% OFF)</span>
+      <span class="live-price-amount">{{ prepaid_price | money_without_trailing_zeros }}</span>
+    </div>
+
+    <div class="product-card-action-form">
+      {%- form 'product', product, id: null, class: 'form-add-to-cart-wrapper', data-type: 'add-to-cart-form', novalidate: 'novalidate' -%}
+        <input type="hidden" name="id" value="{{ live_variant.id }}">
+        <input type="hidden" name="quantity" value="1">
+        <button type="submit" name="add" class="card-add-to-cart-btn" {% unless live_variant.available %}disabled{% endunless %}>
+          <span class="btn-icon" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <path d="M3 4H5L7.4 15.2C7.5 15.7 7.9 16 8.4 16H18.8C19.3 16 19.7 15.7 19.8 15.2L21 7H7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="9" cy="20" r="1.5" fill="currentColor"/><circle cx="18" cy="20" r="1.5" fill="currentColor"/>
+            </svg>
+          </span>
+          {% if live_variant.available %}Add to Cart{% else %}Sold Out{% endif %}
+        </button>
+      {%- endform -%}
+    </div>
+  </div>
+</div>

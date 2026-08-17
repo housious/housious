@@ -1,0 +1,180 @@
+.shop-category-section{
+  padding:40px 0;
+}
+
+.shop-category-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:24px;
+}
+
+.shop-category-title{
+  font-size:32px;
+  font-weight:700;
+  margin:0;
+}
+
+.shop-category-view-all{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  color:#f28c28;
+  text-decoration:none;
+  font-size:14px;
+  font-weight:600;
+  transition:.3s ease;
+}
+
+.shop-category-view-all svg{
+  width:18px;
+  height:18px;
+  transition:.3s ease;
+}
+
+.shop-category-view-all:hover svg{
+  transform:translateX(4px);
+}
+.shop-category-grid{
+  display:grid;
+  grid-template-columns:repeat(var(--desktop-columns),1fr);
+  gap:24px;
+}
+
+.shop-category-item{
+  text-align:center;
+  text-decoration:none;
+  color:#111;
+}
+
+.shop-category-image{
+  width:var(--image-size);
+  height:var(--image-size);
+  border-radius:50%;
+  overflow:hidden;
+  margin:0 auto 12px;
+  background:#f7f7f7;
+}
+
+.shop-category-image img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.shop-category-name{
+  font-size:13px;
+  line-height:1.4;
+  font-weight:600;
+}
+
+.view-all-item .shop-category-image{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+@media(max-width:991px){
+
+  .shop-category-grid{
+    display:flex;
+    overflow-x:auto;
+    gap:18px;
+    padding-bottom:10px;
+    scrollbar-width:none;
+    -ms-overflow-style:none;
+  }
+
+  .shop-category-grid::-webkit-scrollbar{
+    display:none;
+  }
+
+  .shop-category-item{
+    min-width:100px;
+    flex:0 0 auto;
+  }
+
+}
+
+/* @media(max-width:767px){
+
+  .shop-category-title{
+    font-size:24px;
+  }
+
+  .shop-category-image{
+    width:80px;
+    height:80px;
+  }
+
+  .shop-category-item{
+    min-width:90px;
+  }
+
+  .shop-category-name{
+    font-size:12px;
+  }
+
+} */
+
+@media(max-width: 767px) {
+  /* 1. Grid ka gap kam karein */
+  .shop-category-grid {
+    gap: 12px; /* Pehle 18px tha, isse items paas aa jayenge */
+    padding:15px 0px;
+  }
+
+  /* 2. Item ki width thodi aur kam karein */
+  .shop-category-item {
+    min-width: 90px; /* Pehle 90px tha */
+    flex:0 0;
+  }
+
+  /* 3. Image ka size thoda adjust karein */
+  .shop-category-image {
+    width: 70px; /* Pehle 80px tha */
+    height: 70px;
+    margin: 0 auto 8px; /* Neeche ka margin kam kiya */
+  }
+  
+  /* 4. Section ki padding kam karein agar top/bottom par space zyada hai */
+  .shop-category-section {
+    padding: 20px 0; /* Pehle 40px tha */
+  }
+}
+@media(max-width: 767px) {
+  /* Title size ko mobile ke liye chota karein */
+  .shop-category-title {
+    font-size: 20px; /* Aap ise 18px se 22px ke beech adjust kar sakte hain */
+    line-height: 1.2;
+  }
+  
+  /* Header ka margin bhi thoda kam kar dein taaki upar space sahi rahe */
+  .shop-category-header {
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width:441px){
+      .icon-text-bar__item {
+          min-width: 220px;
+          padding: 5px;
+      }
+      .icon-text-bar__title {
+          margin:0px;
+      }
+}
+
+
+.shop-category-section {
+  padding-top: var(--padding-top, 40px);
+  padding-bottom: var(--padding-bottom, 40px);
+}
+
+@media(max-width: 767px) {
+  .shop-category-section {
+    /* Yeh mobile par desktop se thodi kam padding dega agar aap chahen */
+    padding-top: calc(var(--padding-top, 40px) * 0.6);
+    padding-bottom: calc(var(--padding-bottom, 40px) * 0.6);
+  }
+}

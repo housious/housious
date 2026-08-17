@@ -1,0 +1,869 @@
+{% comment %}
+  ============================================================
+  Mobile Bottom Navigation Bar — Shopify Online Store 2.0 Section
+  File: sections/mobile-bottom-nav.liquid
+
+  FEATURES:
+  • Fixed to bottom of screen — mobile only (hidden on desktop)
+  • Up to 5 configurable nav items via schema blocks
+  • Each item: icon choice, label, link URL
+  • Active state auto-detected from current page URL
+  • Cart item count badge (live via Shopify AJAX API)
+  • Configurable active color, background, label color
+  • Safe area inset support for iPhone (notch/home bar)
+  • Zero external dependencies — pure vanilla JS + CSS
+  • Pushes page content up so nothing is hidden behind bar
+  • ARIA accessible — role, aria-label, aria-current
+  ============================================================
+{% endcomment %}
+
+{%- liquid
+  assign sid = 'mbn-' | append: section.id
+-%}
+
+<style>
+
+  /* ── Only show on mobile ── */
+  #{{ sid }} ,
+  #{{ sid }}-more-panel{
+    display: none;
+  }
+
+
+  @media (max-width: {{ section.settings.breakpoint }}px) {
+
+    /* ── Body padding so content isn't hidden under the bar ── */
+    body {
+      padding-bottom: calc({{ section.settings.bar_height }}px + env(safe-area-inset-bottom, 0px));
+    }
+
+    /* ── Fixed bar ── */
+    #{{ sid }} {
+      display: flex;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: {{ section.settings.z_index }};
+      background: {{ section.settings.bg_color }};
+      border-top: 1px solid {{ section.settings.border_color }};
+      box-shadow: 0 -2px 16px rgba(0, 0, 0, 0.08);
+      align-items: stretch;
+      justify-content: space-around;
+      height: calc({{ section.settings.bar_height }}px + env(safe-area-inset-bottom, 0px));
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    /* ── Nav item ── */
+    #{{ sid }} .mbn-item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: {{ section.settings.icon_label_gap }}px;
+      padding: 8px 2px 6px;
+      text-decoration: none;
+      border: none;
+      background: none;
+      cursor: pointer;
+      position: relative;
+      -webkit-tap-highlight-color: transparent;
+      outline: none;
+      transition: opacity 0.12s;
+      /* Prevent text/icon blurring on subpixel positions */
+      -webkit-font-smoothing: antialiased;
+    }
+
+    #{{ sid }} .mbn-item:active {
+      opacity: 0.6;
+    }
+
+    /* ── Icon ── */
+    #{{ sid }} .mbn-icon {
+      position: relative;
+      width: {{ section.settings.icon_size }}px;
+      height: {{ section.settings.icon_size }}px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    #{{ sid }} .mbn-icon svg {
+      width: {{ section.settings.icon_size }}px;
+      height: {{ section.settings.icon_size }}px;
+      display: block;
+      transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+      stroke: {{ section.settings.icon_color }};
+      fill: none;
+      stroke-width: {{ section.settings.stroke_width }};
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    #{{ sid }} .mbn-item.is-active .mbn-icon svg {
+      stroke: {{ section.settings.active_color }};
+      transform: scale(1.12) translateY(-1px);
+    }
+
+    /* ── Cart badge ── */
+    #{{ sid }} .mbn-badge {
+      position: absolute;
+      top: -4px;
+      right: -6px;
+      min-width: 16px;
+      height: 16px;
+      background: {{ section.settings.badge_color }};
+      border-radius: 8px;
+      border: 2px solid {{ section.settings.bg_color }};
+      font-size: 8px;
+      font-weight: 700;
+      color: {{ section.settings.badge_text_color }};
+      display: none;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+      padding: 0 3px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    #{{ sid }} .mbn-badge.has-items {
+      display: flex;
+    }
+
+    /* ── Label ── */
+    #{{ sid }} .mbn-label {
+      font-size: {{ section.settings.label_size }}px;
+      font-weight: 500;
+      color: {{ section.settings.label_color }};
+      line-height: 1;
+      letter-spacing: 0.01em;
+      white-space: nowrap;
+      transition: color 0.2s;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    #{{ sid }} .mbn-item.is-active .mbn-label {
+      color: {{ section.settings.active_color }};
+      font-weight: 600;
+    }
+
+    /* ── Active indicator dot (optional) ── */
+    {%- if section.settings.show_active_dot -%}
+    #{{ sid }} .mbn-item.is-active::after {
+      content: '';
+      position: absolute;
+      bottom: 4px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: {{ section.settings.active_color }};
+    }
+    {%- endif -%}
+
+    /* ── More panel (slide-up drawer) ── */
+    #{{ sid }}-more-panel {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: {{ section.settings.z_index | plus: 10 }};
+    }
+
+    #{{ sid }}-more-panel.open {
+      display: block;
+    }
+
+    #{{ sid }}-more-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      animation: mbnFadeIn 0.2s ease;
+    }
+
+    #{{ sid }}-more-drawer {
+      position: absolute;
+      bottom: calc({{ section.settings.bar_height }}px + env(safe-area-inset-bottom, 0px));
+      left: 0;
+      right: 0;
+      background: {{ section.settings.bg_color }};
+      border-radius: {{ section.settings.drawer_radius }}px {{ section.settings.drawer_radius }}px 0 0;
+      padding: 16px 0 8px;
+      animation: mbnSlideUp 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+      max-height: 60vh;
+      overflow-y: auto;
+    }
+
+    #{{ sid }}-more-drawer .mbn-drawer-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 28px;
+}
+
+#{{ sid }}-more-drawer .mbn-close-btn {
+  position: absolute;
+  top: 5px;
+  right: 14px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  color: {{ section.settings.label_color }};
+  cursor: pointer;
+  padding: 0;
+  border-radius: 50%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+#{{ sid }}-more-drawer .mbn-close-btn:active {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+#{{ sid }}-more-drawer .mbn-close-btn svg {
+  width: 20px;
+  height: 20px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+    #{{ sid }}-more-drawer .mbn-drawer-handle {
+      width: 36px;
+      height: 4px;
+      border-radius: 2px;
+      background: {{ section.settings.border_color }};
+      margin: 0 auto 16px;
+    }
+
+    #{{ sid }}-more-drawer a {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 20px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 15px;
+      font-weight: 400;
+      color: {{ section.settings.label_color }};
+      text-decoration: none;
+      border-bottom: 1px solid {{ section.settings.border_color }};
+      transition: background 0.15s;
+    }
+
+    #{{ sid }}-more-drawer a:last-child {
+      border-bottom: none;
+    }
+
+    #{{ sid }}-more-drawer a:active {
+      background: rgba(0, 0, 0, 0.04);
+    }
+
+    #{{ sid }}-more-drawer a svg {
+      width: 20px;
+      height: 20px;
+      stroke: {{ section.settings.icon_color }};
+      fill: none;
+      stroke-width: {{ section.settings.stroke_width }};
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex-shrink: 0;
+    }
+
+    /* Live badge */
+#{{ sid }} .mbn-live-badge{
+    position: absolute;
+        top: -32px;
+        right: -4px;
+        display: flex;
+        align-items: center;
+        gap: 3px;
+        padding: 4px 6px;
+        border-radius: 5px;
+        background: #ff3b30;
+        color: #fff;
+        font-size: 7px;
+        font-weight: 700;
+        line-height: 1;
+        text-transform: uppercase;
+        white-space: nowrap;
+}
+
+#{{ sid }} .mbn-live-dot{
+    width:5px;
+    height:5px;
+    border-radius:50%;
+    background:#fff;
+    animation:mbnLivePulse 1.2s infinite;
+}
+
+@keyframes mbnLivePulse{
+    0%{
+        transform:scale(1);
+        opacity:1;
+    }
+    50%{
+        transform:scale(1.4);
+        opacity:.6;
+    }
+    100%{
+        transform:scale(1);
+        opacity:1;
+    }
+}
+
+/* Make label relative so badge can be positioned */
+#{{ sid }} .mbn-label{
+    position:relative;
+    display:inline-block;
+}
+    @keyframes mbnFadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    @keyframes mbnSlideUp {
+      from { transform: translateY(100%); }
+      to   { transform: translateY(0); }
+    }
+
+  } /* end @media */
+
+</style>
+
+<!-- ════════════════════════════════════════════
+     MOBILE BOTTOM NAV BAR
+════════════════════════════════════════════ -->
+<nav
+  id="{{ sid }}"
+  role="navigation"
+  aria-label="{{ section.settings.aria_label | default: 'Mobile navigation' | escape }}"
+>
+
+  {%- for block in section.blocks -%}
+    {%- liquid
+      assign item_url    = block.settings.url | default: '#'
+      assign item_label  = block.settings.label
+      assign item_icon   = block.settings.icon
+      assign show_cart   = block.settings.show_cart_count
+      assign is_more     = block.settings.is_more_menu
+    -%}
+
+    {%- if is_more -%}
+      <!-- More button — opens drawer -->
+      <button
+        class="mbn-item"
+        id="{{ sid }}-more-btn"
+        aria-label="{{ item_label | escape }}"
+        aria-expanded="false"
+        aria-controls="{{ sid }}-more-panel"
+        type="button"
+        {{ block.shopify_attributes }}
+      >
+        <div class="mbn-icon">
+          {%- render 'mbn-icon', icon: item_icon -%}
+        </div>
+        {%- if item_label != blank -%}
+          <span class="mbn-label">{{ item_label }}</span>
+        {%- endif -%}
+      </button>
+
+    {%- else -%}
+      <!-- Regular nav item -->
+      <a
+        class="mbn-item"
+        href="{{ item_url }}"
+        aria-label="{{ item_label | escape }}"
+        {{ block.shopify_attributes }}
+      >
+        <div class="mbn-icon">
+          {%- render 'mbn-icon', icon: item_icon -%}
+          {%- if show_cart -%}
+            <span
+              class="mbn-badge"
+              id="{{ sid }}-cart-badge"
+              aria-label="Cart items"
+            >0</span>
+          {%- endif -%}
+        </div>
+        {%- if item_label != blank -%}
+          <span class="mbn-label">
+            {{ item_label }}
+            {% if item_label == 'Shopping Live' %}
+              <span class="mbn-live-badge">
+                <span class="mbn-live-dot"></span>
+                LIVE
+              </span>
+            {% endif %}
+          </span>
+        {%- endif -%}
+      </a>
+    {%- endif -%}
+
+  {%- endfor -%}
+
+</nav>
+
+<!-- More drawer panel -->
+{%- assign has_more = false -%}
+{%- for block in section.blocks -%}
+  {%- if block.settings.is_more_menu -%}
+    {%- assign has_more = true -%}
+  {%- endif -%}
+{%- endfor -%}
+
+{%- if has_more -%}
+  <div id="{{ sid }}-more-panel" role="dialog" aria-label="More navigation" class="more-menu" aria-modal="true">
+    <div id="{{ sid }}-more-overlay"></div>
+    <div id="{{ sid }}-more-drawer">
+      <div class="mbn-drawer-handle"></div>
+      <button
+        type="button"
+        class="mbn-close-btn"
+        id="{{ sid }}-close-more-btn"
+        aria-label="Close menu"
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M6 6l12 12M18 6L6 18"/>
+        </svg>
+      </button>
+      {%- if section.settings.more_links != blank -%}
+        {%- assign more_links = section.settings.more_links | split: '|' -%}
+        {%- for link_item in more_links -%}
+          {%- assign parts = link_item | strip | split: '::' -%}
+          {%- if parts.size >= 2 -%}
+            <a href="{{ parts[1] | strip }}">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              {{ parts[0] | strip }}
+            </a>
+          {%- endif -%}
+        {%- endfor -%}
+      {%- else -%}
+        {%- for link in linklists[section.settings.more_linklist].links -%}
+          <a href="{{ link.url }}">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            {{ link.title }}
+          </a>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+  </div>
+{%- endif -%}
+
+
+<!-- ════════════════════════════════════════════
+     JAVASCRIPT
+════════════════════════════════════════════ -->
+<script>
+(function () {
+  'use strict';
+
+  var SID = '{{ sid }}';
+
+  function init() {
+    var nav = document.getElementById(SID);
+    if (!nav || nav._mbnInit) return;
+    nav._mbnInit = true;
+
+    var items    = Array.from(nav.querySelectorAll('.mbn-item'));
+    var moreBtn  = document.getElementById(SID + '-more-btn');
+    var morePanel= document.getElementById(SID + '-more-panel');
+    var moreOverlay = document.getElementById(SID + '-more-overlay');
+    var closeMoreBtn  = document.getElementById(SID + '-close-more-btn');
+    var cartBadge= document.getElementById(SID + '-cart-badge');
+
+    /* ── Active state detection ── */
+    var currentPath = window.location.pathname;
+
+    items.forEach(function (item) {
+      var href = item.getAttribute('href');
+      if (!href || href === '#') return;
+
+      try {
+        var url = new URL(href, window.location.origin);
+        /*
+          Mark as active if:
+          - exact path match, OR
+          - current path starts with item path (for collection/page sub-paths)
+          but always avoid marking '/' active unless it's exactly '/'
+        */
+        var isHome = url.pathname === '/';
+        var isActive = isHome
+          ? currentPath === '/'
+          : currentPath === url.pathname || currentPath.startsWith(url.pathname + '/');
+
+        if (isActive) {
+          item.classList.add('is-active');
+          item.setAttribute('aria-current', 'page');
+        }
+      } catch (e) {}
+    });
+
+    /* ── Cart badge ── */
+    if (cartBadge) {
+      updateCartCount();
+    }
+
+    function updateCartCount() {
+      fetch('/cart.js')
+        .then(function (r) { return r.json(); })
+        .then(function (cart) {
+          var count = cart.item_count || 0;
+          if (cartBadge) {
+            cartBadge.textContent = count > 99 ? '99+' : String(count);
+            cartBadge.classList.toggle('has-items', count > 0);
+          }
+        })
+        .catch(function () {});
+    }
+
+    /* Listen for cart updates from theme (add to cart events) */
+    document.addEventListener('cart:updated', updateCartCount);
+    document.addEventListener('cart:refresh', updateCartCount);
+
+    /* Also listen for Shopify section cart updates */
+    document.addEventListener('shopify:cart:updated', updateCartCount);
+
+    /* ── More drawer ── */
+    /* ── More drawer ── */
+    if (moreBtn && morePanel) {
+
+      moreBtn.addEventListener('click', function () {
+        var isOpen = morePanel.classList.contains('open');
+
+        if (isOpen) {
+          closeMore();
+        } else {
+          openMore();
+        }
+      });
+
+      if (moreOverlay) {
+        moreOverlay.addEventListener('click', closeMore);
+      }
+
+      if (closeMoreBtn) {
+        closeMoreBtn.addEventListener('click', closeMore);
+      }
+
+      /* Close on Escape key */
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && morePanel.classList.contains('open')) {
+          closeMore();
+        }
+      });
+
+      function openMore() {
+        morePanel.classList.add('open');
+        moreBtn.setAttribute('aria-expanded', 'true');
+        moreBtn.classList.add('is-active');
+
+        morePanel.querySelector('a')?.focus();
+      }
+
+      function closeMore() {
+        morePanel.classList.remove('open');
+        moreBtn.setAttribute('aria-expanded', 'false');
+        moreBtn.classList.remove('is-active');
+        moreBtn.focus();
+      }
+    }
+
+    /* ── Theme editor ── */
+    document.addEventListener('shopify:section:unload', function (e) {
+      if (e.detail && e.detail.sectionId === '{{ section.id }}') {
+        nav._mbnInit = false;
+        /* Remove body padding */
+        document.body.style.paddingBottom = '';
+      }
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
+
+
+{% schema %}
+{
+  "name": "Mobile Bottom Nav",
+  "tag": "div",
+  "class": "mobile-bottom-nav-section",
+  "max_blocks": 5,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Visibility"
+    },
+    {
+      "type": "range",
+      "id": "breakpoint",
+      "label": "Show on screens smaller than (px)",
+      "info": "The nav bar is hidden on desktop above this width.",
+      "min": 480,
+      "max": 1024,
+      "step": 8,
+      "default": 768
+    },
+    {
+      "type": "range",
+      "id": "z_index",
+      "label": "Z-index (stacking order)",
+      "min": 100,
+      "max": 9000,
+      "step": 100,
+      "default": 1000
+    },
+    {
+      "type": "header",
+      "content": "Bar dimensions"
+    },
+    {
+      "type": "range",
+      "id": "bar_height",
+      "label": "Bar height (px)",
+      "info": "Does not include iPhone safe area — that is added automatically.",
+      "min": 48,
+      "max": 80,
+      "step": 2,
+      "default": 62
+    },
+    {
+      "type": "range",
+      "id": "icon_size",
+      "label": "Icon size (px)",
+      "min": 18,
+      "max": 32,
+      "step": 1,
+      "default": 22
+    },
+    {
+      "type": "range",
+      "id": "stroke_width",
+      "label": "Icon stroke width",
+      "min": 1,
+      "max": 3,
+      "step": 0.5,
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "label_size",
+      "label": "Label font size (px)",
+      "min": 8,
+      "max": 14,
+      "step": 1,
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "icon_label_gap",
+      "label": "Gap: icon to label (px)",
+      "min": 2,
+      "max": 8,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Top border color",
+      "default": "#e8e8e8"
+    },
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "Default icon color",
+      "default": "#8e8e93"
+    },
+    {
+      "type": "color",
+      "id": "label_color",
+      "label": "Default label color",
+      "default": "#8e8e93"
+    },
+    {
+      "type": "color",
+      "id": "active_color",
+      "label": "Active item color",
+      "default": "#ff6b00"
+    },
+    {
+      "type": "header",
+      "content": "Active indicator"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_active_dot",
+      "label": "Show dot below active item",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Cart badge"
+    },
+    {
+      "type": "color",
+      "id": "badge_color",
+      "label": "Badge background",
+      "default": "#ff3b30"
+    },
+    {
+      "type": "color",
+      "id": "badge_text_color",
+      "label": "Badge text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "More drawer"
+    },
+    {
+      "type": "range",
+      "id": "drawer_radius",
+      "label": "Drawer top corner radius (px)",
+      "min": 0,
+      "max": 32,
+      "step": 2,
+      "default": 16
+    },
+    {
+      "type": "link_list",
+      "id": "more_linklist",
+      "label": "More menu navigation",
+      "info": "Links shown in the More drawer. Select a menu from Online Store → Navigation."
+    },
+    {
+      "type": "header",
+      "content": "Accessibility"
+    },
+    {
+      "type": "text",
+      "id": "aria_label",
+      "label": "Nav aria-label",
+      "default": "Mobile navigation"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "nav_item",
+      "name": "Nav Item",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "home",       "label": "Home" },
+            { "value": "shop",       "label": "Shop / Bag" },
+            { "value": "categories", "label": "Categories / Grid" },
+            { "value": "account",    "label": "Account / Person" },
+            { "value": "search",     "label": "Search" },
+            { "value": "heart",      "label": "Wishlist / Heart" },
+            { "value": "cart",       "label": "Cart" },
+            { "value": "more",       "label": "More (dots)" },
+            { "value": "menu",       "label": "Menu (hamburger)" },
+            { "value": "tag",        "label": "Sale / Tag" },
+            { "value": "star",       "label": "Featured / Star" },
+            { "value": "gift",       "label": "Gift" }
+          ],
+          "default": "home"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Home"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Link URL"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_cart_count",
+          "label": "Show cart item count badge",
+          "default": false,
+          "info": "Shows a red badge with the number of items in cart."
+        },
+        {
+          "type": "checkbox",
+          "id": "is_more_menu",
+          "label": "This is the 'More' button (opens drawer)",
+          "default": false,
+          "info": "Enable to make this item open the More drawer instead of navigating to a URL."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Mobile Bottom Nav",
+      "category": "Navigation",
+      "blocks": [
+        {
+          "type": "nav_item",
+          "settings": {
+            "icon": "home",
+            "label": "Home",
+            "url": "/"
+          }
+        },
+        {
+          "type": "nav_item",
+          "settings": {
+            "icon": "shop",
+            "label": "Shop",
+            "url": "/collections/all"
+          }
+        },
+        {
+          "type": "nav_item",
+          "settings": {
+            "icon": "categories",
+            "label": "Categories",
+            "url": "/collections"
+          }
+        },
+        {
+          "type": "nav_item",
+          "settings": {
+            "icon": "account",
+            "label": "Account",
+            "url": "/account"
+          }
+        },
+        {
+          "type": "nav_item",
+          "settings": {
+            "icon": "more",
+            "label": "More",
+            "is_more_menu": true
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

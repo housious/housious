@@ -1,0 +1,237 @@
+{%- liquid
+  assign current_variant = product.selected_or_first_available_variant
+-%}
+
+{%- if product.has_only_default_variant == false -%}
+  <div
+    class="custom-variant-picker"
+    data-custom-variant-picker
+    data-product-id="{{ product.id }}"
+  >
+    <div class="custom-variant-picker__heading">
+      Choose Variation
+    </div>
+
+    {%- for option in product.options_with_values -%}
+      {%- assign option_name_handle = option.name | handleize -%}
+
+      {%- if option_name_handle contains 'color'
+        or option_name_handle contains 'colour'
+      -%}
+        {%- assign option_style = 'circle' -%}
+      {%- else -%}
+        {%- assign option_style = 'card' -%}
+      {%- endif -%}
+
+      <fieldset
+        class="
+          custom-variant-group
+          custom-variant-group--{{ option_style }}
+        "
+        data-variant-option-group
+        data-option-index="{{ option.position | minus: 1 }}"
+      >
+        <legend class="custom-variant-group__title">
+          {{ option.name }}
+        </legend>
+
+        <div class="custom-variant-values">
+          {%- for value in option.values -%}
+            {%- liquid
+              assign option_variant = blank
+
+              case option.position
+                when 1
+                  assign option_variant = product.variants | where: 'option1', value | first
+                when 2
+                  assign option_variant = product.variants | where: 'option2', value | first
+                when 3
+                  assign option_variant = product.variants | where: 'option3', value | first
+              endcase
+
+              assign value_selected = false
+
+              case option.position
+                when 1
+                  if current_variant.option1 == value
+                    assign value_selected = true
+                  endif
+                when 2
+                  if current_variant.option2 == value
+                    assign value_selected = true
+                  endif
+                when 3
+                  if current_variant.option3 == value
+                    assign value_selected = true
+                  endif
+              endcase
+
+              assign option_image = option_variant.featured_image
+
+              if option_image == blank
+                assign option_image = product.featured_image
+              endif
+            -%}
+
+            <button
+              type="button"
+              class="
+                custom-variant-value
+                custom-variant-value--{{ option_style }}
+                {% if value_selected %}is-selected{% endif %}
+              "
+              data-variant-value
+              data-option-index="{{ option.position | minus: 1 }}"
+              data-option-value="{{ value | escape }}"
+              aria-pressed="{% if value_selected %}true{% else %}false{% endif %}"
+            >
+              <span class="custom-variant-value__check">
+                <svg
+                  viewBox="0 0 16 16"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M4 8.2L6.7 11L12 5.5"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </span>
+
+              {%- if option_style == 'circle' -%}
+                <span class="custom-variant-value__circle-image">
+                  {%- if option_image != blank -%}
+                    <img
+                      src="{{ option_image | image_url: width: 180 }}"
+                      alt="{{ value | escape }}"
+                      width="90"
+                      height="90"
+                      loading="lazy"
+                    >
+                  {%- else -%}
+                    {{ 'product-1' | placeholder_svg_tag }}
+                  {%- endif -%}
+                </span>
+
+                <span class="custom-variant-value__circle-label">
+                  {{ value }}
+                </span>
+
+                <span
+                  class="custom-variant-value__stock"
+                  data-value-stock
+                ></span>
+              {%- else -%}
+                <span class="custom-variant-value__card-image">
+                  {%- if option_image != blank -%}
+                    <img
+                      src="{{ option_image | image_url: width: 200 }}"
+                      alt="{{ value | escape }}"
+                      width="100"
+                      height="100"
+                      loading="lazy"
+                    >
+                  {%- else -%}
+                    {{ 'product-1' | placeholder_svg_tag }}
+                  {%- endif -%}
+                </span>
+
+                <span class="custom-variant-value__card-content">
+                  <span class="custom-variant-value__card-title">
+                    {{ value }} pcs
+                  </span>
+
+                  {%- if option_variant != blank -%}
+                    <span class="custom-variant-value__card-price">
+                      {{ option_variant.price | money }}
+                    </span>
+                  {%- endif -%}
+
+                  <span
+                    class="custom-variant-value__stock"
+                    data-value-stock
+                  ></span>
+                </span>
+              {%- endif -%}
+            </button>
+          {%- endfor -%}
+        </div>
+      </fieldset>
+    {%- endfor -%}
+
+    <script
+        type="application/json"
+        data-variant-picker-json
+        >
+        {
+            "selectedVariantId": {{ current_variant.id | json }},
+            "variants": [
+            {%- for variant in product.variants -%}
+                {%- liquid
+                  assign variant_media = variant.featured_media
+
+                  if variant_media == blank
+                    assign variant_media = product.featured_media
+                  endif
+                -%}
+
+                {
+                "id": {{ variant.id | json }},
+                "available": {{ variant.available | json }},
+                "options": {{ variant.options | json }},
+                "price": {{ variant.price | json }},
+                "priceFormatted": {{ variant.price | money | json }},
+                "compareAtPrice": {{ variant.compare_at_price | default: 0 | json }},
+                "compareAtPriceFormatted": {% if variant.compare_at_price %}
+                    {{ variant.compare_at_price | money | json }}
+                {% else %}
+                    null
+                {% endif %},
+                "url": {{ variant.url | json }},
+                "media": {
+                    "id": {% if variant_media %}
+                    {{ variant_media.id | json }}
+                    {% else %}
+                    null
+                    {% endif %},
+                    "src": {% if variant_media %}
+                    {{ variant_media.preview_image | image_url: width: 1400 | json }}
+                    {% else %}
+                    null
+                    {% endif %},
+                    "src400": {% if variant_media %}
+                    {{ variant_media.preview_image | image_url: width: 400 | json }}
+                    {% else %}
+                    null
+                    {% endif %},
+                    "src700": {% if variant_media %}
+                    {{ variant_media.preview_image | image_url: width: 700 | json }}
+                    {% else %}
+                    null
+                    {% endif %},
+                    "src1000": {% if variant_media %}
+                    {{ variant_media.preview_image | image_url: width: 1000 | json }}
+                    {% else %}
+                    null
+                    {% endif %},
+                    "src1400": {% if variant_media %}
+                    {{ variant_media.preview_image | image_url: width: 1400 | json }}
+                    {% else %}
+                    null
+                    {% endif %},
+                    "alt": {% if variant_media.preview_image.alt != blank %}
+                    {{ variant_media.preview_image.alt | json }}
+                    {% else %}
+                    {{ product.title | json }}
+                    {% endif %}
+                }
+                }{% unless forloop.last %},{% endunless %}
+            {%- endfor -%}
+            ]
+        }
+    </script>
+  </div>
+{%- endif -%}

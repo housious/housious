@@ -1,0 +1,38 @@
+{{ 'about.css' | asset_url | stylesheet_tag }}
+
+<section class="story-grid-section section-{{ section.id }}">
+  <div class="story-grid__container">
+    
+    <div class="story-grid__layout">
+      <div class="story-grid__block story-grid__text-card">
+        <span class="story-grid__subtitle">THE GENESIS</span>
+        <h3 class="story-grid__title">Born out of a need for serene spaces.</h3>
+        <p class="story-grid__paragraph">We noticed that modern homes were becoming cluttered with loud, distracting utilities. Housious was founded to shift the narrative—creating functional organisers that act as quiet design statements, bringing order and everyday calm to your sanctuary.</p>
+      </div>
+
+      <div class="story-grid__block story-grid__image-card">
+        {% if section.settings.story_image != blank %}
+          <img src="{{ section.settings.story_image | img_url: '800x1000' }}" alt="Housious Process" class="story-grid__img" loading="lazy">
+        {% else %}
+          {{ 'lifestyle-2' | placeholder_svg_tag: 'story-grid__placeholder' }}
+        {% endif %}
+      </div>
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Brand Story Grid",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "story_image",
+      "label": "Story Detail Image",
+      "info": "Recommended size: Portrait aesthetic shot (800x1000px)"
+    }
+  ],
+  "presets": [{ "name": "Brand Story Grid" }]
+}
+{% endschema %}

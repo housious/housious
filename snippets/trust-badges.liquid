@@ -1,0 +1,47 @@
+{%- if block -%}
+  <div class="housious-trust-badges-wrapper" {{ block.shopify_attributes }}>
+    
+    <div class="trust-badge-item">
+      <span class="trust-badge-icon">
+        {%- if block.settings.badge_1_icon != blank -%}
+          <img src="{{ block.settings.badge_1_icon | img_url: '40x40' }}" alt="{{ block.settings.badge_1_title | escape }}" loading="lazy">
+        {%- else -%}
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+        {%- endif -%}
+      </span>
+      <div class="trust-badge-info">
+        <span class="trust-badge-title">{{ block.settings.badge_1_title }}</span>
+        <span class="trust-badge-sub">{{ block.settings.badge_1_sub }}</span>
+      </div>
+    </div>
+
+    <div class="trust-badge-item">
+      <span class="trust-badge-icon">
+        {%- if block.settings.badge_2_icon != blank -%}
+          <img src="{{ block.settings.badge_2_icon | img_url: '40x40' }}" alt="{{ block.settings.badge_2_title | escape }}" loading="lazy">
+        {%- else -%}
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
+        {%- endif -%}
+      </span>
+      <div class="trust-badge-info">
+        <span class="trust-badge-title">{{ block.settings.badge_2_title }}</span>
+        <span class="trust-badge-sub">{{ block.settings.badge_2_sub }}</span>
+      </div>
+    </div>
+
+    <div class="trust-badge-item">
+      <span class="trust-badge-icon">
+        {%- if block.settings.badge_3_icon != blank -%}
+          <img src="{{ block.settings.badge_3_icon | img_url: '40x40' }}" alt="{{ block.settings.badge_3_title | escape }}" loading="lazy">
+        {%- else -%}
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+        {%- endif -%}
+      </span>
+      <div class="trust-badge-info">
+        <span class="trust-badge-title">{{ block.settings.badge_3_title }}</span>
+        <span class="trust-badge-sub">{{ block.settings.badge_3_sub }}</span>
+      </div>
+    </div>
+
+  </div>
+{%- endif -%}

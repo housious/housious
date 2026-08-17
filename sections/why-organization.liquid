@@ -1,0 +1,286 @@
+{%- style -%}
+  .why-org-section {
+    /* padding: 10px 4%; */
+    padding-top:20px;
+     padding-top:20px;
+    display: flex;
+    align-items: center;
+    gap: 50px;
+
+  }
+  .why-org-content {
+    flex: 1.2;
+  }
+  .why-org-image {
+    flex: 0.8;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  }
+  .why-org-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+  }
+  /* .why-org-title {
+
+    color: #2E1A47; 
+    font-size: 36px;
+    margin-bottom: 20px;
+    position: relative;
+  } */
+
+
+.why-org-title {
+    font-size: 28px; /* Desktop heading standard size lowering from 38px */
+    margin-bottom: 45px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    text-transform: capitalize;
+}
+
+  .why-org-title::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background-color: #CC704B; /* Housious Secondary Pink */
+    margin-top: 10px;
+  }
+  .why-org-list {
+    list-style: none;
+    padding: 0;
+    margin: 30px 0 0 0;
+  }
+  .why-org-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    margin-bottom: 20px;
+    font-size: 18px;
+    color: #333333;
+
+  }
+  .why-org-icon {
+    /* color: #E91E63; */
+    color:#CC704B;
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 1;
+  }
+ 
+  /* Responsive Design for Mobile */
+  @media (max-width: 768px) {
+    .why-org-section {
+      flex-direction: column-reverse;
+      gap: 30px;
+      /* padding: 10px 20px; */
+    }
+    .why-org-title {
+      font-size: 18px;
+    }
+  }
+  /* Responsive Design for Mobile */
+  @media (max-width: 768px) {
+    .why-org-section {
+      flex-direction: column-reverse; /* Image neeche, content upar */
+      gap: 20px;                      /* Gap kam kar diya */
+      /* padding: 20px 15px;             */
+      /* padding: 20px 0; */
+    }
+
+    .why-org-title {
+      font-size: 18px;                /* 18px se badha kar 24px kiya, jo mobile ke liye ideal hai */
+      margin-bottom: 10px;            /* Heading aur list ke beech ki jagah kam ki */
+    }
+
+    .why-org-title::after {
+      width: 40px;                    /* Underline choti kar di */
+      height: 3px;
+      margin-top: 8px;
+    }
+
+    .why-org-list {
+      margin-top: 15px;               /* List aur heading ke beech ka gap */
+    }
+
+    .why-org-item {
+      margin-bottom: 10px;            /* List items ke beech ki jagah kam ki */
+      font-size: 10px;                /* Text size thoda chhota karke readable banaya */
+    }
+  }
+{%- endstyle -%}
+
+{% comment %} <section class="why-org-section"> {% endcomment %}
+ <div class="section-container {{ section.settings.container_width }}">
+  <section class="why-org-section">
+  <div class="why-org-content">
+    <h2 class="why-org-title">{{ section.settings.heading }}</h2>
+    <ul class="why-org-list">
+      {%- for block in section.blocks -%}
+        <li class="why-org-item" {{ block.shopify_attributes }}>
+          <span class="why-org-icon">✓</span>
+          <div>
+            <strong>{{ block.settings.point_title }}</strong> — {{ block.settings.point_desc }}
+          </div>
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+
+  <div class="why-org-image">
+    {%- if section.settings.image != blank -%}
+      {{ section.settings.image | image_url: width: 800 | image_tag: loading: 'lazy', alt: section.settings.heading }}
+    {%- else -%}
+      {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+    {%- endif -%}
+  </div>
+</section>
+</div>
+
+{% comment %} {% schema %}
+{
+  "name": "Why Organization Matters",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "Why Organization Matters"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Side Image"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "benefit_point",
+      "name": "Benefit Point",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "text",
+          "id": "point_title",
+          "label": "Point Title",
+          "default": "Stress Reduction"
+        },
+        {
+          "type": "text",
+          "id": "point_desc",
+          "label": "Point Description",
+          "default": "Decluttering your space reduces visual chaos and lowers stress levels."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Why Organization Matters",
+      "blocks": [
+        { "type": "benefit_point", "settings": { "point_title": "Stress Reduction", "point_desc": "Decluttering reduces cortisol levels and brings mental peace." } },
+        { "type": "benefit_point", "settings": { "point_title": "Time Efficiency", "point_desc": "Find your kitchen tools and daily essentials in seconds." } },
+        { "type": "benefit_point", "settings": { "point_title": "Safety First", "point_desc": "Anti-skid setups and organized shelves prevent common kitchen accidents." } }
+      ]
+    }
+  ]
+}
+{% endschema %} {% endcomment %}
+
+{% schema %}
+{
+  "name": "Why Organization Matters",
+  "settings": [
+    {
+      "type": "select",
+      "id": "container_width",
+      "label": "Container Width",
+      "options": [
+        {
+          "value": "section-container--sm",
+          "label": "Small"
+        },
+        {
+          "value": "section-container--md",
+          "label": "Medium"
+        },
+        {
+          "value": "section-container--lg",
+          "label": "Large"
+        },
+        {
+          "value": "section-container--xl",
+          "label": "Extra Large"
+        },
+        {
+          "value": "section-container--full",
+          "label": "Full Width"
+        }
+      ],
+      "default": "section-container--lg"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "Why Organization Matters"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Side Image"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "benefit_point",
+      "name": "Benefit Point",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "text",
+          "id": "point_title",
+          "label": "Point Title",
+          "default": "Stress Reduction"
+        },
+        {
+          "type": "text",
+          "id": "point_desc",
+          "label": "Point Description",
+          "default": "Decluttering your space reduces visual chaos and lowers stress levels."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Why Organization Matters",
+      "blocks": [
+        {
+          "type": "benefit_point",
+          "settings": {
+            "point_title": "Stress Reduction",
+            "point_desc": "Decluttering reduces cortisol levels and brings mental peace."
+          }
+        },
+        {
+          "type": "benefit_point",
+          "settings": {
+            "point_title": "Time Efficiency",
+            "point_desc": "Find your kitchen tools and daily essentials in seconds."
+          }
+        },
+        {
+          "type": "benefit_point",
+          "settings": {
+            "point_title": "Safety First",
+            "point_desc": "Anti-skid setups and organized shelves prevent common kitchen accidents."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

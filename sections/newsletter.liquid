@@ -1,0 +1,163 @@
+{{ 'blog.css' | asset_url | stylesheet_tag }}
+<section class="newsletter-section section-container {{ section.settings.container_width }}">
+<div class="blog-footer-newsletter">
+  <div class="newsletter-content-box">
+    <h3>{{ section.settings.heading | default: "Join the Housious Club" }}</h3>
+    <p>{{ section.settings.subheading | default: "Get exclusive home inspiration and kitchen organization hacks directly in your inbox." }}</p>
+    
+    {% form 'customer' %}
+      {% if form.posted_successfully? %}
+        <p class="newsletter-success">Thank you for subscribing!</p>
+      {% else %}
+        <div class="newsletter-form-fields">
+          <input type="hidden" name="contact[tags]" value="newsletter">
+          <input 
+            type="email" 
+            name="contact[email]" 
+            placeholder="Enter your email address" 
+            value="{{ form.email }}" 
+            aria-label="Email Address"
+            required
+          >
+          <button type="submit">Subscribe</button>
+        </div>
+      {% endif %}
+    {% endform %}
+  </div>
+</div> 
+</section>
+
+
+
+ {% comment %} {% schema %}
+{
+  "name": "Newsletter Signup",
+  "tag": "section",
+  "class": "newsletter-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Join the Housious Club"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Get exclusive home inspiration and kitchen organization hacks directly in your inbox."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Newsletter Signup"
+    }
+  ]
+}
+{% endschema %}   {% endcomment %}
+
+{% comment %} <section class="newsletter-section section-container {{ section.settings.container_width }}">
+  <div class="newsletter-content-box">
+    {% if section.settings.heading != blank %}
+      <h3>{{ section.settings.heading }}</h3>
+    {% endif %}
+    
+    {% if section.settings.subheading != blank %}
+      <p>{{ section.settings.subheading }}</p>
+    {% endif %}
+    
+    {% form 'customer' %}
+      {% if form.posted_successfully? %}
+        <p class="newsletter-success">Thank you for subscribing!</p>
+      {% else %}
+        <div class="newsletter-form-fields">
+          <input type="hidden" name="contact[tags]" value="newsletter">
+          <input 
+            type="email" 
+            name="contact[email]" 
+            placeholder="Enter your email address" 
+            value="{{ form.email }}" 
+            aria-label="Email Address"
+            required
+          >
+          <button type="submit">Subscribe</button>
+        </div>
+      {% endif %}
+    {% endform %}
+  </div>
+</section> {% endcomment %}
+
+{% schema %}
+{
+  "name": "Newsletter Signup",
+  "tag": "section",
+  "class": "newsletter-section-wrapper",
+  "settings": [
+    {
+      "type": "select",
+      "id": "container_width",
+      "label": "Container Width",
+      "options": [
+        { "value": "section-container--lg", "label": "Large" },
+        { "value": "section-container--xl", "label": "Extra Large" },
+        { "value": "section-container--full", "label": "Full Width" }
+      ],
+      "default": "section-container--xl"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Join the Housious Club"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Get exclusive home inspiration and kitchen organization hacks directly in your inbox."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Newsletter Signup"
+    }
+  ]
+}
+{% endschema %}
+{% comment %} {% schema %}
+{
+  "name": "Newsletter Signup",
+  "tag": "section",
+  "class": "newsletter-section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "container_width",
+      "label": "Container Width",
+      "options": [
+        { "value": "section-container--lg", "label": "Large" },
+        { "value": "section-container--xl", "label": "Extra Large" },
+        { "value": "section-container--full", "label": "Full Width" }
+      ],
+      "default": "section-container--xl"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Join the Housious Club"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Get exclusive home inspiration and kitchen organization hacks directly in your inbox."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Newsletter Signup"
+    }
+  ]
+}
+{% endschema %} {% endcomment %}

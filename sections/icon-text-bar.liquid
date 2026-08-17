@@ -1,0 +1,158 @@
+{{ 'icon-text-bar.css' | asset_url | stylesheet_tag }}
+
+{% comment %} <section class="icon-text-bar">
+
+  <div class="section-container section-container--full">
+
+    <div class="icon-text-bar__wrapper">
+
+      {% for block in section.blocks %} {% endcomment %}
+       <section class="icon-text-bar">
+
+  <!-- Change this line to use the section setting -->
+  <div class="section-container {{ section.settings.container_width }}">
+
+    <div class="icon-text-bar__wrapper">
+      {% for block in section.blocks %}
+        <!-- ... rest of your code ... -->
+
+        <div
+          class="icon-text-bar__item"
+          {{ block.shopify_attributes }}
+        >
+
+          {% if block.settings.icon != blank %}
+            <div class="icon-text-bar__icon">
+
+              {{
+                block.settings.icon
+                | image_url: width: 80
+                | image_tag
+              }}
+
+            </div>
+          {% endif %}
+
+          <div class="icon-text-bar__content">
+
+            {% if block.settings.heading != blank %}
+              <h3 class="icon-text-bar__title">
+                {{ block.settings.heading }}
+              </h3>
+            {% endif %}
+
+            {% if block.settings.text != blank %}
+              <div class="icon-text-bar__text">
+                {{ block.settings.text }}
+              </div>
+            {% endif %}
+
+          </div>
+
+        </div>
+
+      {% endfor %}
+
+    </div>
+
+  </div>
+
+</section>
+
+{% comment %} {% schema %}
+{
+  "name": "Icon Text Bar",
+  "max_blocks": 10,
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Item",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Description"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Icon Text Bar"
+    }
+  ]
+}
+{% endschema %} {% endcomment %}
+
+{% schema %}
+{
+  "name": "Icon Text Bar",
+  "max_blocks": 10,
+  "settings": [
+    {
+      "type": "select",
+      "id": "container_width",
+      "label": "Container Width",
+      "options": [
+        {
+          "value": "section-container--lg",
+          "label": "Large"
+        },
+        {
+          "value": "section-container--xl",
+          "label": "Extra Large"
+        },
+        {
+          "value": "section-container--full",
+          "label": "Full Width"
+        }
+      ],
+      "default": "section-container--full"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Item",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon Image"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Free Shipping"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Description",
+          "default": "On orders above 499"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Icon Text Bar",
+      "blocks": [
+        { "type": "item" },
+        { "type": "item" }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,807 @@
+{{ 'product.css' | asset_url | stylesheet_tag }}
+{{ 'delivery-status.css' | asset_url | stylesheet_tag }}
+{{ 'custom-variant-picker.css' | asset_url | stylesheet_tag }}
+
+<script src="{{ 'product-share.js' | asset_url }}" defer></script>
+<script src="{{ 'Delivery-stataus.js' | asset_url }}" defer></script>
+<script src="{{ 'custom-variant-picker.js' | asset_url }}" defer></script>
+<script src="{{ 'product-quantity.js' | asset_url }}" defer></script>
+<script src="{{ 'product-offers.js' | asset_url }}" defer></script>
+
+{% comment %} <div class="housious-product-page-layout"> {% endcomment %}
+ <div class="housious-product-page section-container {{ section.settings.container_width }}">
+  <div class="housious-product-page-layout">
+ 
+  {%- for block in section.blocks -%}
+    {%- case block.type -%}
+      {%- when 'breadcrumbs' -%}
+        <div class="breadcrumbs-full-width" {{ block.shopify_attributes }}>
+          {% render 'product-breadcrumbs' %}
+        </div>
+    {%- endcase -%}
+  {%- endfor -%}
+
+  {% comment %} Main Content Split Grid Engine {% endcomment %}
+  <div class="housious-main-product-content">
+
+    <div class="housious-media-left-column">
+      {% render 'product-media', 
+         thumbnail_position: section.settings.thumbnail_position, 
+         thumbnail_ratio: section.settings.thumbnail_ratio 
+      %}
+
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'features_with_icon_block' -%}
+          <div {{ block.shopify_attributes }}">
+            {% render 'product-features-icon', product: product %}
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+    {% comment %} Right Side: Product Details Column {% endcomment %}
+    <div class="product-details-container section-container {{ section.settings.container_width }}">
+      {% comment %} <span class="badge-new-arrival">New Arrival</span> {% endcomment %}
+       {% comment %} {%- if product.metafields.custom.product_badge != blank -%}
+  <span class="badge-new-arrival">{{ product.metafields.custom.product_badge }}</span>
+{%- endif -%} {% endcomment %}
+      {% comment %} <h1 class="product-title">{{ product.title }}</h1> {% endcomment %}
+       <div class="product-title-wrapper">
+  <h1 class="product-title">{{ product.title }}</h1>
+
+  {%- for block in section.blocks -%}
+        {%- if block.type == '@app' -%}
+          <div class="product-title-app-stars" {{ block.shopify_attributes }}>
+            {% render block %}
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+  
+  {% comment %} <div class="product-card-wishlist-wrapper" style="position: static;">
+    <button type="button" class="card-wishlist-toggle-btn" id="wishlistBtn" aria-label="Add to Wishlist">
+      <svg class="icon-heart-shape" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+      </svg>
+    </button>
+  </div> {% endcomment %}
+</div>
+      
+      {% comment %} Dynamic App Stars Widget directly under Title {% endcomment %}
+      {% comment %} {%- for block in section.blocks -%}
+        {%- if block.type == '@app' -%}
+          <div class="product-title-app-stars" {{ block.shopify_attributes }}>
+            {% render block %}
+          </div>
+        {%- endif -%}
+      {%- endfor -%} {% endcomment %}
+
+      {%- assign air_review_count = product.metafields.air_reviews_product.review_count.value | default: product.metafields.air_reviews_product.review_count -%}
+      <div class="product-rating-row">
+        <div class="air-reviews-product-stars" data-js-air-reviews-product-stars data-id="{{ product.id }}"></div>
+        {%- if air_review_count != blank and air_review_count != 0 -%}
+          <span class="rating-text">({{ air_review_count }} Reviews)</span>
+        {%- endif -%}
+        {%- if product.metafields.custom.sold.value != blank -%}
+          <span class="rating-text">| {{ product.metafields.custom.sold.value }} Sold</span>
+        {%- endif -%}
+
+        <button type="button" class="btn-share-product" id="shareProductBtn">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="18" cy="5" r="3"></circle>
+      <circle cx="6" cy="12" r="3"></circle>
+      <circle cx="18" cy="19" r="3"></circle>
+      <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+      <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+    </svg>
+    Share
+  </button>
+      </div>
+
+      <div class="product-price-block">
+        <span class="current-price">{{ product.price | money }}</span>
+        {%- if product.compare_at_price > product.price -%}
+          <span class="compare-price">{{ product.compare_at_price | money }}</span>
+          <span class="discount-percentage">
+            {{ product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price }}% OFF
+          </span>
+        {%- endif -%}
+      </div>
+
+      {% comment %} Safe Block Loop for Offer Snippets, Tags & Apps {% endcomment %}
+      {%- for block in section.blocks -%}
+        {% comment %} {%- if block.type == '@app' -%}
+          <div class="shopify-app-block" {{ block.shopify_attributes }}>
+            {% render block %}
+          </div>
+        {%- endif -%} {% endcomment %}
+
+        {%- if block.type == 'offers_grid' -%}
+          {% render 'offer-block', block: block %}
+        {%- endif -%}
+
+        {%- if block.type == 'extra_discount_tag' -%}
+          {% render 'extra-discount-tag', block: block %}
+        {%- endif -%}
+
+        {%- if block.type == 'trust_badges' -%}
+          {% render 'trust-badges', block: block %}
+        {%- endif -%}
+      {%- endfor -%}
+      
+
+      <div class="product-form-wrapper">
+        
+          {% render 'custom-variant-picker', product: product %}
+          {% comment %} <div class="housious-canva-qty-row">
+            <span class="canva-qty-label">Quantity:</span>
+            <div class="housious-qty-container">
+              <button type="button" class="qty-btn minus" onclick="this.parentNode.querySelector('input').stepDown()">−</button>
+              <input type="number" name="quantity" min="1" value="1" readonly>
+              <button type="button" class="qty-btn plus" onclick="this.parentNode.querySelector('input').stepUp()">+</button>
+            </div>
+          </div> {% endcomment %}
+
+          <div class="housious-canva-qty-row">
+            <span class="canva-qty-label">Quantity:</span>
+            <div class="housious-qty-container">
+              <button type="button" class="qty-btn" data-quantity-change="-1" aria-label="Decrease quantity">−</button>
+              <input type="number" min="1" value="1" inputmode="numeric" data-product-quantity-input aria-label="Product quantity">
+              <button type="button" class="qty-btn" data-quantity-change="1" aria-label="Increase quantity">+</button>
+            </div>
+          </div>
+         <div class="cart-button-wrapper">   
+          {% comment %} <div class="housious-cart-btn-container">
+            <button type="submit" name="add" class="btn-add-to-cart">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px; vertical-align: middle;"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+              Add to Cart
+            </button>
+          </div> {% endcomment %}
+
+          <div class="product-card-action-form">
+          {%- form 'product', product, id: null, class: 'form-add-to-cart-wrapper', data-type: 'add-to-cart-form', data-atc-context: 'product', novalidate: 'novalidate' -%}
+            
+            <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+            <input type="hidden" name="quantity" value="1" data-product-form-quantity>
+
+            {% if settings.cart_type == 'page' %}
+              <button type="submit" name="add" class="btn-add-to-cart" >
+                  <span class="btn-icon" >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        aria-hidden="true">
+
+                        <path
+                          d="M3 4H5L7.4 15.2C7.5 15.7 7.9 16 8.4 16H18.8C19.3 16 19.7 15.7 19.8 15.2L21 7H7"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"/>
+
+                        <circle
+                          cx="9"
+                          cy="20"
+                          r="1.5"
+                          fill="currentColor"/>
+
+                        <circle
+                          cx="18"
+                          cy="20"
+                          r="1.5"
+                          fill="currentColor"/>
+
+                      </svg>
+                    </span> Add to Cart
+              </button>
+            {% else %}
+                <button type="submit" name="add" class="btn-add-to-cart">
+                        <span class="btn-icon">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="20"
+                            height="20"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            aria-hidden="true">
+
+                            <path
+                              d="M3 4H5L7.4 15.2C7.5 15.7 7.9 16 8.4 16H18.8C19.3 16 19.7 15.7 19.8 15.2L21 7H7"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"/>
+
+                            <circle
+                              cx="9"
+                              cy="20"
+                              r="1.5"
+                              fill="currentColor"/>
+
+                            <circle
+                              cx="18"
+                              cy="20"
+                              r="1.5"
+                              fill="currentColor"/>
+
+                          </svg>
+                        </span>Add to Cart
+                </button>
+            {% endif %}
+
+          {%- endform -%}
+
+          <div class="housious-pdp-atc-status" data-pdp-atc-status role="status" aria-live="polite" aria-hidden="true">
+            <span class="housious-pdp-atc-status__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none">
+                <path d="M5 12.5l4 4L19 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            <span class="housious-pdp-atc-status__copy">
+              <strong>Added to your cart</strong>
+              <small>Your cart has been updated</small>
+            </span>
+          </div>
+        </div>
+
+        {% form 'product', product ,class:'checkout-form'%}
+          {% assign current_variant = product.selected_or_first_available_variant %}
+          <input type="hidden" name="quantity" value="1" data-product-form-quantity>
+
+          <select name="id" class="variant-selector" style="display: none;">
+            {% for variant in product.variants %}
+              <option value="{{ variant.id }}" {% if variant == current_variant %}selected="selected"{% endif %}>
+                {{ variant.title }} - {{ variant.price | money }}
+              </option>
+            {% endfor %}
+          </select>
+          <div class="housious-checkout-payment-box">
+            {{ form | payment_button }}
+          </div>
+           {% endform %}
+        </div>
+
+          {% comment %} <div class="housious-wishlist-row">
+            <button type="button" class="btn-add-to-wishlist">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1" style="margin-right: 6px; vertical-align: middle;"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"></path></svg>
+              Add to Wishlist
+            </button>
+          </div> {% endcomment %}
+
+       
+
+        <div class="delivery-status-box">
+  <p class="delivery-date-text">
+    Delivery by: <span id="delivery-expected-date">Calculating...</span>
+  </p>
+  {% comment %} <p class="delivery-location-text">
+    Deliver to: <span id="delivery-city-zip">Detecting...</span>
+    <button type="button" id="change-location-btn" style="color: #ff4500; background: none; border: none; cursor: pointer; margin-left: 10px;">Change</button>
+  </p> {% endcomment %}
+  <p class="delivery-location-text">
+  <div class="delivery-location-row">
+    <span>Deliver to: <span id="delivery-city-zip">Detecting...</span></span>
+    <button type="button" id="change-location-btn">Change</button>
+  </div>
+</p>
+  
+  <div id="pincode-input-container" style="display: none; margin-top: 10px;">
+    <input type="text" id="manual-pincode" placeholder="Enter Pincode" maxlength="6" style="padding: 5px; border: 1px solid #ccc;">
+    <button type="button" id="apply-pincode-btn" style="padding: 5px 10px; background: #ff4500; color: #fff; border: none; border-radius: 4px;">Apply</button>
+  </div>
+  
+  <p class="delivery-countdown" style="color: green; font-size: 0.9em; margin-top: 5px;">
+    Order within <span id="countdown-timer">00h 00m</span> to get it early!
+  </p>
+</div>
+</div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  function switchProductImage(element, imageUrl) {
+    var mainImage = document.getElementById('HousiousMainImage');
+    if(mainImage) {
+      mainImage.src = imageUrl;
+    }
+    document.querySelectorAll('.thumbnail-item').forEach(function(thumb) {
+      thumb.classList.remove('active');
+    });
+    element.classList.add('active');
+  }
+</script>
+
+{% comment %} <script>
+document.getElementById('shareProductBtn').addEventListener('click', async () => {
+  try {
+    await navigator.share({
+      title: '{{ product.title | escape }}',
+      text: 'Check out this product from Housious!',
+      url: window.location.href
+    });
+  } catch (err) {
+    console.log('Error sharing:', err);
+    // Fallback: Copy to clipboard if sharing fails
+    navigator.clipboard.writeText(window.location.href);
+    alert('Link copied to clipboard!');
+  }
+});
+</script> {% endcomment %}
+
+{% comment %} {% schema %}
+{
+  "name": "Housious Product Page",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Media Settings"
+    },
+    {
+      "type": "select",
+      "id": "thumbnail_position",
+      "label": "Desktop Thumbnail Position",
+      "options": [
+        { "value": "left", "label": "Left Side (Vertical Grid)" },
+        { "value": "bottom", "label": "Bottom Side (Horizontal Slider)" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "thumbnail_ratio",
+      "label": "Thumbnail Image Ratio",
+      "options": [
+        { "value": "square", "label": "Square (1:1)" },
+        { "value": "portrait", "label": "Portrait (2:3)" }
+      ],
+      "default": "square"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "@app"
+    },
+    {
+      "type": "breadcrumbs",
+      "name": "Breadcrumbs",
+      "limit": 1,
+      "settings": []
+    },
+    {
+      "type": "offers_grid",
+      "name": "Housious Offers Grid",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "header",
+          "content": "Offer Card 1 (Prepaid Settings)"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_offer_1",
+          "label": "Show Card 1",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "offer_1_title",
+          "label": "Offer 1 Title Template",
+          "default": "Prepaid Price (Extra [X]% OFF)",
+          "info": "Use [X] jahan aapko percentage automatically display karni ho."
+        },
+        {
+          "type": "range",
+          "id": "offer_1_percentage",
+          "min": 1,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "label": "Discount Percentage for Card 1",
+          "default": 7
+        },
+        {
+          "type": "header",
+          "content": "Offer Card 2 (UPI Settings)"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_offer_2",
+          "label": "Show Card 2",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "offer_2_title",
+          "label": "Offer 2 Title Template",
+          "default": "UPI Special Price ([X]% OFF)",
+          "info": "Use [X] jahan aapko percentage automatically display karni ho."
+        },
+        {
+          "type": "range",
+          "id": "offer_2_percentage",
+          "min": 1,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "label": "Discount Percentage for Card 2",
+          "default": 10
+        }
+      ]
+    },
+    {
+      "type": "extra_discount_tag",
+      "name": "Extra Discount Tag",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "range",
+          "id": "discount_percentage",
+          "min": 1,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "label": "Discount Percentage",
+          "default": 5
+        },
+        {
+          "type": "text",
+          "id": "min_amount",
+          "label": "Minimum Order Amount (₹)",
+          "default": "1499"
+        },
+        {
+          "type": "text",
+          "id": "coupon_code",
+          "label": "Coupon Code",
+          "default": "SAVES"
+        }
+      ]
+    },
+    {
+      "type": "trust_badges",
+      "name": "Housious Trust Badges",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "header",
+          "content": "Badge 1 Settings"
+        },
+        {
+          "type": "image_picker",
+          "id": "badge_1_icon",
+          "label": "Badge 1 Custom Icon (PNG/SVG)"
+        },
+        {
+          "type": "text",
+          "id": "badge_1_title",
+          "label": "Badge 1 Title",
+          "default": "Free Shipping"
+        },
+        {
+          "type": "text",
+          "id": "badge_1_sub",
+          "label": "Badge 1 Subtext",
+          "default": "on orders above ₹499"
+        },
+        {
+          "type": "header",
+          "content": "Badge 2 Settings"
+        },
+        {
+          "type": "image_picker",
+          "id": "badge_2_icon",
+          "label": "Badge 2 Custom Icon (PNG/SVG)"
+        },
+        {
+          "type": "text",
+          "id": "badge_2_title",
+          "label": "Badge 2 Title",
+          "default": "7 Days Easy Returns"
+        },
+        {
+          "type": "text",
+          "id": "badge_2_sub",
+          "label": "Badge 2 Subtext",
+          "default": "Unused & undamaged only"
+        },
+        {
+          "type": "header",
+          "content": "Badge 3 Settings"
+        },
+        {
+          "type": "image_picker",
+          "id": "badge_3_icon",
+          "label": "Badge 3 Custom Icon (PNG/SVG)"
+        },
+        {
+          "type": "text",
+          "id": "badge_3_title",
+          "label": "Badge 3 Title",
+          "default": "100% Secure Payments"
+        },
+        {
+          "type": "text",
+          "id": "badge_3_sub",
+          "label": "Badge 3 Subtext",
+          "default": "Trusted & safe checkout"
+        }
+      ]
+    },
+    {
+      "type": "features_with_icon_block",
+      "name": "Product Features",
+      "limit": 1,
+      "settings": []
+    }
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  }
+}
+{% endschema %} {% endcomment %}
+
+{% schema %}
+
+{
+  "name": "Housious Product Page",
+  "settings": [
+    {
+      "type": "select",
+      "id": "container_width",
+      "label": "Container Width",
+      "options": [
+        {
+          "value": "section-container--sm",
+          "label": "Small"
+        },
+        {
+          "value": "section-container--md",
+          "label": "Medium"
+        },
+        {
+          "value": "section-container--lg",
+          "label": "Large"
+        },
+        {
+          "value": "section-container--xl",
+          "label": "Extra Large"
+        },
+        {
+          "value": "section-container--full",
+          "label": "Full Width"
+        }
+      ],
+      "default": "section-container--lg"
+    },
+    {
+      "type": "header",
+      "content": "Media Settings"
+    },
+    {
+      "type": "select",
+      "id": "thumbnail_position",
+      "label": "Desktop Thumbnail Position",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left Side (Vertical Grid)"
+        },
+        {
+          "value": "bottom",
+          "label": "Bottom Side (Horizontal Slider)"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "thumbnail_ratio",
+      "label": "Thumbnail Image Ratio",
+      "options": [
+        {
+          "value": "square",
+          "label": "Square (1:1)"
+        },
+        {
+          "value": "portrait",
+          "label": "Portrait (2:3)"
+        }
+      ],
+      "default": "square"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "@app"
+    },
+    {
+      "type": "breadcrumbs",
+      "name": "Breadcrumbs",
+      "limit": 1,
+      "settings": []
+    },
+    {
+      "type": "offers_grid",
+      "name": "Housious Offers Grid",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "header",
+          "content": "Offer Card 1 (Prepaid Settings)"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_offer_1",
+          "label": "Show Card 1",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "offer_1_title",
+          "label": "Offer 1 Title Template",
+          "default": "Prepaid Price (Extra [X]% OFF)",
+          "info": "Use [X] jahan aapko percentage automatically display karni ho."
+        },
+        {
+          "type": "range",
+          "id": "offer_1_percentage",
+          "min": 1,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "label": "Discount Percentage for Card 1",
+          "default": 7
+        },
+        {
+          "type": "header",
+          "content": "Offer Card 2 (UPI Settings)"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_offer_2",
+          "label": "Show Card 2",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "offer_2_title",
+          "label": "Offer 2 Title Template",
+          "default": "UPI Special Price ([X]% OFF)"
+        },
+        {
+          "type": "range",
+          "id": "offer_2_percentage",
+          "min": 1,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "label": "Discount Percentage for Card 2",
+          "default": 10
+        }
+      ]
+    },
+    {
+      "type": "extra_discount_tag",
+      "name": "Extra Discount Tag",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "range",
+          "id": "discount_percentage",
+          "min": 1,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "label": "Discount Percentage",
+          "default": 5
+        },
+        {
+          "type": "text",
+          "id": "min_amount",
+          "label": "Minimum Order Amount (₹)",
+          "default": "1499"
+        },
+        {
+          "type": "text",
+          "id": "coupon_code",
+          "label": "Coupon Code",
+          "default": "SAVES"
+        }
+      ]
+    },
+    {
+      "type": "trust_badges",
+      "name": "Housious Trust Badges",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "header",
+          "content": "Badge 1 Settings"
+        },
+        {
+          "type": "image_picker",
+          "id": "badge_1_icon",
+          "label": "Badge 1 Custom Icon (PNG/SVG)"
+        },
+        {
+          "type": "text",
+          "id": "badge_1_title",
+          "label": "Badge 1 Title",
+          "default": "Free Shipping"
+        },
+        {
+          "type": "text",
+          "id": "badge_1_sub",
+          "label": "Badge 1 Subtext",
+          "default": "on orders above ₹499"
+        },
+        {
+          "type": "header",
+          "content": "Badge 2 Settings"
+        },
+        {
+          "type": "image_picker",
+          "id": "badge_2_icon",
+          "label": "Badge 2 Custom Icon (PNG/SVG)"
+        },
+        {
+          "type": "text",
+          "id": "badge_2_title",
+          "label": "Badge 2 Title",
+          "default": "7-Day Returns"
+        },
+        {
+          "type": "text",
+          "id": "badge_2_sub",
+          "label": "Badge 2 Subtext",
+          "default": "Unused & undamaged only"
+        },
+        {
+          "type": "header",
+          "content": "Badge 3 Settings"
+        },
+        {
+          "type": "image_picker",
+          "id": "badge_3_icon",
+          "label": "Badge 3 Custom Icon (PNG/SVG)"
+        },
+        {
+          "type": "text",
+          "id": "badge_3_title",
+          "label": "Badge 3 Title",
+          "default": "100% Secure Payments"
+        },
+        {
+          "type": "text",
+          "id": "badge_3_sub",
+          "label": "Badge 3 Subtext",
+          "default": "Trusted & safe checkout"
+        }
+      ]
+    },
+    {
+      "type": "features_with_icon_block",
+      "name": "Product Features",
+      "limit": 1,
+      "settings": []
+    }
+  ],
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer"
+    ]
+  },
+  "presets": [
+    {
+      "name": "Housious Product Page"
+    }
+  ]
+}
+{% endschema %}

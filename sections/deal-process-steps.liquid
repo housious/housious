@@ -1,0 +1,292 @@
+
+<section
+  class=" section-container {{ section.settings.container_width }}"
+  {{ section.shopify_attributes }}
+>
+  <div class="deal-process-section">
+    <div class="deal-process-container">
+
+      <div class="process-intro">
+        <h3>
+          How <span>Deal of the Day</span> Works?
+        </h3>
+
+        <p>
+          Explore featured products and refreshed daily offers.<br>
+          New deal content starts each day at 12:00 AM.
+        </p>
+      </div>
+
+      <div class="process-steps-grid">
+        {%- for block in section.blocks -%}
+          <div
+            class="step-card step-card--{{ forloop.index }}"
+            {{ block.shopify_attributes }}
+          >
+            <span class="step-number">{{ forloop.index }}</span>
+
+            <div class="step-icon" aria-hidden="true">
+
+              {% case forloop.index %}
+
+                {% when 1 %}
+                  <!-- Clock icon -->
+                  <svg
+                    viewBox="0 0 48 48"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <circle
+                      cx="24"
+                      cy="24"
+                      r="17"
+                      stroke="currentColor"
+                      stroke-width="2.8"
+                    />
+                    <path
+                      d="M24 13V24L31 28"
+                      stroke="currentColor"
+                      stroke-width="2.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M14 9L10 13"
+                      stroke="#ff5500"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                    />
+                  </svg>
+
+                {% when 2 %}
+                  <!-- Package icon -->
+                  <svg
+                    viewBox="0 0 52 52"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M10 17L26 8L42 17V36L26 45L10 36V17Z"
+                      stroke="currentColor"
+                      stroke-width="2.5"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M10 17L26 26L42 17"
+                      stroke="currentColor"
+                      stroke-width="2.5"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M26 26V45"
+                      stroke="currentColor"
+                      stroke-width="2.5"
+                      stroke-linecap="round"
+                    />
+                    <path
+                      d="M18 12L34 21"
+                      stroke="currentColor"
+                      stroke-width="2.5"
+                      stroke-linecap="round"
+                    />
+                    <path
+                      d="M34 12L18 21"
+                      stroke="currentColor"
+                      stroke-width="2.5"
+                      stroke-linecap="round"
+                    />
+                    <path
+                      d="M45 13L48 10"
+                      stroke="#ff5500"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                    />
+                    <path
+                      d="M46 18H50"
+                      stroke="#ff5500"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                    />
+                  </svg>
+
+                {% else %}
+                  <!-- Discount badge icon -->
+                  <svg
+                    viewBox="0 0 52 52"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M26 5L31 9L37 8L40 14L46 17L45 24L48 29L44 34L43 41L36 42L31 47L26 44L20 47L15 42L8 41L7 34L3 29L6 24L5 17L12 14L15 8L21 9L26 5Z"
+                      stroke="currentColor"
+                      stroke-width="2.4"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M20 33L32 19"
+                      stroke="#ff5500"
+                      stroke-width="2.6"
+                      stroke-linecap="round"
+                    />
+                    <circle
+                      cx="20"
+                      cy="20"
+                      r="2.4"
+                      stroke="#ff5500"
+                      stroke-width="2"
+                    />
+                    <circle
+                      cx="32"
+                      cy="32"
+                      r="2.4"
+                      stroke="#ff5500"
+                      stroke-width="2"
+                    />
+                  </svg>
+
+              {% endcase %}
+            </div>
+
+            <div class="step-text">
+              <h4>{{ block.settings.title }}</h4>
+
+              {% if block.settings.subtitle != blank %}
+                <p>{{ block.settings.subtitle }}</p>
+              {% endif %}
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+
+      <div class="process-share">
+        <span class="share-decoration share-decoration--left" aria-hidden="true">
+          <i></i>
+          <i></i>
+          <i></i>
+        </span>
+
+        <p>Loved today’s deals?</p>
+
+        <button
+          type="button"
+          class="deal-share-button"
+          onclick="
+            if (navigator.share) {
+              navigator.share({
+                title: 'Housious Deals',
+                url: window.location.href
+              });
+            } else {
+              navigator.clipboard.writeText(window.location.href);
+            }
+          "
+        >
+          <svg
+            class="share-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+          >
+            <circle cx="18" cy="5" r="2.5" stroke="currentColor" stroke-width="2"/>
+            <circle cx="6" cy="12" r="2.5" stroke="currentColor" stroke-width="2"/>
+            <circle cx="18" cy="19" r="2.5" stroke="currentColor" stroke-width="2"/>
+            <path d="M8.3 10.8L15.7 6.2" stroke="currentColor" stroke-width="2"/>
+            <path d="M8.3 13.2L15.7 17.8" stroke="currentColor" stroke-width="2"/>
+          </svg>
+
+          <span>Share Now</span>
+          <span class="share-arrow">›</span>
+        </button>
+
+        <span class="share-decoration share-decoration--right" aria-hidden="true">
+          <i></i>
+          <i></i>
+          <i></i>
+        </span>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Deal Process Steps",
+  "settings": [
+    {
+      "type": "select",
+      "id": "container_width",
+      "label": "Section Container Width",
+      "options": [
+        {
+          "value": "section-container--sm",
+          "label": "Small"
+        },
+        {
+          "value": "section-container--md",
+          "label": "Medium"
+        },
+        {
+          "value": "section-container--lg",
+          "label": "Large"
+        },
+        {
+          "value": "section-container--full",
+          "label": "Full Width"
+        }
+      ],
+      "default": "section-container--lg"
+    }
+  ],
+  "max_blocks": 3,
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "New deals start"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subtitle",
+          "default": "everyday at 12:00 AM"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Deal Process Steps",
+      "blocks": [
+        {
+          "type": "step",
+          "settings": {
+            "title": "New deals start",
+            "subtitle": "everyday at 12:00 AM"
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "title": "Choose your deal",
+            "subtitle": "Browse today’s featured offers"
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "title": "Complete checkout",
+            "subtitle": "Eligible offers apply at checkout"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

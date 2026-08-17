@@ -1,0 +1,196 @@
+<section class="deal-tabs-section section-container {{ section.settings.container_width }}">
+  <div class="deal-main-container" style="display: block; position: relative;">
+    
+    {%- comment -%} 1. CATEGORY TABS ROW {%- endcomment -%}
+    <div class="deal-tabs-header-row" style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 15px; margin-bottom: 25px; gap: 15px; overflow-x: auto; scrollbar-width: none;">
+      <div class="tabs-scroll-wrapper" style="display: flex; gap: 12px; align-items: center;">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'collection_tab' -%}
+            {%- assign tab_collection = collections[block.settings.collection] -%}
+            <button type="button" 
+                    class="deal-filter-tab-btn {% if forloop.first %}active{% endif %}" 
+                    data-tab-target="tab-{{ block.id }}"
+                    style="padding: 8px 16px; border: 1px solid #cbd5e1; background: #ffffff; border-radius: 6px; font-size: 13px; font-weight: 700; color: #475569; cursor: pointer; white-space: nowrap; transition: all 0.2s ease;">
+              {% if block.settings.tab_title != blank %}{{ block.settings.tab_title }}{% else %}{{ tab_collection.title }}{% endif %}
+            </button>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+      
+      {%- comment -%} Dropdown Selection Framework {%- endcomment -%}
+      <div class="deal-sort-wrapper" style="display: flex; align-items: center; gap: 8px; flex-shrink: 0;">
+        <span style="font-size: 12px; color: #64748b; font-weight: 600;">Sort by:</span>
+        <select class="deal-sort-select" style="padding: 6px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px; font-weight: 600; color: #1e293b; background: #ffffff;">
+          <option value="popularity">Popularity</option>
+          <option value="price-asc">Price: Low to High</option>
+          <option value="price-desc">Price: High to Low</option>
+        </select>
+      </div>
+    </div>
+
+    {%- comment -%} 2. PRODUCTS GRID WINDOW PANELS {%- endcomment -%}
+    <div class="deal-tabs-contents-wrapper" style="position: relative; width: 100%;">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'collection_tab' -%}
+          {%- assign tab_collection = collections[block.settings.collection] -%}
+          
+          <div class="deal-tab-grid-panel deal-slider-wrapper" 
+               id="tab-{{ block.id }}" 
+               style="{% if forloop.first %}display: block;{% else %}display: none;{% endif %} position: relative; width: 100%;">
+            
+            {%- if tab_collection != blank and tab_collection.products_count > 0 -%}
+              
+              {%- comment -%} GRID CONTAINER FOR PRODUCTS {%- endcomment -%}
+              <div class="deal-carousel-track deal-products-grid-container" style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; width: 100%; padding: 4px 2px;">
+                {%- for product in tab_collection.products limit: 8 -%}
+                  {%- assign raw_price = product.selected_or_first_available_variant.price | divided_by: 100.0 | round -%}
+                  
+                  {%- comment -%} Initial limit mein pehle 8 products dikhayenge, baaki hide rahenge load more ke liye {%- endcomment -%}
+                  <div class="deal-carousel-slide-item"
+                       data-price="{{ raw_price }}"
+                       data-index="{{ forloop.index }}"
+                       style="width: 100%; box-sizing: border-box;">
+                    {% render 'product-card', card_product: product, image_loading: 'lazy' %}
+                  </div>
+                {%- endfor -%}
+              </div>
+
+              {%- if tab_collection.products_count > 8 -%}
+                <div class="load-more-btn-wrapper" style="text-align: center; margin-top: 30px;">
+                  <a href="{{ tab_collection.url }}" class="deal-load-more-btn" style="display:inline-block;padding:10px 28px;background:#ff5500;color:#ffffff;border-radius:6px;font-size:14px;font-weight:700;text-decoration:none;">
+                    View All Products
+                  </a>
+                </div>
+              {%- endif -%}
+
+            {%- else -%}
+              <p style="text-align: center; color: #888; font-size: 14px; padding: 40px 0;">Is collection me koi active products nahi mile.</p>
+            {%- endif -%}
+
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+  </div>
+</section>
+
+{%- comment -%} 3. JAVA SCRIPT SWITCHING, SORTING & LOAD MORE ENGINE {%- endcomment -%}
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const tabButtons = document.querySelectorAll(".deal-filter-tab-btn");
+  const gridPanels = document.querySelectorAll(".deal-tab-grid-panel");
+
+  // Tab switching logic
+  tabButtons.forEach(button => {
+    button.addEventListener("click", function() {
+      tabButtons.forEach(btn => {
+        btn.style.backgroundColor = "#ffffff";
+        btn.style.color = "#475569";
+        btn.style.borderColor = "#cbd5e1";
+      });
+
+      gridPanels.forEach(panel => panel.style.display = "none");
+
+      this.style.backgroundColor = "#ff5500";
+      this.style.color = "#ffffff";
+      this.style.borderColor = "#ff5500";
+
+      const targetId = this.getAttribute("data-tab-target");
+      const targetPanel = document.getElementById(targetId);
+      if(targetPanel) {
+        targetPanel.style.display = "block";
+      }
+    });
+  });
+  
+  if(tabButtons.length > 0) {
+    tabButtons[0].style.backgroundColor = "#ff5500";
+    tabButtons[0].style.color = "#ffffff";
+    tabButtons[0].style.borderColor = "#ff5500";
+  }
+
+  // Sorting Engine for Grid Items
+  document.querySelectorAll(".deal-sort-select").forEach(select => {
+    select.addEventListener("change", function() {
+      const activePanel = document.querySelector(".deal-tab-grid-panel[style*='display: block']");
+      if (!activePanel) return;
+
+      const track = activePanel.querySelector(".deal-carousel-track");
+      if (!track) return;
+
+      let products = Array.from(track.querySelectorAll(".deal-carousel-slide-item"));
+
+      if (this.value === "popularity") {
+        products.sort((a, b) => {
+          return Number(a.getAttribute('data-index')) - Number(b.getAttribute('data-index'));
+        });
+      }
+
+      if (this.value === "price-asc") {
+        products.sort((a, b) => {
+          return Number(a.getAttribute('data-price')) - Number(b.getAttribute('data-price'));
+        });
+      }
+
+      if (this.value === "price-desc") {
+        products.sort((a, b) => {
+          return Number(b.getAttribute('data-price')) - Number(a.getAttribute('data-price'));
+        });
+      }
+
+      products.forEach(product => {
+        track.appendChild(product);
+      });
+    });
+  });
+});
+</script>
+
+{% schema %}
+{
+  "name": "Deal Category Tabs",
+  "settings": [
+    {
+      "type": "select",
+      "id": "container_width",
+      "label": "Container Width",
+      "options": [
+        { "value": "section-container--sm", "label": "Small" },
+        { "value": "section-container--md", "label": "Medium" },
+        { "value": "section-container--lg", "label": "Large" },
+        { "value": "section-container--xl", "label": "Extra Large" },
+        { "value": "section-container--full", "label": "Full Width" }
+      ],
+      "default": "section-container--lg"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection_tab",
+      "name": "Collection Tab Button",
+      "settings": [
+        {
+          "type": "text",
+          "id": "tab_title",
+          "label": "Custom Tab Name",
+          "info": "Leave blank to use Collection Title automatically."
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Select Collection"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Deal Category Tabs",
+      "blocks": [
+        { "type": "collection_tab" }
+      ]
+    }
+  ]
+}
+{% endschema %}

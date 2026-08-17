@@ -1,0 +1,582 @@
+{% comment %}
+  This section is used in the list-collections template to render a list of
+  collections.
+
+  https://shopify.dev/docs/storefronts/themes/architecture/templates/collection
+{% endcomment %}
+
+<div class="collections-header" style="text-align: center; margin-top: 30px ;">
+  {% if section.settings.explore_text != blank %}
+    <div class="collections-eyebrow">
+      <span class="collections-eyebrow-line"></span>
+
+      <span class="collections-eyebrow-text">
+        {{ section.settings.explore_text }}
+      </span>
+
+      <span class="collections-eyebrow-line"></span>
+    </div>
+  {% endif %}
+  <h1 style="font-size: 28px; margin-bottom: 10px;">{{ section.settings.heading_text }}</h1>
+  {% if section.settings.subheading_text != blank %}
+    <p style="color: #666; font-size: 16px; margin: 0;">{{ section.settings.subheading_text }}</p>
+  {% endif %}
+</div>
+
+{% comment %} <h1>{{ 'collections.title' | t }}</h1> {% endcomment %}
+
+<div
+  class="collections {{ section.settings.grid_item_width }} section-container {{ section.settings.container_width }}"
+  style="--grid-gap: {{ section.settings.grid_gap }}px"
+>
+  {% for collection in collections %}
+    {% if collection.featured_image %}
+      <a class="collection-card" href="{{ collection.url }}">
+          {% render 'image',
+            class: 'collection-card__image',
+            image: collection.featured_image,
+            width: 600,
+            height: 600,
+            crop: 'center'
+          %}
+
+        <div class="collection-card__content">
+          <h4>{{ collection.title }}</h4>
+
+          {% if collection.description %}
+            <p>{{ collection.description | strip_html | truncatewords: 15 }}</p>
+          {% endif %}
+        </div>
+      </a>
+    {% endif %}
+  {% endfor %}
+</div>
+
+{% comment %} {% stylesheet %}
+  .collections {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(var(--collection-card-size), 100%), 1fr));
+    gap: var(--grid-gap);
+  }
+  .collections--compact {
+    --collection-card-size: 160px;
+  }
+  .collections--full {
+    --collection-card-size: 280px;
+  }
+  .collection-card {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+{% endstylesheet %} {% endcomment %}
+
+{% stylesheet %}
+ 
+  .collections {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* 5 items ek line mein */
+    gap: 40px 20px; /* Vertical gap zyada, horizontal kam */
+    padding: 40px 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .collections-header {
+  width: 100%;
+  max-width: 900px;
+  margin: 30px auto 10px;
+  padding: 0 16px;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.collections-eyebrow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 8px;
+}
+
+.collections-eyebrow-line {
+  display: block;
+  width: 25px;
+  height: 1px;
+  background: #ff6a00;
+}
+
+.collections-eyebrow-text {
+  color: #ff6a00;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 6px;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.collections-main-heading {
+  margin: 0 0 8px;
+  font-size: clamp(34px, 5vw, 52px);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -1.5px;
+}
+
+.collections-heading-dark {
+  color: #111111;
+}
+
+.collections-heading-accent {
+  color: #ff6a00;
+}
+
+.collections-subheading {
+  margin: 0;
+  color: #666666;
+  font-size: clamp(14px, 1.5vw, 17px);
+  line-height: 1.5;
+}
+
+.collections-heading-decoration {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 14px;
+}
+
+.collections-heading-decoration-main {
+  width: 45px;
+  height: 2px;
+  background: #ff6a00;
+}
+
+.collections-heading-decoration-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #ff6a00;
+}
+
+.collections-heading-decoration-small {
+  width: 39px;
+  height: 1px;
+  background: #ff9b59;
+}
+
+@media screen and (max-width: 600px) {
+  .collections-header {
+    margin-top: 20px;
+    padding: 0 10px;
+  }
+
+  .collections-eyebrow {
+    gap: 9px;
+    margin-bottom: 7px;
+  }
+
+  .collections-eyebrow-line {
+    width: 18px;
+  }
+
+  .collections-eyebrow-text {
+    font-size: 9px;
+    letter-spacing: 4px;
+  }
+
+  .collections-main-heading {
+    margin-bottom: 7px;
+    font-size: clamp(27px, 9vw, 36px);
+    letter-spacing: -0.8px;
+  }
+
+  .collections-subheading {
+    font-size: 13px;
+  }
+
+  .collections-heading-decoration {
+    margin-top: 11px;
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .collections-main-heading {
+    font-size: 26px;
+  }
+
+  .collections-eyebrow-text {
+    letter-spacing: 3px;
+  }
+
+  .collections-subheading {
+    font-size: 12px;
+  }
+}
+
+  .collection-card {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: #333;
+  }
+
+  .collection-card__image {
+    border: 1px solid grey;
+    width: 100%;
+    aspect-ratio: 1 / 1; /* Perfectly square images */
+    object-fit: cover;
+    transition: opacity 0.5s ease;
+    margin-bottom: 15px;
+    border-radius: 50%;
+  }
+
+  .collection-card:hover .collection-card__image {
+    opacity: 0.8; /* Aesop jaisa soft hover effect */
+  }
+
+  /* .collection-card__content h4 {
+    
+    font-size: 14px;
+    font-weight: 600; 
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  } */
+
+  .collection-card__content h4 {
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0;
+    /* Change from flex to inline-flex */
+    display: inline-flex; 
+    align-items: center;
+    /* Remove justify-content: space-between; */
+  }
+
+  /* Arrow add karne ke liye */
+  /* .collection-card__content h4::after {
+    content: '→';
+    font-weight: 300;
+    
+  } */
+
+  /* .collection-card__content h4::after {
+    content: '→';
+    font-weight: 300;
+    margin-left: 10px; 
+  } */
+  .collections {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* Default: Desktop 5 columns */
+    gap: 40px 20px; 
+    padding: 40px 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  /* Tablet ke liye: 3 columns */
+  @media (max-width: 992px) {
+    .collections {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px 15px;
+    }
+  }
+
+  /* Mobile ke liye: 2 columns */
+  @media (max-width: 600px) {
+    .collections {
+      grid-template-columns: repeat(2, 1fr); /* Yahan 2 cards set kiye hain */
+      gap: 20px 10px;
+      padding: 10px 10px;
+    }
+  }
+
+  .collection-card {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: #333;
+  }
+
+  .collection-card__image {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    transition: opacity 0.5s ease;
+    margin-bottom: 12px;
+  }
+
+  .collection-card:hover .collection-card__image {
+    opacity: 0.8;
+  }
+
+ 
+
+  /* .collection-card__content h4::after {
+    content: '→';
+    font-weight: 300;
+  } */
+
+  .collection-card__content p {
+    display: none;
+  }
+  .collection-card {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: #333;
+    /* Add this line to center content horizontally */
+    align-items: center; 
+  }
+
+  .collection-card__content {
+    /* Ensure the text container is centered */
+    text-align: center;
+  }
+
+  .collection-card__content h4 {
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0;
+    /* Reset display to block or flex if you want to keep the arrow */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center; /* This ensures the text + arrow combo is centered */
+  }
+  /* Mobile view ke liye title aur subheading ko chota karna */
+@media (max-width: 600px) {
+  .collections-header h1 {
+    font-size: 20px !important; /* Title 28px se ghat kar 20px ho jayega */
+    margin-bottom: 8px !important;
+  }
+  
+  .collections-header p {
+    font-size: 14px !important; /* Subheading 16px se ghat kar 14px ho jayega */
+  }
+  
+  .collections-header {
+    margin: 20px 0 !important; /* Upar-neeche ka space bhi kam kiya */
+  }
+}
+  
+/* Mobile ke liye: 3 columns */
+  /* @media (max-width: 600px) {
+    .collections {
+      grid-template-columns: repeat(3, 1fr); 
+      gap: 15px 5px;
+      padding: 20px 5px;
+    }
+  } */
+
+  /* Mobile view: 3 columns, adjusted gaps and font sizes */
+/* @media (max-width: 600px) {
+  .collections {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px 15px; 
+    padding: 20px 10px;
+  }
+
+  .collections-header h1 {
+    font-size: 20px !important;
+    margin-bottom: 8px !important;
+  }
+  
+  .collections-header p {
+    font-size: 14px !important;
+  }
+  
+
+  .collection-card__content h4 {
+    font-size: 12px !important;
+
+  }
+
+
+  .collection-card__content h4::after {
+    font-size: 10px;
+    margin-left: 4px;
+  }
+} */
+@media (max-width: 600px) {
+  .collections {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px 15px; 
+    padding: 20px 10px;
+  }
+
+  /* Image aur title ke beech ka gap yahan se control karein */
+  .collection-card__image {
+    margin-bottom: 8px !important; /* Pehle 12px ya 15px hoga, isse kam kar diya */
+  }
+
+  .collections-header h1 {
+    font-size: 20px !important;
+    margin-bottom: 8px !important;
+  }
+  
+  .collections-header p {
+    font-size: 14px !important;
+  }
+  
+  .collection-card__content h4 {
+    font-size: 12px !important; 
+  }
+
+  .collection-card__content h4::after {
+    font-size: 10px;
+    margin-left: 4px;
+  }
+}
+{% endstylesheet %}
+
+{% comment %} {% stylesheet %}
+  .collections {
+  display: grid;
+
+  grid-template-columns: repeat(5, 1fr); 
+  gap: 15px; 
+  padding: 20px;
+}
+
+@media (max-width: 1024px) {
+  .collections {
+    grid-template-columns: repeat(3, 1fr); 
+  }
+}
+
+@media (max-width: 600px) {
+  .collections {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.collection-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: #333;
+}
+
+.collection-card__image {
+  
+  width: 120px; 
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+  border: 1px solid #eee;
+}
+
+.collection-card:hover .collection-card__image {
+  transform: scale(1.08);
+}
+
+.collection-card__content h4{
+  margin-top: 8px;
+  font-size: 14px; 
+  font-weight: 600;
+  text-align: center;
+}
+
+.collection-card__content p{
+  display: none;
+}
+
+{% endstylesheet %} {% endcomment %}
+
+{% comment %} {% schema %}
+{
+  "name": "t:general.collections_grid",
+  "settings": [
+    {
+      "type": "select",
+      "id": "grid_item_width",
+      "label": "t:labels.grid_item_width",
+      "options": [
+        { "value": "collections--compact", "label": "t:options.size.small" },
+        { "value": "collections--full", "label": "t:options.size.large" }
+      ],
+      "default": "collections--full"
+    },
+    {
+      "type": "range",
+      "id": "grid_gap",
+      "label": "t:labels.grid_gap",
+      "min": 0,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "default": 10
+    }
+  ],
+  "presets": [{ "name": "t:general.collections_grid" }]
+}
+{% endschema %} {% endcomment %}
+
+{% schema %}
+{
+  "name": "t:general.collections_grid",
+  "settings": [
+    {
+      "type": "select",
+      "id": "container_width",
+      "label": "Container Width",
+      "options": [
+        { "value": "section-container--lg", "label": "Large" },
+        { "value": "section-container--xl", "label": "Extra Large" },
+        { "value": "section-container--full", "label": "Full Width" }
+      ],
+      "default": "section-container--xl"
+    },
+    {
+      "type": "header",
+      "content": "Section Titles"
+    },
+    {
+      "type": "text",
+      "id": "heading_text",
+      "label": "Heading",
+      "default": "Hamari Collections"
+    },
+    {
+      "type": "text",
+      "id": "explore_text",
+      "label": "Top label",
+      "default": "Explore"
+    },
+    {
+      "type": "text",
+      "id": "subheading_text",
+      "label": "Subheading",
+      "default": "Aapke ghar ko aur khubsurat banane ke liye chuni hui chizein."
+    },
+    {
+      "type": "header",
+      "content": "Grid Settings"
+    },
+    {
+      "type": "select",
+      "id": "grid_item_width",
+      "label": "t:labels.grid_item_width",
+      "options": [
+        { "value": "collections--compact", "label": "t:options.size.small" },
+        { "value": "collections--full", "label": "t:options.size.large" }
+      ],
+      "default": "collections--full"
+    },
+    {
+      "type": "range",
+      "id": "grid_gap",
+      "label": "t:labels.grid_gap",
+      "min": 0,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "default": 10
+    }
+  ],
+  "presets": [{ "name": "t:general.collections_grid" }]
+}
+{% endschema %}

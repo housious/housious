@@ -1,0 +1,233 @@
+{%- style -%}
+  .housious-clean-foundations {
+    padding: 25px 4%; /* Spacing ko 100px se ghata kar 40px kar diya */
+    background-color: #ffffff;
+    
+  }
+  .foundations-max-container {
+    margin: 0 auto;
+  }
+  .foundations-clean-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px; /* Gap kam kiya taaki content pass me rahe */
+  }
+  .foundations-clean-card {
+    background: #ffffff;
+    padding-top: 15px; /* Top inner spacing kam ki */
+    border-top: 1px solid #e2e8f0; /* Ultra thin sleek divider */
+    transition: border-color 0.3s ease;
+  }
+  
+  .foundations-clean-card:hover {
+    border-top-color: {{ section.settings.accent_color }};
+  }
+
+  .foundations-clean-card .card-index {
+
+    font-size: 12px;
+    font-weight: 700;
+    color: {{ section.settings.accent_color }};
+    letter-spacing: 1px;
+    display: block;
+    margin-bottom: 8px; /* Element ke beech ka gap kam kiya */
+  }
+  
+  .foundations-clean-card h3 {
+   
+    color: {{ section.settings.title_color }};
+    font-size: 22px; /* Font thoda compact kiya */
+    font-weight: 600;
+    margin: 0 0 10px 0;
+    letter-spacing: -0.3px;
+  }
+  
+  .foundations-clean-card p {
+    font-size: 15px;
+    color: #4A5568;
+    line-height: 1.5; /* Line spacing tight ki */
+    margin: 0;
+  }
+
+  @media (max-width: 768px) {
+    .foundations-clean-grid {
+      grid-template-columns: 1fr;
+      gap: 25px;
+    }
+    .housious-clean-foundations {
+      padding:10px 4%;
+    }
+    .foundations-clean-card p {
+        font-size:10px;
+  }
+
+  .foundations-clean-card h3{
+ font-size:18px;
+  }
+  .foundations-clean-card .card-index{
+    display:none;
+  }}
+{%- endstyle -%}
+
+{% comment %}  <section class="housious-clean-foundations">  {% endcomment %}
+<section class="housious-clean-foundations section-container {{ section.settings.container_width }}">
+  <div class="foundations-max-container">
+    <div class="foundations-clean-grid">
+      {%- for block in section.blocks -%}
+        <div class="foundations-clean-card" {{ block.shopify_attributes }}>
+          <span class="card-index">// 0{{ forloop.index }}</span>
+          <h3>{{ block.settings.title }}</h3>
+          <p>{{ block.settings.description }}</p>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% comment %} {% schema %}
+{
+  "name": "Housious Foundations",
+  "max_blocks": 3,
+  "settings": [
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Heading Color",
+      "default": "#2E1A47"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent Color",
+      "default": "#E91E63"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "foundation_block",
+      "name": "Pillar Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Pillar Title",
+          "default": "Our Vision"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Pillar Description",
+          "default": "To redefine the Indian domestic landscape by making every home a sanctuary of order, peace, and aesthetic brilliance."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Housious Foundations",
+      "blocks": [
+        { "type": "foundation_block", "settings": { "title": "Our Vision" } },
+        { "type": "foundation_block", "settings": { "title": "Our Mission" } },
+        { "type": "foundation_block", "settings": { "title": "Core Values" } }
+      ]
+    }
+  ]
+}
+{% endschema %} {% endcomment %}
+{% schema %}
+{
+  "name": "Housious Foundations",
+  "max_blocks": 3,
+  "settings": [
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Heading Color",
+      "default": "#2E1A47"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent Color",
+      "default": "#E91E63"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "container_width",
+      "label": "Container Width",
+      "options": [
+        {
+          "value": "section-container--sm",
+          "label": "Small"
+        },
+        {
+          "value": "section-container--md",
+          "label": "Medium"
+        },
+        {
+          "value": "section-container--lg",
+          "label": "Large"
+        },
+        {
+          "value": "section-container--xl",
+          "label": "Extra Large"
+        },
+        {
+          "value": "section-container--full",
+          "label": "Full Width"
+        }
+      ],
+      "default": "section-container--lg"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "foundation_block",
+      "name": "Pillar Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Pillar Title",
+          "default": "Our Vision"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Pillar Description",
+          "default": "To redefine the Indian domestic landscape by making every home a sanctuary of order, peace, and aesthetic brilliance."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Housious Foundations",
+      "blocks": [
+        {
+          "type": "foundation_block",
+          "settings": {
+            "title": "Our Vision"
+          }
+        },
+        {
+          "type": "foundation_block",
+          "settings": {
+            "title": "Our Mission"
+          }
+        },
+        {
+          "type": "foundation_block",
+          "settings": {
+            "title": "Core Values"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

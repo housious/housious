@@ -1,0 +1,179 @@
+<div class="section-container {{ section.settings.container_width }}">
+
+    {% comment %} <div class="header-left-brand">
+    <h1 class="collection-main-title">{{ collection.title }}</h1>
+    {%- if section.settings.show_description and collection.description != blank -%}
+      <div class="collection-description-text">
+        {{ collection.description }}
+      </div>
+    {%- endif -%}
+  </div>
+   {% endcomment %}
+
+   <div class="subcollection-heading-wrap">
+  <h1 class="subcollection-heading">
+    {{ collection.title }}
+  </h1>
+
+  <span class="subcollection-heading-line"></span>
+</div>
+
+  <div class="subcollection-section">
+    <div class="subcollection-grid">
+      {%- for block in section.blocks -%}
+        {%- assign col = block.settings.collection -%}
+
+        {%- if col != blank -%}
+          {% comment %}
+            <a
+              href="{{ col.url }}"
+              class="subcollection-card"
+              {{ block.shopify_attributes }}
+            >
+          {% endcomment %}
+
+          <a
+            href="{{ col.url }}"
+         class="subcollection-card{% if collection.id == col.id %} active-sub-card{% endif %}"
+            {{ block.shopify_attributes }}
+          >
+            <div class="subcollection-image">
+              {%- if col.featured_image != blank -%}
+                <img
+                  src="{{ col.featured_image | image_url: width: 180, height: 180, crop: 'center' }}"
+                  alt="{{ col.title | escape }}"
+                  width="90"
+                  height="90"
+                  loading="lazy"
+                >
+
+              {%- elsif col.products.first.featured_image != blank -%}
+                <img
+                  src="{{ col.products.first.featured_image | image_url: width: 180, height: 180, crop: 'center' }}"
+                  alt="{{ col.title | escape }}"
+                  width="90"
+                  height="90"
+                  loading="lazy"
+                >
+
+              {%- else -%}
+                {{ 'collection-1' | placeholder_svg_tag: 'subcollection-placeholder' }}
+              {%- endif -%}
+            </div>
+
+            <span class="subcollection-title">
+              {{ col.title }}
+            </span>
+          </a>
+        {%- endif -%}
+      {%- endfor -%}
+
+      <!-- VIEW ALL -->
+
+      {%- if section.settings.show_view_all -%}
+        <a
+          href="{{ section.settings.view_all_link }}"
+          class="subcollection-card view-all-card"
+        >
+          <div class="subcollection-image">
+            <svg
+              width="30"
+              height="30"
+              viewBox="0 0 24 24"
+              fill="none"
+            >
+              <rect x="3" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/>
+              <rect x="14" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/>
+              <rect x="3" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/>
+              <rect x="14" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/>
+            </svg>
+          </div>
+
+          <span class="subcollection-title">
+            {{ section.settings.view_all_text }}
+          </span>
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Collection Banner Grid",
+
+  "settings": [
+    {
+      "type": "select",
+      "id": "container_width",
+      "label": "Container Width",
+
+      "options": [
+        {
+          "value": "section-container--sm",
+          "label": "Small"
+        },
+        {
+          "value": "section-container--md",
+          "label": "Medium"
+        },
+        {
+          "value": "section-container--lg",
+          "label": "Large"
+        },
+        {
+          "value": "section-container--xl",
+          "label": "Extra Large"
+        },
+        {
+          "value": "section-container--full",
+          "label": "Full Width"
+        }
+      ],
+
+      "default": "section-container--lg"
+    },
+
+    {
+      "type": "checkbox",
+      "id": "show_view_all",
+      "label": "Show View All",
+      "default": true
+    },
+
+    {
+      "type": "text",
+      "id": "view_all_text",
+      "label": "View All Text",
+      "default": "View All"
+    },
+
+    {
+      "type": "url",
+      "id": "view_all_link",
+      "label": "View All Link"
+    }
+  ],
+
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "Collection",
+
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Select Collection"
+        }
+      ]
+    }
+  ],
+
+  "presets": [
+    {
+      "name": "Collection Banner Grid"
+    }
+  ]
+}
+{% endschema %}

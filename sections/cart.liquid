@@ -1,0 +1,410 @@
+
+
+{% comment %} <style>
+  /* CSS for Modern Look */
+  .cart-page { max-width: 1000px; margin: 40px auto; padding: 20px; font-family: sans-serif; }
+  .cart-item { display: grid; grid-template-columns: 100px 2fr 1fr 1fr; align-items: center; gap: 20px; padding: 20px 0; border-bottom: 1px solid #eee; }
+  .item-image img { width: 100px; height: 100px; object-fit: cover; border-radius: 8px; }
+  .qty-selector { display: flex; align-items: center; gap: 10px; }
+  .qty-selector input { width: 50px; padding: 8px; border: 1px solid #ccc; text-align: center; }
+  .checkout-btn { background: #000; color: #fff; padding: 15px 30px; border: none; cursor: pointer; width: 100%; font-size: 18px; margin-top: 20px; }
+  .remove-btn { color: #ff0000; text-decoration: underline; cursor: pointer; border: none; background: none; }
+</style>
+
+<div class="cart-page">
+  <h1>Your Shopping Cart</h1>
+  <form action="{{ routes.cart_url }}" method="post" id="cart-form">
+    <div id="cart-items">
+      {% for item in cart.items %}
+        <div class="cart-item">
+          <div class="item-image">
+            <img src="{{ item.image | img_url: 'medium' }}" alt="{{ item.title }}">
+          </div>
+          <div>
+            <h3>{{ item.product.title }}</h3>
+            <p>{{ item.price | money }}</p>
+          </div>
+          <div class="qty-selector">
+            <input type="number" name="updates[]" value="{{ item.quantity }}" min="1">
+          </div>
+          <div style="text-align: right;">
+            <a href="{{ item.url_to_remove }}" class="remove-btn">Remove</a>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    <div style="margin-top: 30px; text-align: right;">
+      <h2>Subtotal: {{ cart.total_price | money }}</h2>
+      <button type="submit" name="checkout" class="checkout-btn">Proceed to Checkout</button>
+    </div>
+  </form>
+</div> {% endcomment %}
+
+<style>
+
+  .cart-container {
+  display: flex;
+  gap: 40px;
+  margin: 20px 0;
+  align-items: flex-start;
+}
+
+
+  {% comment %} .cart-items { flex: 2; } {% endcomment %}
+   .cart-items { 
+    flex: 2; 
+    max-height: 600px; /* Adjust this height as needed */
+    overflow-y: auto;  /* This enables the scrollbar */
+    padding-right: 15px; /* Adds space for the scrollbar */
+  }
+.cart-items::-webkit-scrollbar-track {
+  background: transparent; /* Track invisible rahega */
+}
+  .cart-items::-webkit-scrollbar { width: 4px; }
+  .cart-items::-webkit-scrollbar-thumb {
+  background: #e0e0e0; /* Light grey color */
+  border-radius: 10px;
+}
+   
+  .order-summary { flex: 1; border: 1px solid #eee; padding: 25px; border-radius: 8px; }
+  
+  /* Item Row Styling */
+  .cart-row { display: flex; gap: 20px; border-bottom: 1px solid #eee; padding: 20px 0; align-items: start; }
+  .item-img { width: 100px; height: 100px; border-radius: 8px; object-fit: cover; }
+  .item-details { flex-grow: 1; }
+  .qty-btn-group { display: flex; align-items: center; border: 1px solid #ccc; width: fit-content; border-radius: 4px; margin-top: 10px; }
+  .qty-btn-group button, .qty-btn-group input { border: none; padding: 5px 10px; background: transparent; cursor: pointer; }
+  .qty-btn-group input { width: 40px; text-align: center; }
+
+  /* Summary Box */
+  .summary-row { display: flex; justify-content: space-between; margin: 15px 0; font-size: 16px; }
+  .checkout-btn { background: #F47521; color: #fff; width: 100%; padding: 15px; border: none; cursor: pointer; border-radius: 5px; font-weight: bold; }
+
+  /* Remove Arrows */
+  .qty-btn-group input::-webkit-outer-spin-button,
+  .qty-btn-group input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  .qty-btn-group input[type=number] { -moz-appearance: textfield; }
+
+  @media (max-width: 768px) {
+    .cart-container { flex-direction: column; gap: 20px; padding: 10px; }
+    .order-summary { width: 100%; box-sizing: border-box; }
+    .cart-row { gap: 10px; }
+    .item-img { width: 70px; height: 70px; }
+    h1 { font-size: 22px; }
+    .qty-btn-group button { padding: 5px 10px; }
+  }
+
+  /* Summary Box */
+  .summary-row { display: flex; justify-content: space-between; margin: 15px 0; font-size: 16px; }
+  .checkout-btn { background: #F47521; color: #fff; width: 100%; padding: 15px; border: none; cursor: pointer; border-radius: 5px; font-weight: bold; }
+
+/* Mobile ke liye grid ko slider/list mein badalna */
+@media (max-width: 768px) {
+  .product-grid {
+    display: flex !important;
+    overflow-x: auto !important; /* Slide karne ki permission */
+    scroll-snap-type: x mandatory;
+    gap: 15px !important;
+    padding-bottom: 10px;
+  }
+
+  .grid-item {
+    flex: 0 0 70% !important; /* Har product screen ka 70% space lega */
+    scroll-snap-align: start;
+  }
+}
+
+/* Scrollbar ko hide karne ke liye (Optional) */
+.product-grid::-webkit-scrollbar {
+  display: none;
+}
+  
+
+.cart-payment-icons img {
+  transition: transform 0.3s ease;
+  cursor: default;
+}
+.cart-payment-icons img:hover {
+  transform: scale(1.1); /* Hover karne par icons halka sa zoom honge */
+}
+.cart-recommendations h2 {
+  margin-bottom: 25px; /* Adjust this value to get the amount of space you want */
+}
+
+</style>
+
+{% comment %} <div class="cart-container"> {% endcomment %}
+ <div class="cart-container section-container {{ section.settings.container_width }}">
+  <div class="cart-items">
+    <h1>Your Cart ({{ cart.item_count }})</h1>
+    
+    {% for item in cart.items %}
+    <div class="cart-row" data-line="{{ forloop.index }}">
+      <img src="{{ item.image | img_url: 'medium' }}" class="item-img" alt="{{ item.title }}">
+      
+      <div class="item-details">
+        <h4>{{ item.product.title }}</h4>
+        {% comment %} <p style="font-size: 12px; color: #666;">{{ item.variant.title }}</p> {% endcomment %}
+        
+        <div class="qty-btn-group">
+          <button type="button" class="qty-btn" data-change="-1">-</button>
+          <input type="number" value="{{ item.quantity }}" min="1" class="qty-input" readonly>
+          <button type="button" class="qty-btn" data-change="1">+</button>
+        </div>
+      </div>
+
+      <div style="text-align: right;">
+        <p><strong class="line-price">{{ item.final_line_price | money }}</strong></p>
+        <button type="button" class="remove-btn" style="color:red; background:none; border:none; cursor:pointer; font-size: 12px;">Remove</button>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="order-summary">
+    <h3>Order Summary</h3>
+    <div class="summary-row"><span>Subtotal</span> <span>{{ cart.total_price | money }}</span></div>
+    <div class="summary-row"><span>Shipping</span> <span>Calculated at checkout</span></div>
+    <hr>
+    <div class="summary-row" style="font-size: 18px;"><strong>Total</strong> <strong>{{ cart.total_price | money }}</strong></div>
+    
+    <form action="/checkout" method="get">
+      <button type="submit" class="checkout-btn">Checkout</button>
+    </form>
+
+    <div class="coupon-section" style="margin: 20px 0;">
+  <label for="coupon-input" style="font-size: 14px;">Have a coupon code?</label>
+  <div style="display: flex; gap: 5px; margin-top: 5px;">
+    <input type="text" id="coupon-input" placeholder="Enter code" style="padding: 8px; border: 1px solid #ccc; border-radius: 4px; flex-grow: 1;">
+    <button type="button" id="apply-coupon" style="padding: 8px 15px; background: #333; color: #fff; border: none; border-radius: 4px; cursor: pointer;">Apply</button>
+  </div>
+  <p id="coupon-message" style="font-size: 12px; margin-top: 5px;"></p>
+</div>
+
+
+<div class="cart-payment-icons" style="display: flex; justify-content: center; gap: 10px; margin-top: 20px;">
+  <svg width="40" height="25" viewBox="0 0 38 24"><path fill="#1a1f71" d="M35 0H3C1.3 0 0 1.3 0 3v18c0 1.7 1.3 3 3 3h32c1.7 0 3-1.3 3-3V3c0-1.7-1.3-3-3-3z"/><path fill="#fff" d="M12.9 17.5l-2.4-11H7.8l-1.8 8.8-1.5-7.7c-.2-.7-.7-1.1-1.3-1.1H1.5l.1.3c.7.2 1.5.5 2 1.1l2.4 9.1h2.9l2.4-11.2h2.9L12.9 17.5z"/></svg>
+  
+  <svg width="40" height="25" viewBox="0 0 38 24"><circle cx="12" cy="12" r="12" fill="#eb001b"/><circle cx="26" cy="12" r="12" fill="#f79e1b"/><path fill="#ff5f00" d="M19 12l-7-6.06v12.12L19 12z"/></svg>
+
+  <svg width="40" height="25" viewBox="0 0 40 25" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="40" height="25" rx="4" fill="#6739B6"/><path d="M12 7h16v11H12V7z" fill="white"/><path d="M15 10v5h2v-3h2v3h2v-3h2v3h2v-5H15z" fill="#6739B6"/></svg>
+</div>
+
+  </div>
+  
+</div>
+{% comment %} <div class="cart-recommendations" style="max-width: 1100px; margin: 40px auto; padding: 20px;"> {% endcomment %}
+ <div class="cart-recommendations section-container {{ section.settings.container_width }}">
+  <h2>You May Also Like</h2>
+  
+  <div class="product-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;">
+    {% for product in collections.all.products limit: 3 %}
+      <div class="grid-item">
+        {% render 'product-card', card_product: product %}
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+
+
+{% comment %} <script>
+document.querySelectorAll('.qty-btn, .remove-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    let row = this.closest('.cart-row');
+    let line = row.getAttribute('data-line');
+    let input = row.querySelector('.qty-input');
+    let newQty = parseInt(input.value) + (this.dataset.change ? parseInt(this.dataset.change) : 0);
+    
+    if (this.classList.contains('remove-btn')) newQty = 0;
+
+    fetch('/cart/change.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ line: line, quantity: newQty })
+    })
+    .then(res => res.json())
+    .then(cart => {
+      if (newQty === 0) {
+        row.remove();
+      } else {
+        input.value = newQty;
+        // Price ko manually format karein (Currency symbol ke saath)
+        let updatedItem = cart.items.find(item => item.key === cart.items[line-1].key);
+        row.querySelector('.line-price').innerText = "₹" + (updatedItem.final_line_price / 100).toFixed(2);
+      }
+      
+      // Total price update
+      document.querySelector('.summary-row strong:last-child').innerText = "₹" + (cart.total_price / 100).toFixed(2);
+      
+      // Cart count update (header mein)
+      document.querySelector('h1').innerText = "Your Cart (" + cart.item_count + ")";
+    })
+    .catch(err => {
+      console.error("Error updating cart:", err);
+      location.reload(); // Agar koi error aaye toh fallback
+    });
+  });
+});
+</script> {% endcomment %}
+
+{% comment %} <script>
+// Event Delegation: Hum buttons ke bajaye document par click sunenge
+document.addEventListener('click', function(event) {
+  // Check karein ki click "qty-btn" ya "remove-btn" par hua hai
+  let btn = event.target.closest('.qty-btn, .remove-btn');
+  if (!btn) return;
+
+  let row = btn.closest('.cart-row');
+  let line = row.getAttribute('data-line');
+  let input = row.querySelector('.qty-input');
+  
+  // Calculate quantity
+  let change = btn.classList.contains('qty-btn') ? parseInt(btn.dataset.change) : 0;
+  let newQty = btn.classList.contains('remove-btn') ? 0 : parseInt(input.value) + change;
+  
+  if (newQty < 0) return; // Negative quantity na jaye
+
+  // UI ko turant response dene ke liye loading effect
+  btn.style.opacity = "0.5";
+
+  fetch('/cart/change.js', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ line: line, quantity: newQty })
+  })
+  .then(res => res.json())
+  .then(cart => {
+    btn.style.opacity = "1";
+    
+    if (newQty === 0) {
+      row.remove();
+    } else {
+      input.value = newQty;
+      // Sahi item ka price dhundna
+      let updatedItem = cart.items.find((item, index) => (index + 1) == line);
+      if(updatedItem) {
+        row.querySelector('.line-price').innerText = "₹" + (updatedItem.final_line_price / 100).toFixed(2);
+      }
+    }
+    
+    // Total price aur header update
+    document.querySelector('.summary-row strong:last-child').innerText = "₹" + (cart.total_price / 100).toFixed(2);
+    document.querySelector('h1').innerText = "Your Cart (" + cart.item_count + ")";
+  })
+  .catch(err => {
+    console.error("Error:", err);
+    btn.style.opacity = "1";
+  });
+});
+</script> {% endcomment %}
+
+<script>
+// Event Delegation: Hum buttons ke bajaye document par click sunenge
+document.addEventListener('click', function(event) {
+  // Check karein ki click "qty-btn" ya "remove-btn" par hua hai
+  let btn = event.target.closest('.qty-btn, .remove-btn');
+  if (!btn) return;
+
+  let row = btn.closest('.cart-row');
+  let line = row.getAttribute('data-line');
+  let input = row.querySelector('.qty-input');
+  
+  // Calculate quantity
+  let change = btn.classList.contains('qty-btn') ? parseInt(btn.dataset.change) : 0;
+  let newQty = btn.classList.contains('remove-btn') ? 0 : parseInt(input.value) + change;
+  
+  if (newQty < 0) return; // Negative quantity na jaye
+
+  // UI ko turant response dene ke liye loading effect
+  btn.style.opacity = "0.5";
+
+  fetch('/cart/change.js', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ line: line, quantity: newQty })
+  })
+  .then(res => res.json())
+  .then(cart => {
+    btn.style.opacity = "1";
+    
+    if (newQty === 0) {
+      row.remove();
+    } else {
+      input.value = newQty;
+      // Sahi item ka price dhundna
+      let updatedItem = cart.items.find((item, index) => (index + 1) == line);
+      if(updatedItem) {
+        row.querySelector('.line-price').innerText = "₹" + (updatedItem.final_line_price / 100).toFixed(2);
+      }
+    }
+    
+    // Total price aur header update
+    document.querySelector('.summary-row strong:last-child').innerText = "₹" + (cart.total_price / 100).toFixed(2);
+    document.querySelector('h1').innerText = "Your Cart (" + cart.item_count + ")";
+  })
+  .catch(err => {
+    console.error("Error:", err);
+    btn.style.opacity = "1";
+  });
+});
+</script>
+
+
+<script>
+document.getElementById('apply-coupon').addEventListener('click', function() {
+  const couponCode = document.getElementById('coupon-input').value.trim();
+  const messageElement = document.getElementById('coupon-message');
+  
+  if (couponCode === "") {
+    messageElement.innerText = "Please enter a valid code.";
+    messageElement.style.color = "red";
+    return;
+  }
+
+  // Redirect to checkout with the discount code applied
+  // Shopify automatically handles this parameter
+  window.location.href = "/checkout?discount=" + encodeURIComponent(couponCode);
+});
+</script>
+
+{% schema %}
+{
+  "name": "Cart",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "container_width",
+      "label": "Container Width",
+      "options": [
+        {
+          "value": "section-container--sm",
+          "label": "Small"
+        },
+        {
+          "value": "section-container--md",
+          "label": "Medium"
+        },
+        {
+          "value": "section-container--lg",
+          "label": "Large"
+        },
+        {
+          "value": "section-container--xl",
+          "label": "Extra Large"
+        },
+        {
+          "value": "section-container--full",
+          "label": "Full Width"
+        }
+      ],
+      "default": "section-container--lg"
+    }
+  ]
+}
+{% endschema %}

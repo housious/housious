@@ -1,0 +1,39 @@
+{% comment %} {{ 'custom-reviews.css' | asset_url | stylesheet_tag }}
+
+<section class="customer-reviews page-width">
+  <div class="AirReviews-Widget AirReviews-Widget--Block"></div>
+</section>
+
+{% schema %}
+{
+  "name": "Customer Reviews",
+  "presets": [
+    {
+      "name": "Customer Reviews"
+    }
+  ]
+}
+{% endschema %} {% endcomment %}
+
+{{ 'custom-reviews.css' | asset_url | stylesheet_tag }}
+
+<section class="customer-reviews page-width">
+  <div class="reviews-section-header">
+    <h2>Customer Reviews</h2>
+  </div>
+
+  <div class="housious-custom-reviews-wrapper">
+    <div class="AirReviews-Widget AirReviews-Widget--Block"></div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Customer Reviews",
+  "presets": [
+    {
+      "name": "Customer Reviews"
+    }
+  ]
+}
+{% endschema %}

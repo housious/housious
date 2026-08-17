@@ -1,0 +1,405 @@
+{{ 'header.css' | asset_url | stylesheet_tag }}
+
+<header class="house-header section-container {{ section.settings.container_width }}">
+
+    <div class="header-top">
+
+      <!-- Logo -->
+      <div class="header-logo">
+        {% if section.settings.logo != blank %}
+          <a href="{{ routes.root_url }}">
+            <img
+              src="{{ section.settings.logo | image_url: width: 300 }}"
+              alt="{{ shop.name }}"
+              loading="lazy">
+          </a>
+        {% else %}
+          <a href="{{ routes.root_url }}">
+            <h2>{{ shop.name }}</h2>
+          </a>
+        {% endif %}
+      </div>
+
+      <!-- Category Button -->
+      <div class="category-wrapper">
+
+        <button class="desktop-category-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+            <path d="M4 6H20" stroke="currentColor" stroke-width="2"/>
+            <path d="M4 12H20" stroke="currentColor" stroke-width="2"/>
+            <path d="M4 18H20" stroke="currentColor" stroke-width="2"/>
+          </svg>
+          <span>All Categories</span>
+        </button>
+
+        <div class="mega-menu">
+
+          <div class="mega-left">
+
+            <div class="mega-sidebar">
+
+              {% for parent in linklists[section.settings.category_menu].links %}
+
+                <div class="mega-parent {% if forloop.first %}active{% endif %}">
+
+                  <a href="{{ parent.url }}">
+                    {{ parent.title }}
+                  </a>
+
+                  <div class="mega-content">
+
+                    <div class="mega-section">
+
+                      <div class="mega-section-head">
+                        <h4>{{ parent.title }}</h4>
+                        <a href="{{ parent.url }}" class="view-all">View All →</a>
+                      </div>
+
+                      <div class="mega-items-row">
+
+                        {% assign max_items = 8 %}
+
+                        {% for child in parent.links limit: max_items %}
+                          <a href="{{ child.url }}" class="mega-item">
+                            {% if child.type == 'collection_link' and child.object.featured_image %}
+                              <img
+                                src="{{ child.object.featured_image | image_url: width: 120 }}"
+                                alt="{{ child.title }}">
+                            {% endif %}
+                            <span>{{ child.title }}</span>
+                          </a>
+                        {% endfor %}
+
+                        {% if parent.links.size > max_items %}
+                          <a href="{{ parent.url }}" class="mega-item mega-item-view-all">
+                            <div class="view-all-circle">+</div>
+                            <span>View All</span>
+                          </a>
+                        {% endif %}
+
+                      </div>
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+              {% endfor %}
+
+            </div>
+
+          </div>
+
+          {%- assign offer_blocks = section.blocks | where: "type", "offer" -%}
+          {%- if offer_blocks.size > 0 -%}
+            <div class="mega-offers">
+              {%- for block in offer_blocks -%}
+                  <a
+                  href="{{ block.settings.link | default: '#' }}"
+                  class="mega-offer-card"
+                  style="background-color:{{ block.settings.bg_color | default: '#f5f5f5' }};"
+                  {{ block.shopify_attributes }}>
+
+                  <div class="mega-offer-text">
+                    {% if block.settings.tag != blank %}
+                      <span class="mega-offer-tag">{{ block.settings.tag }}</span>
+                    {% endif %}
+
+                    {% if block.settings.title != blank %}
+                      <h5>{{ block.settings.title }}</h5>
+                    {% endif %}
+
+                    {% if block.settings.subtitle != blank %}
+                      <p>{{ block.settings.subtitle }}</p>
+                    {% endif %}
+
+                    <span class="mega-offer-btn">Shop Now →</span>
+                  </div>
+
+                  {% if block.settings.image != blank %}
+                    <div class="mega-offer-image">
+                      <img
+                        src="{{ block.settings.image | image_url: width: 200 }}"
+                        alt="{{ block.settings.title | escape }}"
+                        loading="lazy">
+                    </div>
+                  {% endif %}
+
+                </a>
+              {%- endfor -%}
+            </div>
+          {%- endif -%}
+
+        </div>
+
+      </div>
+
+      <!-- Search -->
+      <!-- Search -->
+      <div class="header-search" id="live-search-wrapper">
+
+        <form action="{{ routes.search_url }}" method="get" id="live-search-form" role="search">
+
+          <input
+            type="search"
+            name="q"
+            id="live-search-input"
+            placeholder="Search for products, categories or brands..."
+            autocomplete="off"
+            autocorrect="off"
+            spellcheck="false">
+
+          <button type="submit">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/>
+              <path d="M20 20L17 17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </button>
+
+        </form>
+
+        <div id="live-search-results" class="live-search-results"></div>
+
+      </div>
+
+      <!-- Icons -->
+      <div class="header-icons">
+
+        <div class="category-wrapper">
+
+          <button class="category-btn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+              <path d="M4 6H20" stroke="currentColor" stroke-width="2"/>
+              <path d="M4 12H20" stroke="currentColor" stroke-width="2"/>
+              <path d="M4 18H20" stroke="currentColor" stroke-width="2"/>
+            </svg>
+            <span>All Categories</span>
+          </button>
+        </div>
+
+        <!-- Account -->
+        <a href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}" class="icon-box account-box">
+
+          <svg viewBox="0 0 24 24" fill="none">
+            <path
+              d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12Z"
+              stroke="currentColor"
+              stroke-width="1.8"/>
+
+            <path
+              d="M4 21C4 17.6863 7.58172 15 12 15C16.4183 15 20 17.6863 20 21"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"/>
+          </svg>
+
+          <div class="account-content">
+            <small>Hi, Customer</small>
+            <strong>My Account</strong>
+          </div>
+          
+        </a>
+
+        <!-- Wishlist -->
+        {% comment %} <a href="/pages/wishlist" class="icon-box">
+
+          <svg viewBox="0 0 24 24" fill="none" class="heart-icon">
+            <path
+              d="M12 20.5L10.55 19.18C5.4 14.5 2 11.42 2 7.65C2 4.57 4.42 2.15 7.5 2.15C9.24 2.15 10.91 2.96 12 4.24C13.09 2.96 14.76 2.15 16.5 2.15C19.58 2.15 22 4.57 22 7.65C22 11.42 18.6 14.5 13.45 19.18L12 20.5Z"
+              stroke="currentColor"
+              stroke-width="1.8"/>
+          </svg>
+
+          <span class="icon-text">Wishlist</span>
+
+        </a> {% endcomment %}
+
+          <xb-wishlist-header class='xb-wishlist__header'>
+            <div class='xb-header__icon'>
+              <span class='svg-wrapper icon-box'>
+                <svg viewBox="0 0 24 24" fill="none" class="heart-icon">
+                      <path
+                        d="M12 20.5L10.55 19.18C5.4 14.5 2 11.42 2 7.65C2 4.57 4.42 2.15 7.5 2.15C9.24 2.15 10.91 2.96 12 4.24C13.09 2.96 14.76 2.15 16.5 2.15C19.58 2.15 22 4.57 22 7.65C22 11.42 18.6 14.5 13.45 19.18L12 20.5Z"
+                        stroke="currentColor"
+                        stroke-width="1.8"/>
+                    </svg>
+                    <span class="icon-text">Wishlist</span>
+              </span>
+            </div>
+            <span class='xb-product-quantity xb-product-quantity--bottom-right'></span>
+          </xb-wishlist-header>
+
+        <!-- Cart -->
+        <a href="{{ routes.cart_url }}" class="icon-box cart-box" data-cart-toggle>
+
+          <div class="cart-icon-wrap">
+
+            <svg viewBox="0 0 24 24" fill="none">
+
+              <path
+                d="M3 4H5L7.5 15H18L21 7H8"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"/>
+
+              <circle cx="9" cy="20" r="1.5" fill="currentColor"/>
+              <circle cx="18" cy="20" r="1.5" fill="currentColor"/>
+
+            </svg>
+
+            <span
+              class="cart-count"
+              data-cart-count
+              aria-live="polite"
+              aria-atomic="true"
+              {% if cart.item_count == 0 %}hidden{% endif %}
+            >
+              {{ cart.item_count }}
+            </span>
+
+          </div>
+
+          <span class="icon-text">Cart</span>
+
+        </a>
+
+      </div>
+
+    </div>
+
+    
+    <!-- Navigation -->
+    <nav class="main-navigation">
+
+      <ul>
+
+      {% assign is_live_page = false %}
+
+      {% if canonical_url contains '/pages/live-shopping' %}
+        {% assign is_live_page = true %}
+      {% endif %}
+
+
+        {% for link in linklists[section.settings.menu].links %}
+
+          <li class="{% if link.active %}active{% endif %}">
+
+            <a href="{{ link.url }}">
+              {{ link.title }}
+            </a>
+
+            {% if link.url contains '/pages/live-shopping' %}
+               <span class="live-badge">
+                  <span class="live-dot"></span>
+                  LIVE
+                </span>
+            {% endif %}
+
+          </li>
+
+        {% endfor %}
+
+      </ul>
+
+    </nav>
+
+</header>
+
+<script src="{{ 'header.js' | asset_url }}" defer></script>
+
+{% schema %}
+{
+  "name": "Custom Header",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Navigation Menu"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "container_width",
+      "label": "Container Width",
+      "options": [
+        {
+          "value": "section-container--sm",
+          "label": "Small"
+        },
+        {
+          "value": "section-container--md",
+          "label": "Medium"
+        },
+        {
+          "value": "section-container--lg",
+          "label": "Large"
+        },
+        {
+          "value": "section-container--xl",
+          "label": "Extra Large"
+        },
+        {
+          "value": "section-container--full",
+          "label": "Full Width"
+        }
+        
+      ],
+      "default": "section-container--lg"
+    },
+    {
+    "type": "link_list",
+    "id": "category_menu",
+    "label": "All Categories Mega Menu"
+  }
+  ],
+  "blocks": [
+  {
+    "type": "offer",
+    "name": "Offer Banner",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Banner"
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title"
+      },
+      {
+        "type": "text",
+        "id": "subtitle",
+        "label": "Subtitle"
+      },
+      {
+        "type": "url",
+        "id": "link",
+        "label": "Link"
+      },
+      {
+        "type": "color",
+        "id": "bg_color",
+        "label": "Background Color",
+        "default": "#fdf2e9"
+      }
+    ]
+  }
+],
+  "presets": [
+    {
+      "name": "Custom Header"
+    }
+  ]
+}
+{% endschema %}

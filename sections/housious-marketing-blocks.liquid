@@ -1,0 +1,644 @@
+
+
+{% comment %} <div class="canva-marketing-engine" style="background-color: {{ section.settings.bg_color }};">
+    <div class="section-container {{ section.settings.container_width }}"> {% endcomment %}
+<div class="section-container {{ section.settings.container_width }}">
+  <div class="canva-marketing-engine" style="background-color: {{ section.settings.bg_color }};">
+ 
+        <div class="canva-main-split-layout-grid">
+            <div class="canva-left-side-stack">
+              <div class="canva-combo-gift-sub-row">
+                <div class="canva-card combo-box-card">
+                  <div class="combo-card-split-content">
+                    <div class="combo-card-text-side">
+                      <div class="card-text-header">
+                        <span class="orange-star-tag">★ {{ section.settings.combo_tag }}</span>
+                        <h3 class="canva-card-title">{{ section.settings.combo_title }}</h3>
+                      </div>
+                      <a
+                      href="{{ section.settings.combo_button_link }}"
+                      class="mobile-btn canva-solid-orange-btn combo-add-to-cart-btn"
+                    >
+                      <span>{{ section.settings.combo_btn_text }}</span>
+
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="18"
+                        height="18"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        aria-hidden="true"
+                      >
+                        <path
+                          d="M5 12H19"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                        />
+                        <path
+                          d="M13 6L19 12L13 18"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                    </a>
+                    </div>
+                    <div class="combo-card-image-side">
+                      {%- if product.featured_image != blank -%}
+                        <div class="canva-image-frame dynamic-product-preview-frame">
+                          <img
+                            src="{{ product.featured_image | image_url: width: 260 }}"
+                            alt="{{ product.title | escape }}"
+                            loading="lazy"
+                          >
+                        </div>
+                      {%- else -%}
+                        {%- if section.settings.combo_image != blank -%}
+                          <div class="canva-image-frame">
+                            <img
+                              src="{{ section.settings.combo_image | image_url: width: 260 }}"
+                              alt="Combo promotion preview"
+                              loading="lazy"
+                            >
+                          </div>
+                        {%- endif -%}
+                      {%- endif -%}
+                    </div>
+                  </div>
+                  {% comment %} <button
+                    type="button"
+                    class="desktop-btn canva-solid-orange-btn combo-add-to-cart-btn"
+                    data-variant-one="{{ product.selected_or_first_available_variant.id }}"
+                    data-variant-two="{{ section.settings.combo_product.selected_or_first_available_variant.id }}">
+                    {{ section.settings.combo_btn_text }} →
+                  </button> {% endcomment %}
+                </div>
+
+                {%- assign gift_product = product.metafields.custom.prepaid_free_gift_product.value -%}
+                <div class="canva-card free-gift-card">
+                  <div class="gift-card-split-content">
+                    <div class="gift-card-text-side">
+                      <div class="card-text-header">
+                        <span class="gift-icon-badge">🎁 {{ section.settings.gift_tag }}</span>
+                        <h3 class="canva-card-title gift-truncated-title">{{ section.settings.gift_title }}</h3>
+                      </div>
+                    </div>
+                    <div class="gift-card-image-side">
+                      <div class="canva-image-frame position-relative-gift">
+                        {%- if gift_product != blank and gift_product.featured_image != blank -%}
+                          <img
+                            src="{{ gift_product.featured_image | image_url: width: 260 }}"
+                            alt="{{ gift_product.title | escape }}"
+                            loading="lazy"
+                          >
+                        {%- else -%}
+                          {%- if section.settings.gift_image != blank -%}
+                            <img
+                              src="{{ section.settings.gift_image | image_url: width: 260 }}"
+                              alt="Free gift product fallback"
+                              loading="lazy"
+                            >
+                          {%- endif -%}
+                        {%- endif -%}
+                        <span class="canva-round-sticker-badge">FREE GIFT</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="canva-fbt-integrated-footer-panel">
+                <div class="fbt-products-preview-master-wrapper">
+                  <h4 class="fbt-panel-header-title">Frequently Bought Together</h4>
+
+                  <div class="fbt-images-plus-flex-row">
+                    <div class="fbt-single-img-node" data-variant-id="{{ product.first_available_variant.id }}">
+                      <img
+                        src="{{ product.featured_image | image_url: width: 120 }}"
+                        alt="{{ product.title | escape }}"
+                        loading="lazy"
+                      >
+                    </div>
+
+                    {%- if product.metafields.custom.frequently_bought_together.value != blank -%}
+                      {%- for associative_product in product.metafields.custom.frequently_bought_together.value limit: 2 -%}
+                        <div class="fbt-plus-sign-divider">+</div>
+                        <div class="fbt-single-img-node" data-variant-id="{{ associative_product.first_available_variant.id }}">
+                          <img
+                            src="{{ associative_product.featured_image | image_url: width: 120 }}"
+                            alt="{{ associative_product.title | escape }}"
+                            loading="lazy"
+                          >
+                        </div>
+                      {%- endfor -%}
+                    {%- endif -%}
+                  </div>
+                </div>
+
+                {% comment %}
+                  <div class="fbt-action-pricing-checkout-block">
+                      <div class="fbt-checkout-pricing-header-line">
+                        Total Price: <span class="fbt-strike-old-label">{{ section.settings.old_price }}</span>
+                        <span class="fbt-vibrant-active-price">{{ section.settings.new_price }}</span>
+                        <span class="fbt-discount-pill-badge">
+                          (
+                          {%- if product.metafields.custom.fbt_discount.value != blank -%}
+                            {{ product.metafields.custom.fbt_discount.value }}% OFF
+                          {%- else -%}
+                            {{ section.settings.discount_label }}
+                          {%- endif -%}
+                          )
+                        </span>
+                      </div>
+                      <button type="button" class="canva-huge-action-submit-btn" id="HousiousAddAllToCartTrigger">Add All 3 to Cart</button>
+                      <button type="button" class="canva-secondary-link-wishlist-btn">♡ Add All to Wishlist</button>
+                      <div class="fbt-save-alert-text" style="color: #166534; font-size: 11px; text-align: center; margin-top: 6px; font-weight: 700;">
+                        You Save {{ section.settings.old_price | minus: section.settings.new_price }} on this combo
+                      </div>
+                    </div>
+                  </div>
+                {% endcomment %}
+                <div class="fbt-action-pricing-checkout-block">
+                  {%- comment -%} 1. Initialize the base total with the primary product's price {%- endcomment -%}
+                  {%- assign total_compare_price = product.price -%}
+
+                  {%- comment -%} 2. Add the prices of the metafield products to the total {%- endcomment -%}
+                  {%- if product.metafields.custom.frequently_bought_together.value != blank -%}
+                    {%- for associative_product in product.metafields.custom.frequently_bought_together.value limit: 2 -%}
+                      {%- assign total_compare_price = total_compare_price | plus: associative_product.price -%}
+                    {%- endfor -%}
+                  {%- endif -%}
+
+                  {%- comment -%} 3. Fetch the discount percentage from your metafield or fallback to schema setting {%- endcomment -%}
+                  {%- if product.metafields.custom.fbt_discount.value != blank -%}
+                    {%- assign discount_percent = product.metafields.custom.fbt_discount.value -%}
+                  {%- else -%}
+                    {%- assign discount_percent = section.settings.discount_label | remove: '%' | remove: ' OFF' | plus: 0 -%}
+                  {%- endif -%}
+
+                  {%- comment -%} 4. Calculate the discounted selling price {%- endcomment -%}
+                  {%- assign discount_multiplier = 100 | minus: discount_percent -%}
+                  {%- assign total_selling_price = total_compare_price | times: discount_multiplier | divided_by: 100 -%}
+                  {%- assign savings_amount = total_compare_price | minus: total_selling_price -%}
+
+                  <div class="fbt-checkout-pricing-header-line">
+                    Total Price:
+                    <span class="fbt-strike-old-label">{{ total_compare_price | money }}</span>
+                    <span class="fbt-vibrant-active-price">{{ total_selling_price | money }}</span>
+                    <span class="fbt-discount-pill-badge">({{ discount_percent }}% OFF)</span>
+                  </div>
+
+                  <button type="button" class="canva-huge-action-submit-btn" id="HousiousAddAllToCartTrigger">
+                    Add All 3 to Cart
+                  </button>
+                  {% comment %} <button type="button" class="canva-secondary-link-wishlist-btn">♡ Add All to Wishlist</button> {% endcomment %}
+
+                  <div
+                    class="fbt-save-alert-text"
+                    style="color: #166534; font-size: 11px; text-align: center; margin-top: 6px; font-weight: 700;"
+                  >
+                    You Save {{ savings_amount | money }} on this combo
+                  </div>
+                </div>
+                {% comment %} <- Ye block ka direct closing hai {% endcomment %}
+              </div>
+              {% comment %} <- Ye main left-side stack ka panel handle karne ke liye mandatory div hai {% endcomment %}
+            </div>
+
+            <div class="canva-card you-may-like-wide-card">
+              <h3 class="collection-main-heading">{{ section.settings.collection_title }}</h3>
+
+              <div class="canva-products-horizontal-row-grid">
+                {%- assign selected_collection = collections[section.settings.featured_collection] -%}
+
+                {%- if selected_collection == blank and product.collections.size > 0 -%}
+                  {%- for product_collection in product.collections -%}
+                    {%- unless product_collection.handle == 'all' or product_collection.handle == 'best-seller' or product_collection.handle == 'new-arrival' or product_collection.handle == 'featured-products' or product_collection.handle == 'under-499' -%}
+                      {%- assign selected_collection = product_collection -%}
+                      {%- break -%}
+                    {%- endunless -%}
+                  {%- endfor -%}
+                {%- endif -%}
+
+                {%- if selected_collection == blank and product.collections.size > 0 -%}
+                  {%- assign selected_collection = product.collections.first -%}
+                {%- endif -%}
+
+                {%- if selected_collection != blank and selected_collection.products_count > 0 -%}
+                  {% comment %}
+                    {%- for col_product in selected_collection.products limit: 3 -%}
+                      <div class="vertical-product-card-node">
+                        <a href="{{ col_product.url }}" class="card-link-wrapper">
+                          <div class="card-img-holder">
+                            {%- if col_product.featured_image != blank -%}
+                              <img src="{{ col_product.featured_image | image_url: width: 220 }}" alt="{{ col_product.title | escape }}" loading="lazy">
+                            {%- else -%}
+                              Product Image
+                            {%- endif -%}
+                          </div>
+                          <div class="card-meta-details">
+                            <h4 class="card-product-title">{{ col_product.title | truncate: 38 }}</h4>
+                            <div class="card-rating-stars">4.6 ★ <span class="rating-count-label">(1,248)</span></div>
+                            <p class="card-pricing-line">
+                              <span class="card-sale-price">{{ col_product.price | money }}</span>
+                              {%- if col_product.compare_at_price > col_product.price -%}
+                                <span class="card-strike-price">{{ col_product.compare_at_price | money }}</span>
+                                <span class="card-pct-discount">{{ col_product.compare_at_price | minus: col_product.price | times: 100 | divided_by: col_product.compare_at_price }}% OFF</span>
+                              {%- endif -%}
+                            </p>
+                            <div class="prepaid-price-pill">Prepaid Price <span class="pill-bold-amt">{{ col_product.price | times: 0.9 | money }}</span></div>
+                          </div>
+                        </a>
+                      </div>
+                    {%- endfor -%}
+                  {% endcomment %}
+
+                  {%- assign recommendations_rendered = 0 -%}
+                  {%- for col_product in selected_collection.products limit: 8 -%}
+                    {%- if col_product.id != product.id and recommendations_rendered < 2 -%}
+                      {%- assign recommendations_rendered = recommendations_rendered | plus: 1 -%}
+                <div class="vertical-product-card-node">
+                  <div class="card-link-wrapper">
+                    <a href="{{ col_product.url }}" class="card-img-holder">
+                      <img src="{{ col_product.featured_image | image_url: width: 220 }}" alt="{{ col_product.title | escape }}" loading="lazy">
+                    </a>
+                    
+                    <div class="card-meta-details">
+                      <h4 class="card-product-title">{{ col_product.title }}</h4>
+                      
+                      
+
+                      <p class="card-pricing-line">
+                        <span class="card-sale-price">{{ col_product.price | money }}</span>
+                        {%- if col_product.compare_at_price > col_product.price -%}
+                          <span class="card-strike-price">{{ col_product.compare_at_price | money }}</span>
+                        {%- endif -%}
+                      </p>
+
+                      {%- assign air_review_count = col_product.metafields.air_reviews_product.review_count.value | default: col_product.metafields.air_reviews_product.review_count -%}
+                      <div class="rating rating--dynamic">
+                        <div class="air-reviews-product-stars" data-js-air-reviews-product-stars data-id="{{ col_product.id }}"></div>
+                        {%- if air_review_count != blank and air_review_count != 0 -%}
+                          <span class="divider"></span>
+                          <div class="reviews"><span>{{ air_review_count }} reviews</span></div>
+                        {%- endif -%}
+                      </div>
+
+                      {% comment %} {%- if col_product.metafields.custom.prepaid_price != blank -%}
+                        <div class="prepaid-price-pill">
+                          Prepaid Price <span class="pill-bold-amt">{{ col_product.metafields.custom.prepaid_price | money_without_trailing_zeros }}</span>
+                        </div>
+                      {%- endif -%} {% endcomment %}
+
+                      {% comment %} --- NEW ADD TO CART BUTTON --- {% endcomment %}
+                      {%- form 'product', col_product, id: null, class: 'form-add-to-cart-wrapper',data-type: 'add-to-cart-form', novalidate: 'novalidate' -%}
+                          
+                          <input type="hidden" name="id" value="{{ col_product.selected_or_first_available_variant.id }}">
+                          <input type="hidden" name="quantity" value="1">
+
+                          {% if settings.cart_type == 'page' %}
+                            <button type="submit" name="add" class="btn-add-to-cart" >
+                              <span class="btn-icon" >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="20"
+                                  height="20"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  aria-hidden="true">
+
+                                  <path
+                                    d="M3 4H5L7.4 15.2C7.5 15.7 7.9 16 8.4 16H18.8C19.3 16 19.7 15.7 19.8 15.2L21 7H7"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"/>
+
+                                  <circle
+                                    cx="9"
+                                    cy="20"
+                                    r="1.5"
+                                    fill="currentColor"/>
+
+                                  <circle
+                                    cx="18"
+                                    cy="20"
+                                    r="1.5"
+                                    fill="currentColor"/>
+
+                                </svg>
+                              </span> Add to Cart
+                                    </button>
+                                  {% else %}
+                                    <button type="submit" name="add" class="card-add-to-cart-btn">
+                                      <span class="btn-icon">
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="20"
+                                  height="20"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  aria-hidden="true">
+
+                                  <path
+                                    d="M3 4H5L7.4 15.2C7.5 15.7 7.9 16 8.4 16H18.8C19.3 16 19.7 15.7 19.8 15.2L21 7H7"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"/>
+
+                                  <circle
+                                    cx="9"
+                                    cy="20"
+                                    r="1.5"
+                                    fill="currentColor"/>
+
+                                  <circle
+                                    cx="18"
+                                    cy="20"
+                                    r="1.5"
+                                    fill="currentColor"/>
+
+                                </svg>
+                              </span>Add to Cart
+                                    </button>
+                                  {% endif %}
+
+                        {%- endform -%}
+                    </div>
+                  </div>
+                </div>
+                    {%- endif -%}
+                {%- endfor -%}
+                  {% comment %} {%- for col_product in selected_collection.products limit: 3 -%}
+                    <div class="vertical-product-card-node">
+                      <a href="{{ col_product.url }}" class="card-link-wrapper">
+                        <div class="card-img-holder">
+                          <img
+                            src="{{ col_product.featured_image | image_url: width: 220 }}"
+                            alt="{{ col_product.title | escape }}"
+                            loading="lazy"
+                          >
+                        </div>
+                        <div class="card-meta-details">
+                          <!-- Dynamic Title -->
+                          <h4 class="card-product-title">{{ col_product.title }}</h4>
+
+                          <!-- Dynamic Rating (Assuming you use an app like Judge.me or AirReviews) -->
+                          <div class="card-rating-stars">
+                            {% comment %} Replace this with your actual app's snippet {% endcomment %}
+                            <div class="air-reviews-product-stars" data-id="{{ col_product.id }}"></div>
+                          </div>
+
+                          <p class="card-pricing-line">
+                            <span class="card-sale-price">{{ col_product.price | money }}</span>
+                            {%- if col_product.compare_at_price > col_product.price -%}
+                              <span class="card-strike-price">{{ col_product.compare_at_price | money }}</span>
+                            {%- endif -%}
+                          </p>
+
+                          <!-- Dynamic Prepaid Price from Metafields -->
+                          {%- if col_product.metafields.custom.prepaid_price != blank -%}
+                            <div class="prepaid-price-pill">
+                              Prepaid Price
+                              <span class="pill-bold-amt">
+                                {{ col_product.metafields.custom.prepaid_price | money_without_trailing_zeros }}
+                              </span>
+                            </div>
+                          {%- endif -%}
+                        </div>
+                      </a>
+                    </div>
+                  {%- endfor -%} {% endcomment %}
+                  {% comment %}
+                    {%- for col_product in selected_collection.products limit: 3 -%}
+                      {% render 'product-card', card_product: col_product %}
+                    {%- endfor -%}
+                  {% endcomment %}
+                {%- else -%}
+                  <p class="recommendations-empty" style="grid-column:1 / -1;color:#666;margin:0;">Recommendations are being updated.</p>
+                {%- endif -%}
+              </div>
+            </div>
+        </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Housious Marketing Grid",
+  "settings": [
+    {
+      "type": "select",
+      "id": "container_width",
+      "label": "Container Width",
+      "options": [
+        { "value": "section-container--lg", "label": "Large" },
+        { "value": "section-container--xl", "label": "Extra Large" },
+        { "value": "section-container--full", "label": "Full Width" }
+      ],
+      "default": "section-container--xl"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Section Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Card 1: Combo Settings"
+    },
+    {
+      "type": "text",
+      "id": "combo_tag",
+      "label": "Combo Badge Text",
+      "default": "Combo & Save More"
+    },
+    {
+      "type": "text",
+      "id": "combo_title",
+      "label": "Combo Heading",
+      "default": "Buy 2+ items & save up to 15%"
+    },
+    {
+      "type": "image_picker",
+      "id": "combo_image",
+      "label": "Combo Product Image"
+    },
+    {
+      "type": "text",
+      "id": "combo_btn_text",
+      "label": "Button Text",
+      "default": "Shop Combos"
+    },
+    {
+      "type": "url",
+      "id": "combo_button_link",
+      "label": "Combo Button Link"
+    },
+    {
+      "type": "header",
+      "content": "Card 2: Free Gift Settings"
+    },
+    {
+      "type": "text",
+      "id": "gift_tag",
+      "label": "Gift Badge Text",
+      "default": "Free Gift on Orders Above ₹999"
+    },
+    {
+      "type": "text",
+      "id": "gift_title",
+      "label": "Gift Conditions Label",
+      "default": "Get a free product worth ₹199 on orders above ₹999"
+    },
+    {
+      "type": "image_picker",
+      "id": "gift_image",
+      "label": "Free Gift Product Image"
+    },
+    {
+      "type": "header",
+      "content": "Card 3: You May Also Like"
+    },
+    {
+      "type": "text",
+      "id": "collection_title",
+      "label": "Collection Heading Title",
+      "default": "You May Also Like"
+    },
+    {
+      "type": "collection",
+      "id": "featured_collection",
+      "label": "Select Manual Collection"
+    },
+    {
+      "type": "header",
+      "content": "Bottom FBT Pricing Core"
+    },
+    {
+      "type": "text",
+      "id": "discount_label",
+      "label": "Discount Value Pill",
+      "default": "33% OFF"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Housious Marketing Grid"
+    }
+  ]
+}
+{% endschema %}
+
+{{ 'housious-marketing-blocks.css' | asset_url | stylesheet_tag }}
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const addAllBtn = document.getElementById('HousiousAddAllToCartTrigger');
+    if (!addAllBtn) return;
+
+    addAllBtn.addEventListener('click', async function (e) {
+      e.preventDefault();
+
+      const variantNodes = document.querySelectorAll('.fbt-single-img-node[data-variant-id]');
+      const items = [];
+
+      variantNodes.forEach(node => {
+        const variantId = parseInt(node.dataset.variantId, 10);
+
+        if (variantId) {
+          items.push({
+            id: variantId,
+            quantity: 1
+          });
+        }
+      });
+
+      if (!items.length) return;
+
+      addAllBtn.disabled = true;
+      addAllBtn.textContent = 'Adding...';
+
+      try {
+        const response = await fetch('/cart/add.js', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({ items: items })
+        });
+
+        if (!response.ok) {
+          const error = await response.json();
+          throw new Error(error.description || 'Could not add products');
+        }
+
+        if (window.CartDrawer && typeof window.CartDrawer.open === 'function') {
+          window.CartDrawer.open();
+        } else {
+          window.location.href = '/cart';
+        }
+
+      } catch (error) {
+        console.error(error);
+        alert(error.message || 'Something went wrong');
+      } finally {
+        addAllBtn.disabled = false;
+        addAllBtn.textContent = 'Add All to Cart';
+      }
+    });
+
+    const comboBtn = document.querySelector('.combo-add-to-cart-btn');
+    if (!comboBtn) return;
+
+    comboBtn.addEventListener('click', async function (e) {
+      e.preventDefault();
+
+      const variantOne = parseInt(comboBtn.dataset.variantOne, 10);
+      const variantTwo = parseInt(comboBtn.dataset.variantTwo, 10);
+
+      const items = [];
+
+      if (variantOne) {
+        items.push({ id: variantOne, quantity: 2 });
+      }
+
+      if (variantTwo) {
+        items.push({ id: variantTwo, quantity: 2 });
+      }
+
+      if (!items.length) return;
+
+      comboBtn.disabled = true;
+      comboBtn.textContent = 'Adding...';
+
+      try {
+        const response = await fetch('/cart/add.js', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({ items })
+        });
+
+        if (!response.ok) throw new Error('Could not add products');
+
+        if (window.CartDrawer && typeof window.CartDrawer.open === 'function') {
+          window.CartDrawer.open();
+        } else {
+          window.location.href = '/cart';
+        }
+
+      } catch (error) {
+        alert(error.message || 'Something went wrong');
+      } finally {
+        comboBtn.disabled = false;
+        comboBtn.textContent = '{{ section.settings.combo_btn_text }} →';
+      }
+    });
+  });
+</script>

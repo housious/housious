@@ -1,0 +1,59 @@
+.delivery-status-box {
+  border: 1px solid #f0f0f0;
+  border-radius: 8px;
+  padding: 15px;
+  background-color: #f9f9f9;
+  margin-top: 15px;
+}
+
+.delivery-date-text {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+  margin: 0 0 8px 0;
+}
+
+.delivery-location-text {
+  font-size: 14px;
+  color: #666;
+  margin: 0 0 8px 0;
+}
+
+#delivery-city-zip {
+  color: #000;
+  font-weight: 500;
+}
+
+.delivery-countdown {
+  font-weight: 500;
+  margin: 0;
+}
+
+
+/* Container to hold the text and button together */
+.delivery-location-row {
+  display: flex;
+  justify-content: space-between; /* This forces space between the text and the button */
+  align-items: center;            /* Centers them vertically */
+  width: 100%;
+}
+
+/* Style the button */
+#change-location-btn {
+  color: #ff4500;
+  background: none;
+  border: 1px solid #ff4500; /* Optional: adds a slight border for visibility */
+  padding: 2px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  margin-left: 10px; /* Ensures space if the screen is very narrow */
+  border:none;
+}
+
+/* Optional: Ensure the span with the city/zip is styled correctly */
+#delivery-city-zip {
+  color: #000;
+  font-weight: 500;
+}

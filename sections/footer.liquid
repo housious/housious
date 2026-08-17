@@ -1,0 +1,606 @@
+{% comment %} <footer class="custom-footer"> {% endcomment %}
+ <footer class="custom-footer section-container {{ section.settings.container_width }}">
+  <div class="footer-container">
+
+    <!-- Brand -->
+    <div class="footer-brand">
+      {% if section.settings.logo != blank %}
+        <img
+          src="{{ section.settings.logo | image_url: width: 300 }}"
+          alt="{{ shop.name }}"
+          class="footer-logo"
+        >
+      {% else %}
+        <h2>{{ shop.name }}</h2>
+      {% endif %}
+
+      <p class="footer-desc">
+        {{ section.settings.description }}
+      </p>
+
+      <div class="footer-socials">
+        {% if settings.social_instagram_link != blank %}
+          <a href="{{ settings.social_instagram_link }}">
+            <i class="fa-brands fa-instagram"></i>
+          </a>
+        {% endif %}
+
+        {% if settings.social_facebook_link != blank %}
+          <a href="{{ settings.social_facebook_link }}">
+            <i class="fa-brands fa-facebook-f"></i>
+          </a>
+        {% endif %}
+
+        {% if settings.social_youtube_link != blank %}
+          <a href="{{ settings.social_youtube_link }}">
+            <i class="fa-brands fa-youtube"></i>
+          </a>
+        {% endif %}
+
+        {% if settings.social_pinterest_link != blank %}
+          <a href="{{ settings.social_pinterest_link }}">
+            <i class="fa-brands fa-pinterest-p"></i>
+          </a>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Shop Menu -->
+    <div class="footer-column accordion-item">
+      <button class="accordion-title">
+        {{ section.settings.shop_heading }}
+      </button>
+
+      <div class="accordion-content">
+        <ul>
+          {% for link in linklists[section.settings.shop_menu].links %}
+            <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+
+    <!-- Customer Service -->
+    <div class="footer-column accordion-item">
+      <button class="accordion-title">
+        {{ section.settings.customer_heading }}
+      </button>
+
+      <div class="accordion-content">
+        <ul>
+          {% for link in linklists[section.settings.customer_menu].links %}
+            <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+
+    <!-- Company -->
+    <div class="footer-column accordion-item">
+      <button class="accordion-title">
+        {{ section.settings.company_heading }}
+      </button>
+
+      <div class="accordion-content">
+        <ul>
+          {% for link in linklists[section.settings.company_menu].links %}
+            <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+
+    <!-- Contact -->
+    <div class="footer-column footer-contact accordion-item">
+      <button class="accordion-title">
+        Get in Touch
+      </button>
+
+      <div class="accordion-content">
+        <div class="contact-item">
+          <span class="contact-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 1 1 18 0z"/>
+              <circle cx="12" cy="10" r="3"/>
+            </svg>
+          </span>
+          <p>{{ section.settings.address }}</p>
+        </div>
+
+        <div class="contact-item">
+          <span class="contact-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2
+              19.79 19.79 0 0 1-8.63-3.07
+              19.5 19.5 0 0 1-6-6
+              A19.79 19.79 0 0 1 2.08 4.18
+              2 2 0 0 1 4.06 2h3
+              a2 2 0 0 1 2 1.72
+              c.12.89.33 1.76.62 2.6
+              a2 2 0 0 1-.45 2.11L8.09 9.91
+              a16 16 0 0 0 6 6l1.48-1.14
+              a2 2 0 0 1 2.11-.45
+              c.84.29 1.71.5 2.6.62
+              A2 2 0 0 1 22 16.92z"/>
+            </svg>
+          </span>
+          <a href="tel:{{ section.settings.phone }}">
+            {{ section.settings.phone }}
+          </a>
+        </div>
+
+        <div class="contact-item">
+          <span class="contact-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2" y="4" width="20" height="16" rx="2"/>
+              <path d="M22 7L12 13L2 7"/>
+            </svg>
+          </span>
+          <a href="mailto:{{ section.settings.email }}">
+            {{ section.settings.email }}
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+
+    <div class="copyright">
+      © {{ 'now' | date: '%Y' }}
+      {{ shop.name }}. All Rights Reserved.
+    </div>
+
+    <div class="payment-icons">
+
+      {% assign enabled_payment_types = 'visa,master,american_express,paypal,google_pay,shopify_pay,apple_pay' | remove: ' ' | split: ',' %}
+
+      {% for type in enabled_payment_types %}
+        <span class="payment-icon">
+          {{ type | payment_type_svg_tag }}
+        </span>
+      {% endfor %}
+
+    </div>
+
+    <div class="secure-payment">
+      
+      <span>Secured Payment Gateways</span>
+      <svg class="secure-icon" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2">
+        <rect x="5" y="11" width="14" height="10" rx="2"/>
+        <path d="M8 11V8a4 4 0 1 1 8 0v3"/>
+      </svg>
+    </div>
+
+  </div>
+</footer>
+
+<style>
+.custom-footer{
+  background:#fff;
+  {% comment %} border-top:1px solid #ececec; {% endcomment %}
+  padding-top:50px;
+  color:#222;
+}
+
+.footer-container{
+  {% comment %} max-width:1400px;
+  margin:auto;
+  padding:0 40px; {% endcomment %}
+  display:grid;
+  grid-template-columns:1.4fr 1fr 1fr 1fr 1.3fr;
+  gap:50px;
+}
+
+.footer-logo{
+  max-width:180px;
+  margin-bottom:20px;
+}
+
+.footer-desc{
+  color:#666;
+  font-size:15px;
+  line-height:1.8;
+  max-width:260px;
+}
+
+.footer-socials{
+  display:flex;
+  gap:18px;
+  margin-top:24px;
+}
+
+.footer-socials a{
+  color:#333;
+  font-size:20px;
+  transition:.3s;
+}
+
+.footer-socials a:hover{
+  color:#000;
+}
+
+.footer-column h4,
+.accordion-title{
+  font-size:18px;
+  font-weight:600;
+  margin-bottom:20px;
+  background:none;
+  border:none;
+  padding:0;
+  color:#111;
+  width:100%;
+  text-align:left;
+  cursor:pointer;
+}
+
+.footer-column ul{
+  list-style:none;
+  padding:0;
+  margin:0;
+}
+
+.footer-column li{
+  margin-bottom:12px;
+}
+
+.footer-column a{
+  color:#666;
+  text-decoration:none;
+  transition:.3s;
+}
+
+.footer-column a:hover{
+  color:#000;
+}
+.contact-item{
+  display:flex;
+  align-items:flex-start;
+  gap:14px;
+  margin-bottom:20px;
+}
+
+.contact-icon{
+  width:20px;
+  height:20px;
+  min-width:20px;
+  color:#222;
+  margin-top:2px;
+}
+
+.contact-icon svg{
+  width:100%;
+  height:100%;
+  display:block;
+}
+
+.contact-item p,
+.contact-item a{
+  margin:0;
+  color:#666;
+  text-decoration:none;
+  line-height:1.7;
+  transition:.3s;
+}
+
+.contact-item a:hover{
+  color:#ff7a1a;
+}
+
+.contact-item p{
+  margin:0;
+}
+
+.footer-bottom{
+  border-top:1px solid #ececec;
+  margin-top:40px;
+  {% comment %} padding:15px 40px; {% endcomment %}
+   padding-top:10px;
+   padding-bottom:10px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+  flex-wrap:wrap;
+}
+
+.copyright{
+  color:#666;
+  font-size:14px;
+}
+
+.payment-icons{
+  display:flex;
+  align-items:center;
+}
+
+.payment-icons svg{
+  height:28px;
+  margin:0 6px;
+}
+
+.secure-payment{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  color:#666;
+  font-size:14px;
+}
+
+.secure-icon{
+  width:16px;
+  height:16px;
+}
+
+.accordion-content{
+  display:block;
+}
+
+@media(max-width:989px){
+
+  .footer-container{
+    grid-template-columns:1fr;
+    gap:20px;
+    padding:0 20px;
+  }
+
+  .footer-brand{
+    margin-bottom:20px;
+  }
+
+  .accordion-title{
+    position:relative;
+    padding:15px 0;
+    margin:0;
+    border-bottom:1px solid #eee;
+  }
+
+  .accordion-title::after{
+    content:"+";
+    position:absolute;
+    right:0;
+    font-size:22px;
+  }
+
+  .accordion-item.active .accordion-title::after{
+    content:"−";
+  }
+
+  .accordion-content{
+    display:none;
+    padding:15px 0;
+  }
+
+  .accordion-item.active .accordion-content{
+    display:block;
+  }
+
+  .footer-bottom{
+    text-align:center;
+    justify-content:center;
+  }
+}
+
+@media(max-width:989px){
+  
+  /* Footer brand section ko center karne ke liye */
+  .footer-brand {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* Description ka margin center karne ke liye */
+  .footer-desc {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Social icons ko center karne ke liye */
+  .footer-socials {
+    justify-content: center;
+  }
+
+  /* Baki footer content ke liye */
+  .footer-container{
+    grid-template-columns:1fr;
+    gap:20px;
+    padding:0 20px;
+  }
+  
+  /* ... baaki ka aapka purana code ... */
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+
+  if(window.innerWidth < 990){
+
+    document.querySelectorAll('.accordion-title')
+      .forEach(function(item){
+
+      item.addEventListener('click', function(){
+
+        this.parentElement.classList.toggle('active');
+
+      });
+
+    });
+
+  }
+
+});
+</script>
+
+{% comment %} {% schema %}
+{
+  "name":"Custom Footer",
+  "settings":[
+    {
+      "type":"image_picker",
+      "id":"logo",
+      "label":"Logo"
+    },
+    {
+      "type":"textarea",
+      "id":"description",
+      "label":"Description",
+      "default":"Making everyday living beautiful with thoughtfully designed products for your home."
+    },
+
+    {
+      "type":"text",
+      "id":"shop_heading",
+      "label":"Shop Heading",
+      "default":"Shop"
+    },
+    {
+      "type":"link_list",
+      "id":"shop_menu",
+      "label":"Shop Menu"
+    },
+
+    {
+      "type":"text",
+      "id":"customer_heading",
+      "label":"Customer Heading",
+      "default":"Customer Service"
+    },
+    {
+      "type":"link_list",
+      "id":"customer_menu",
+      "label":"Customer Menu"
+    },
+
+    {
+      "type":"text",
+      "id":"company_heading",
+      "label":"Company Heading",
+      "default":"Company"
+    },
+    {
+      "type":"link_list",
+      "id":"company_menu",
+      "label":"Company Menu"
+    },
+
+    {
+      "type":"textarea",
+      "id":"address",
+      "label":"Address"
+    },
+
+    {
+      "type":"text",
+      "id":"phone",
+      "label":"Phone"
+    },
+
+    {
+      "type":"text",
+      "id":"email",
+      "label":"Email"
+    }
+  ],
+  "presets":[
+    {
+      "name":"Custom Footer"
+    }
+  ]
+}
+{% endschema %} {% endcomment %}
+
+{% schema %}
+{
+  "name": "Custom Footer",
+  "settings": [
+    {
+      "type": "select",
+      "id": "container_width",
+      "label": "Container Width",
+      "options": [
+        {
+          "value": "section-container--lg",
+          "label": "Large"
+        },
+        {
+          "value": "section-container--xl",
+          "label": "Extra Large"
+        },
+        {
+          "value": "section-container--full",
+          "label": "Full Width"
+        }
+      ],
+      "default": "section-container--xl"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Making everyday living beautiful with thoughtfully designed products for your home."
+    },
+    {
+      "type": "text",
+      "id": "shop_heading",
+      "label": "Shop Heading",
+      "default": "Shop"
+    },
+    {
+      "type": "link_list",
+      "id": "shop_menu",
+      "label": "Shop Menu"
+    },
+    {
+      "type": "text",
+      "id": "customer_heading",
+      "label": "Customer Heading",
+      "default": "Customer Service"
+    },
+    {
+      "type": "link_list",
+      "id": "customer_menu",
+      "label": "Customer Menu"
+    },
+    {
+      "type": "text",
+      "id": "company_heading",
+      "label": "Company Heading",
+      "default": "Company"
+    },
+    {
+      "type": "link_list",
+      "id": "company_menu",
+      "label": "Company Menu"
+    },
+    {
+      "type": "textarea",
+      "id": "address",
+      "label": "Address"
+    },
+    {
+      "type": "text",
+      "id": "phone",
+      "label": "Phone"
+    },
+    {
+      "type": "text",
+      "id": "email",
+      "label": "Email"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Footer"
+    }
+  ]
+}
+{% endschema %}

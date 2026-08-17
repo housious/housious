@@ -1,0 +1,350 @@
+
+{% comment %} <section class="deal-promo-banners-section" {{ section.shopify_attributes }}> {% endcomment %}
+ <section class="deal-promo-banners-section {{ section.settings.container_width }}" {{ section.shopify_attributes }}>
+  <div class="deal-promo-container-box">
+    
+    {%- comment -%} 🟠 BANNER 1: PREPAID OFFER CARD {%- endcomment -%}
+    <div class="promo-card-item card-orange-tint">
+      <div class="promo-content-side">
+
+        <div class="promo-text-column no-icon-offset">
+          <span class="promo-top-badge-pill orange-pill">{{ section.settings.pill_tag_1 }}</span>
+          <h3>{{ section.settings.title_1 }}</h3>
+          <p>{{ section.settings.subtitle_1 }}</p>
+          <button type="button" onclick="redirectToCheckout('prepaid')" class="promo-action-btn-trigger orange-btn">
+            {{ section.settings.btn_text_1 }}
+          </button>
+        </div>
+        {% comment %} <div class="promo-icon-tag">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
+        </div>
+        <div class="promo-text-column">
+          <h3>{{ section.settings.title_1 }}</h3>
+          <p>{{ section.settings.subtitle_1 }}</p>
+          <button type="button" onclick="redirectToCheckout('prepaid')" class="promo-action-btn-trigger orange-btn">
+            {{ section.settings.btn_text_1 }}
+          </button>
+        </div> {% endcomment %}
+      </div>
+      <div class="promo-graphics-side graphic-orange">
+        {%- if section.settings.image_1 != blank -%}
+          <img src="{{ section.settings.image_1 | image_url: width: 120 }}" alt="Promo Graphic" class="custom-promo-img-upload" loading="lazy">
+        {%- else -%}
+          <span class="badge-percent-floating">7%</span>
+        {%- endif -%}
+      </div>
+    </div>
+
+    {%- comment -%} 🟣 BANNER 2: UPI SPECIAL OFFER {%- endcomment -%}
+    <div class="promo-card-item card-purple-tint">
+      <div class="promo-content-side">
+        <div class="promo-text-column no-icon-offset">
+          <span class="promo-top-badge-pill">{{ section.settings.pill_tag_2 }}</span>
+          <h3>{{ section.settings.title_2 }}</h3>
+          <p>{{ section.settings.subtitle_2 }}</p>
+          <button type="button" onclick="redirectToCheckout('upi')" class="promo-action-btn-trigger purple-btn">
+            {{ section.settings.btn_text_2 }}
+          </button>
+        </div>
+      </div>
+      <div class="promo-graphics-side graphic-purple">
+        {%- if section.settings.image_2 != blank -%}
+          <img src="{{ section.settings.image_2 | image_url: width: 120 }}" alt="Promo Graphic" class="custom-promo-img-upload" loading="lazy">
+        {%- else -%}
+          <div class="upi-phone-mockup">
+            <span class="upi-logo-text-embedded">UPI</span>
+            <div class="success-check-circle">✓</div>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+
+    {%- comment -%} 🔵 BANNER 3: NOTIFY ME PUSH ENGAGEMENT {%- endcomment -%}
+    <div class="promo-card-item card-blue-tint">
+      <div class="promo-content-side">
+        <div class="promo-text-column no-icon-offset">
+          <span class="promo-top-badge-pill blue-pill">{{ section.settings.pill_tag_3 }}</span>
+          <h3>{{ section.settings.title_3 }}</h3>
+          <button type="button" class="promo-action-btn-trigger blue-btn" onclick="triggerPushNotificationApp()">
+            {{ section.settings.btn_text_3 }}
+          </button>
+        </div>
+      </div>
+      <div class="promo-graphics-side graphic-blue">
+        {%- if section.settings.image_3 != blank -%}
+          <img src="{{ section.settings.image_3 | image_url: width: 120 }}" alt="Promo Graphic" class="custom-promo-img-upload" loading="lazy">
+        {%- else -%}
+          <div class="floating-bell-wrapper">
+            <svg width="42" height="42" viewBox="0 0 24 24" fill="currentColor" class="bell-svg-icon"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+            <span class="bell-alert-dot">3</span>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+function redirectToCheckout(paymentMode) {
+  fetch('/cart.js')
+    .then(response => response.json())
+    .then(cart => {
+      if (cart.item_count > 0) {
+        fetch('/cart/update.js', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ attributes: { 'preferred_payment': paymentMode } })
+        }).then(() => {
+          window.location.href = '/checkout';
+        });
+      } else {
+        alert("Your cart is empty. Please add a product before continuing.");
+      }
+    })
+    .catch(error => console.error('Cart API error:', error));
+}
+
+function triggerPushNotificationApp() {
+  if (!('Notification' in window)) {
+    alert('Web notifications support nahi hai.');
+    return;
+  }
+  Notification.requestPermission().then(permission => {
+    if (permission === 'granted') {
+      new Notification("Alerts Active!", {
+        body: "Aapko raat 12 baje ke premium offers ke alerts milte rahenge.",
+        icon: "https://cdn.shopify.com/s/files/1/0867/4174/5973/files/favicon.png"
+      });
+    }
+  });
+  if (window.pushowl) { window.pushowl.trigger('subscribe'); }
+  else if (window.OneSignal) { window.OneSignal.push(function() { window.OneSignal.showNativePrompt(); }); }
+}
+</script>
+
+{% comment %} {% schema %}
+{
+  "name": "Deal Promo Banners",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Card 1: Prepaid Offer Settings"
+    },
+    {
+      "type": "text",
+      "id": "title_1",
+      "label": "Heading 1",
+      "default": "Extra 7% OFF on Prepaid Orders"
+    },
+    {
+      "type": "text",
+      "id": "subtitle_1",
+      "label": "Sub-heading 1",
+      "default": "Save more when you pay online."
+    },
+    {
+      "type": "text",
+      "id": "btn_text_1",
+      "label": "Button Text 1",
+      "default": "Order Prepaid & Save"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_1",
+      "label": "Upload Right Image Graphic 1",
+      "info": "Khali chhodne par default '7%' badge floating dikhega."
+    },
+    {
+      "type": "header",
+      "content": "Card 2: UPI Offer Settings"
+    },
+    {
+      "type": "text",
+      "id": "pill_tag_2",
+      "label": "Pill Tag Text 2",
+      "default": "UPI Special Offer"
+    },
+    {
+      "type": "text",
+      "id": "title_2",
+      "label": "Heading 2",
+      "default": "Get extra 10% OFF with UPI"
+    },
+    {
+      "type": "text",
+      "id": "subtitle_2",
+      "label": "Sub-heading 2",
+      "default": "Pay via UPI & save more!"
+    },
+    {
+      "type": "text",
+      "id": "btn_text_2",
+      "label": "Button Text 2",
+      "default": "Pay with UPI!"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_2",
+      "label": "Upload Right Image Graphic 2",
+      "info": "Khali chhodne par default 'UPI Phone' mockup dikhega."
+    },
+    {
+      "type": "header",
+      "content": "Card 3: Notification Settings"
+    },
+    {
+      "type": "text",
+      "id": "pill_tag_3",
+      "label": "Pill Tag Text 3",
+      "default": "New Deals Everyday!"
+    },
+    {
+      "type": "text",
+      "id": "title_3",
+      "label": "Heading 3",
+      "default": "Bookmark this page and never miss amazing offers."
+    },
+    {
+      "type": "text",
+      "id": "btn_text_3",
+      "label": "Button Text 3",
+      "default": "Notify Me"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_3",
+      "label": "Upload Right Image Graphic 3",
+      "info": "Khali chhodne par default 'Animated Bell' graphic dikhega."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Deal Promo Banners"
+    }
+  ]
+}
+{% endschema %} {% endcomment %}
+
+{% schema %}
+{
+  "name": "Deal Promo Banners",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout Settings"
+    },
+    {
+      "type": "select",
+      "id": "container_width",
+      "label": "Container Width",
+      "options": [
+        { "value": "section-container section-container--sm", "label": "Small" },
+        { "value": "section-container section-container--md", "label": "Medium" },
+        { "value": "section-container section-container--lg", "label": "Large" },
+        { "value": "section-container section-container--xl", "label": "Extra Large" },
+        { "value": "section-container section-container--full", "label": "Full Width" }
+      ],
+      "default": "section-container section-container--lg"
+    },
+    {
+      "type": "header",
+      "content": "Card 1: Prepaid Offer Settings"
+    },
+    {
+      "type": "text",
+      "id": "pill_tag_1",
+      "label": "Pill Tag Text 1",
+      "default": "Extra 7% off"
+    },
+    {
+      "type": "text",
+      "id": "title_1",
+      "label": "Heading 1",
+      "default": "Extra 7% OFF on Prepaid Orders"
+    },
+    {
+      "type": "text",
+      "id": "subtitle_1",
+      "label": "Sub-heading 1",
+      "default": "Save more when you pay online."
+    },
+    {
+      "type": "text",
+      "id": "btn_text_1",
+      "label": "Button Text 1",
+      "default": "Order Prepaid & Save"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_1",
+      "label": "Upload Right Image Graphic 1"
+    },
+    {
+      "type": "header",
+      "content": "Card 2: UPI Offer Settings"
+    },
+    {
+      "type": "text",
+      "id": "pill_tag_2",
+      "label": "Pill Tag Text 2",
+      "default": "UPI Special Offer"
+    },
+    {
+      "type": "text",
+      "id": "title_2",
+      "label": "Heading 2",
+      "default": "Get extra 10% OFF with UPI"
+    },
+    {
+      "type": "text",
+      "id": "subtitle_2",
+      "label": "Sub-heading 2",
+      "default": "Pay via UPI & save more!"
+    },
+    {
+      "type": "text",
+      "id": "btn_text_2",
+      "label": "Button Text 2",
+      "default": "Pay with UPI!"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_2",
+      "label": "Upload Right Image Graphic 2"
+    },
+    {
+      "type": "header",
+      "content": "Card 3: Notification Settings"
+    },
+    {
+      "type": "text",
+      "id": "pill_tag_3",
+      "label": "Pill Tag Text 3",
+      "default": "New Deals Everyday!"
+    },
+    {
+      "type": "text",
+      "id": "title_3",
+      "label": "Heading 3",
+      "default": "Bookmark this page and never miss amazing offers."
+    },
+    {
+      "type": "text",
+      "id": "btn_text_3",
+      "label": "Button Text 3",
+      "default": "Notify Me"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_3",
+      "label": "Upload Right Image Graphic 3"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Deal Promo Banners"
+    }
+  ]
+}
+{% endschema %}

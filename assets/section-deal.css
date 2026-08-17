@@ -1,0 +1,2229 @@
+/* .deal-section {
+  background-color: #fbfbfb;
+  padding: 35px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+} */
+
+.deal-section{
+  margin-top: 20px;
+}
+
+/* .deal-main-container {
+  display: grid;
+  grid-template-columns: 1.8fr 1.2fr;
+  gap: 24px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 80px;
+  align-items: stretch;
+} */
+
+.deal-main-container {
+  display: grid;
+  grid-template-columns: 1.8fr 1.2fr;
+  gap: 24px;
+    align-items: stretch;
+    
+
+}
+
+/* --- Left Main White Panel Container --- */
+.deal-left-side {
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 35px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+  border: 1px solid #f0f0f0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* --- Top Grid Layout Row --- */
+.deal-info-grid {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center; /* Dynamic clean alignment */
+  gap: 25px;
+  width: 100%;
+}
+
+.deal-text-column {
+  flex-grow: 1;
+  max-width: 58%;
+}
+
+.deal-title {
+  font-size: 20px;
+  font-weight: 800;
+  color: #111111;
+  letter-spacing: -0.3px;
+  margin: 0 0 6px 0;
+  text-transform: uppercase;
+}
+.offer-card{
+  flex: 1; 
+  padding: 8px 10px; 
+  border-radius: 6px; 
+  display: flex; 
+  flex-direction: column; 
+  justify-content: space-between; 
+  background-color: #f0fdf4; 
+  border: 1px solid #bbf7d0;
+}
+.deal-subtitle {
+  font-size: 34px;
+  font-weight: 800;
+  color: #111111;
+  margin: 0 0 14px 0;
+  line-height: 1.2;
+}
+
+.deal-desc {
+  font-size: 14px;
+  color: #666666;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* --- EXACT CANVA MATCH: Clean Middle Vertical Line Separator --- */
+.deal-vertical-divider {
+  width: 1px;
+  height: 120px; /* Stretches dynamically to cover the gap block height */
+  background-color: #eaeaea; 
+  flex-shrink: 0;
+}
+
+/* --- Right Side Float Timer Box --- */
+.deal-timer-box-wrapper {
+  background-color: transparent; 
+  border: none;                  
+  padding: 0;
+  width: 100%;
+  max-width: 260px;
+  flex-shrink: 0;
+}
+
+.timer-label {
+  font-size: 14px;
+  font-weight: 700;
+  color: #222222;
+  margin: 0 0 14px 0;
+  text-align: center;
+}
+
+.timer-flex-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.timer-outer {
+  width: 100%;
+}
+
+.timer {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr auto 1fr; /* Formats clean grid tracking colons */
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+}
+
+.timer-block {
+  background-color: #fff1eb; 
+  border-radius: 8px;
+  padding: 12px 4px;
+  text-align: center;
+}
+
+.timer-block span {
+  font-size: 32px; 
+  font-weight: 800;
+  color: #ff5500; 
+  display: block;
+  line-height: 1;
+}
+
+.timer-block small {
+  font-size: 10px;
+  color: #777777;
+  display: block;
+  margin-top: 4px;
+  font-weight: 600;
+}
+
+.timer-colon {
+  font-size: 20px;
+  font-weight: 700;
+  color: #ff5500;
+  text-align: center;
+  padding-bottom: 14px; /* Perfectly centers with numbers height */
+}
+
+/* --- Canva Styled Orange Flame Button Shape Block --- */
+.hot-selling-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  background-color: #ffffff;
+  border: 1px solid #ffe3d5;
+  border-radius: 30px; /* Pill layout shape capsule look */
+  padding: 8px 14px;
+  box-shadow: 0 4px 12px rgba(255,85,0,0.03);
+}
+
+.fire-icon {
+  font-size: 16px;
+}
+
+.hot-text {
+  font-size: 13px;
+  font-weight: 800;
+  color: #ff5500;
+}
+
+/* --- Bottom Full Width Features Row --- */
+.deal-features-badges {
+  display: flex;
+  flex-direction: row;      
+  gap: 15px;
+  width: 100%;
+  margin-top: 25px;
+  flex-wrap: wrap;
+}
+
+.f-badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: #fffaf7; 
+  border: 1px solid #ffece2;  
+  padding: 10px 5px;        
+  border-radius: 12px;        
+  white-space: nowrap;
+}
+
+.f-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.f-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.f-emoji-fallback {
+  font-size: 16px;
+}
+
+.f-text-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.f-main-text {
+  font-size: 13px;
+  font-weight: 700;
+  color: #111111;
+  line-height: 1.2;
+}
+
+.f-subtext {
+  font-size: 11px;
+  font-weight: 500;
+  color: #777777;
+  margin-top: 2px;
+  line-height: 1;
+}
+
+/* --- RIGHT SIDE: Main Product Card --- */
+.deal-right-side {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.featured-product-card {
+  position: relative;
+  background: #ffffff;
+  border: 1px solid #f2f2f2;
+  border-radius: 12px;
+  overflow: hidden;
+  width: 100%;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background-color: #ff5500;
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 4px;
+  z-index: 2;
+  text-transform: uppercase;
+}
+
+.product-card-body {
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: center;
+  height: 100%;
+}
+
+.product-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.image-wrapper {
+  width: 100%;
+  height: 260px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0;
+}
+
+.image-wrapper img {
+  width: 100%;
+  height: 100%;
+  /* object-fit: contain; */
+  object-fit: cover;
+}
+
+.image-side {
+  width: 40%;
+}
+
+.product-content-side {
+  width: 60%;
+}
+
+.p-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #111111;
+  margin: 0 0 8px 0;
+  line-height: 1.4;
+  height: 42px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.rating-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.stars {
+  font-size: 12px;
+  font-weight: 700;
+  color: #111111;
+}
+
+.count {
+  font-size: 11px;
+  color: #888888;
+}
+
+.price-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.current-price {
+  font-size: 22px;
+  font-weight: 800;
+  color: #111111;
+}
+
+.compare-price {
+  font-size: 14px;
+  color: #999999;
+  text-decoration: line-through;
+}
+
+.discount-tag {
+  font-size: 13px;
+  font-weight: 700;
+  color: #ff5500;
+}
+
+.prepaid-tag-box {
+  background-color: #f4fbf5;
+  border: 1px solid #e1f5e3;
+  border-radius: 6px;
+  padding: 10px;
+  margin-bottom: 15px;
+}
+
+.tag-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  color: #2b7f3a;
+  margin-bottom: 4px;
+}
+
+.tag-value-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tag-price {
+  font-size: 15px;
+  font-weight: 800;
+  color: #2b7f3a;
+}
+
+.tag-save {
+  font-size: 11px;
+  font-weight: 700;
+  background-color: #2b7f3a;
+  color: #ffffff;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.add-to-cart-btn {
+  width: 100%;
+  background-color: #ff5500;
+  color: #ffffff;
+  border: none;
+  padding: 12px 20px;
+  font-size: 15px;
+  font-weight: 700;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* --- Mobile Responsive Layout --- */
+/* @media (max-width: 991px) {
+  .deal-main-container {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 0 15px;
+  }
+  .deal-info-grid {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 20px;
+  }
+  .deal-vertical-divider {
+    display: none;
+  }
+  .deal-text-column {
+    max-width: 100%;
+  }
+  .deal-timer-box-wrapper {
+    max-width: 100%;
+  }
+  .deal-features-badges {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+} */
+
+@media (max-width: 991px) {
+  /* Vertical divider hata dein */
+  .deal-vertical-divider {
+    display: none;
+  }
+}
+
+@media (max-width: 991px) {
+  /* Feature Badges ko 3 in a row karein */
+  .deal-features-badges {
+    display: flex ;
+    flex-direction: row ; /* Row mein layein */
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    width: 100% !important;
+  }
+
+  .f-badge {
+    flex: 0 0 calc(33.33% - 10px) !important; /* Ek line mein 3 item */
+    padding: 8px 4px !important;
+    flex-direction: column !important; /* Icon upar, text neeche (better mobile look) */
+    text-align: center !important;
+    min-width: 90px !important; /* Size control */
+  }
+
+  /* Icon aur text ko thoda chhota karein taaki 3 fit ho jayein */
+  .f-main-text { font-size: 10px !important; }
+  .f-subtext { font-size: 9px !important; }
+
+   .deal-section{
+    margin-top: 10px;
+   }
+
+  /* 2. Main container ki side padding kam kari */
+  .deal-main-container {
+    padding: 0 10px !important;
+    gap: 15px !important;
+  }
+
+  /* 3. Feature Badges: 3 icons in one line */
+  .deal-features-badges {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important; /* Wraps nahi hoga, line mein rahega */
+    justify-content: space-between !important;
+    gap: 5px !important;
+    margin-top: 15px !important;
+  }
+
+  .f-badge {
+    flex: 1 !important; /* Sabka size barabar */
+    padding: 6px 2px !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    min-width: 0 !important; /* Taaki 3 ek sath fit ho sakein */
+  }
+
+  .f-main-text {
+    font-size: 9px !important; /* Mobile ke liye font thoda chhota */
+    white-space: nowrap !important;
+  }
+
+  .f-subtext {
+    font-size: 8px !important;
+  }
+  
+  /* Icon size mobile ke liye adjust */
+  .f-icon {
+    width: 20px !important;
+    height: 20px !important;
+  }
+  .deal-main-container {
+    display: flex;
+    flex-direction: column;
+    padding: 0 15px;
+  }
+
+  .deal-left-side, .deal-right-side {
+    width: 100%;
+    /* padding-left:10px;
+    padding-right:10px; */
+  }
+
+  /* 2. Fix the Info Grid: Vertical Stacking */
+  .deal-info-grid {
+    display: flex;
+    flex-direction: column; /* This forces your requested order */
+    text-align: center;     /* Optional: centers everything for better mobile look */
+    gap: 15px;
+  }
+
+  /* 3. Ensure Text Column is full width */
+  .deal-text-column {
+    max-width: 100%;
+  }
+
+  /* 4. Timer Box styling for mobile */
+  .deal-timer-box-wrapper {
+    max-width: 100%;
+    margin: 0 auto;
+  }
+
+  /* 5. Force Hot Badge to be a row */
+  .timer-flex-row {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .hot-selling-badge {
+    width: fit-content; /* Keeps the badge tight to the text */
+    margin: 0 auto;
+  }
+
+  /* 6. Feature Badges: Stack them or keep in rows */
+  .deal-features-badges {
+    flex-direction: column; /* Change to row if you want them side by side */
+    gap: 10px;
+    margin-top: 20px;
+  }
+}
+
+
+/* --- 1. CAROUSEL ENGINE FRAMEWORK PARAMETERS --- */
+.deal-carousel-track::-webkit-scrollbar {
+  display: none !important; /* Touch tracks scrollbar clear */
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* --- 2. CANVA MATCHED NAV ARROWS DESIGN --- */
+.deal-nav-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  color: #1e293b;
+  cursor: pointer;
+  z-index: 10;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.deal-nav-arrow:hover {
+  background: #ff5500 !important;
+  color: #ffffff !important;
+  border-color: #ff5500 !important;
+  transform: translateY(-50%) scale(1.08);
+}
+
+.deal-nav-arrow.arrow-left {
+  left: -20px; /* Floats half circle outside container edge perfectly like draft */
+}
+
+.deal-nav-arrow.arrow-right {
+  right: -20px;
+}
+
+.deal-tabs-section {
+  margin-top: 20px;      /* Upar se space dene ke liye */
+  margin-bottom: 20px;   /* Neeche se space dene ke liye */
+  padding-top: 20px;     /* Content aur border ke beech space */
+}
+
+/* --- 3. PURE MOBILE RESPONSIVE ADAPTATION FIXES --- */
+@media (max-width: 991px) {
+  .deal-tabs-section .deal-main-container {
+    
+    /* padding: 0 15px !important; */
+  }
+  .deal-nav-arrow {
+    display: none !important; /* Mobile devices swipe by hand gestures, arrows hidden to prevent clutter */
+  }
+  .deal-carousel-slide-item {
+    flex: 0 0 calc(50% - 6px) !important; /* Exact 2 products item profile on mobile preview grids */
+    min-width: calc(50% - 6px) !important;
+  }
+  .deal-carousel-track {
+    gap: 12px !important;
+  }
+}
+@media (max-width: 767px) {
+  .deal-tabs-section {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+}
+
+/* ==========================================================================
+   CANVA MATCHED DEALS ICON BAR STYLES
+   ========================================================================== */
+
+/* ==========================================================================
+   CANVA EXACT-MATCH FIX: DEALS FEATURE ICON BAR CSS
+   ========================================================================== */
+
+.deal-features-section {
+  /* width: 100%; */
+  box-sizing: border-box;
+  /* margin: 15px 70px 25px 60px; */
+  /* margin: 20px 70px; */
+  margin-bottom:20px;
+
+}
+
+/* NEW CLASS: Outer frame enclosing the full light green band */
+.deal-features-section .deal-features-main-wrapper {
+  /* max-width: 100%; */
+  padding: 12px 80px;
+  background-color: #EBFDF2 !important; /* Authentic Canva Light Green Background */
+  border-top: 1px solid #D5F6DE;
+  border-bottom: 1px solid #D5F6DE;
+  border-radius: 8px;
+}
+
+/* GRID SETUP: Forces exactly all 5 items to fit evenly in a single row without wrapping right gap */
+.deal-features-grid-layout {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr 1.1fr 1.1fr 1.4fr !important;
+  align-items: center;
+  width: 100%;
+  gap: 15px;
+}
+
+.deal-feature-item-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+/* Open Transparent Icon Layout */
+.feature-icon-wrapper-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: auto;
+  height: auto;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+.feature-icon-wrapper-box img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.feature-icon-wrapper-box svg {
+  width: 24px;
+  height: 24px;
+  color: #1e293b;
+}
+
+.feature-text-wrapper-box {
+  display: flex;
+  flex-direction: column;
+}
+
+.feature-main-title-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: #111111;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
+.feature-subtitle-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: #555555;
+  line-height: 1.3;
+  margin-top: 2px;
+}
+
+/* CANVA UPI WHITE PILL CONTAINER ENGINE */
+.deal-feature-item-card.upi-custom-capsule-card {
+  background-color: #ffffff !important;
+  border: 1px solid #bbf7d0 !important;
+  border-radius: 6px !important;
+  padding: 8px 12px !important;
+  box-sizing: border-box;
+  justify-content: center;
+}
+
+.upi-custom-capsule-card .feature-main-title-label {
+  color: #14A049 !important;
+  font-weight: 800 !important;
+}
+
+.upi-custom-capsule-card .feature-subtitle-label {
+  color: #14A049 !important;
+  font-weight: 700 !important;
+}
+
+.upi-custom-capsule-card .upi-raw-logo-text {
+  font-size: 10px;
+  font-weight: 900;
+  color: #ffffff;
+  background: #14A049;
+  padding: 2px 5px;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+}
+
+/* ==========================================================================
+   RESPONSIVE LAYER MATRIX
+   ========================================================================== */
+@media screen and (max-width: 1199px) {
+  .deal-features-grid-layout {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 20px !important;
+  }
+  .feature-main-title-label {
+    white-space: normal;
+  }
+}
+
+/* @media screen and (max-width: 767px) {
+  .deal-features-section {
+    padding: 0 15px !important;
+  }
+  
+  .deal-features-section .deal-features-main-wrapper {
+    padding: 10px !important;
+    background: transparent !important;
+    border: none !important;
+  }
+
+  .deal-features-grid-layout {
+    display: flex !important;
+    justify-content: flex-start !important;
+    gap: 16px !important;
+    overflow-x: auto !important;
+    scrollbar-width: none;
+    padding-bottom: 2px !important;
+  }
+
+  .deal-features-grid-layout::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  .deal-feature-item-card {
+    flex: 0 0 auto !important;
+    background-color: #ffffff;
+    border: 1px solid #e2f4e6;
+    border-radius: 8px;
+    padding: 8px 12px !important;
+  }
+
+  .deal-feature-item-card.upi-custom-capsule-card {
+    flex: 0 0 auto !important;
+  }
+
+  .feature-main-title-label {
+    font-size: 12px !important;
+    white-space: nowrap !important;
+  }
+  
+  .feature-subtitle-label {
+    font-size: 10px !important;
+  }
+} */
+
+
+@media screen and (max-width: 767px) {
+  .deal-features-section {
+    padding: 0 10px !important;
+    margin: 10px 0 !important;
+  }
+  
+  .deal-features-section .deal-features-main-wrapper {
+    padding: 10px !important;
+    background: #EBFDF2 !important;
+    border: 1px solid #D5F6DE !important;
+    border-radius: 8px;
+  }
+
+  /* Slider Layout Fix */
+  .deal-features-grid-layout {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    gap: 8px !important;
+    scrollbar-width: none; /* Hide scrollbar */
+    padding-bottom: 5px !important;
+  }
+
+  .deal-features-grid-layout::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  /* 2 items clearly visible at a time */
+  .deal-feature-item-card {
+    flex: 0 0 calc(50% - 4px) !important; /* Screen par 2 items dikhenge */
+    min-width: calc(50% - 4px) !important;
+    background-color: #ffffff !important;
+    border: 1px solid #e2f4e6 !important;
+    border-radius: 8px !important;
+    padding: 8px 6px !important;
+    justify-content: flex-start !important;
+    align-items: center !important;
+    text-align: center !important;
+  }
+
+  /* Icon size mobile ke liye perfect set kiya */
+  .feature-icon-wrapper-box img, 
+  .feature-icon-wrapper-box svg {
+    width: 20px !important;
+    height: 20px !important;
+  }
+
+  .feature-main-title-label {
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    white-space: nowrap !important;
+  }
+  
+  .feature-subtitle-label {
+    font-size: 9px !important;
+    margin-top: 2px !important;
+    color: #666 !important;
+  }
+}
+/* ==========================================================================
+   CANVA PROMOTIONAL PACK BANNERS STYLE ENGINE
+   ========================================================================== */
+
+.deal-promo-banners-section {
+  /* width: 100%; */
+  box-sizing: border-box;
+ 
+
+}
+
+.deal-promo-container-box {
+  width: 100%;
+  /* padding: 0 80px; */
+  display: grid !important;
+  grid-template-columns: 1fr 1.15fr 1.15fr !important;
+  gap: 20px;
+  box-sizing: border-box;
+}
+
+.promo-card-item {
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex !important;
+  position: relative;
+  height: 180px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(0,0,0,0.03);
+}
+
+.card-orange-tint { background: linear-gradient(135deg, #FFF6F0 0%, #FFF0E6 100%); }
+.card-purple-tint { background: linear-gradient(135deg, #F6F4FF 0%, #EFEAFF 100%); }
+.card-blue-tint { background: linear-gradient(135deg, #F0F7FF 0%, #E6F0FF 100%); }
+
+.promo-content-side {
+  flex: 1;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  z-index: 2;
+}
+
+.promo-icon-tag {
+  color: #ff5500;
+  margin-bottom: 5px;
+}
+
+.promo-text-column h3 {
+  font-size: 15px;
+  font-weight: 800;
+  color: #0f172a;
+  line-height: 1.3;
+  margin: 0 0 6px 0;
+}
+
+.promo-text-column p {
+  font-size: 11px;
+  color: #475569;
+  margin: 0 0 12px 0;
+  font-weight: 500;
+}
+
+.promo-top-badge-pill {
+  font-size: 10px;
+  font-weight: 800;
+  color: #6d28d9;
+  background: rgba(109, 40, 217, 0.08);
+  padding: 3px 8px;
+  border-radius: 20px;
+  display: inline-block;
+  margin-bottom: 8px;
+  width: max-content;
+}
+.promo-top-badge-pill.blue-pill {
+  color: #1d4ed8;
+  background: rgba(29, 78, 216, 0.08);
+}
+
+.promo-top-badge-pill.orange-pill {
+  color: #ff5500;
+  background: #d38c693b;
+}
+.promo-action-btn-trigger {
+  display: inline-block;
+  padding: 8px 14px;
+  font-size: 11px;
+  font-weight: 700;
+  text-decoration: none;
+  border-radius: 6px;
+  width: max-content;
+  transition: all 0.2s ease;
+  border: none;
+}
+.orange-btn { background: #ff5500; color: #fff; }
+.purple-btn { background: #6d28d9; color: #fff; }
+.blue-btn { background: #1d4ed8; color: #fff; }
+.promo-action-btn-trigger:hover { transform: translateY(-2px); opacity: 0.95; cursor: pointer;}
+
+.promo-graphics-side {
+  width: 35%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+.graphic-orange {
+  background: radial-gradient(circle at right, rgba(255,85,0,0.1) 0%, transparent 70%);
+}
+.badge-percent-floating {
+  font-size: 46px;
+  font-weight: 900;
+  color: rgba(255, 85, 0, 0.09);
+  position: absolute;
+  right: 15px;
+  bottom: 10px;
+  transform: rotate(-10deg);
+}
+
+.graphic-purple .upi-phone-mockup {
+  width: 50px;
+  height: 90px;
+  background: #ffffff;
+  border: 2px solid #ddd6fe;
+  border-radius: 8px;
+  position: absolute;
+  bottom: -10px;
+  right: 15px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 10px;
+}
+.upi-logo-text-embedded {
+  font-size: 8px;
+  font-weight: 900;
+  color: #6d28d9;
+  border: 1px solid #ddd6fe;
+  padding: 1px 3px;
+  border-radius: 2px;
+}
+.success-check-circle {
+  width: 20px;
+  height: 20px;
+  background: #10b981;
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  margin-top: 15px;
+}
+
+.graphic-blue .floating-bell-wrapper {
+  position: relative;
+  color: #3b82f6;
+  animation: wiggleBell 2.5s infinite ease-in-out;
+}
+.bell-alert-dot {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  background: #ef4444;
+  color: #fff;
+  font-size: 9px;
+  font-weight: 800;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@keyframes wiggleBell {
+  0%, 100% { transform: rotate(0); }
+  15% { transform: rotate(8deg); }
+  30% { transform: rotate(-8deg); }
+  45% { transform: rotate(4deg); }
+  60% { transform: rotate(-4deg); }
+}
+
+@media screen and (max-width: 1024px) {
+  .deal-promo-container-box { grid-template-columns: 1fr !important; gap: 15px; }
+  .promo-card-item { height: 150px; }
+}
+/* @media screen and (max-width: 767px) {
+  .deal-promo-container-box { padding: 0 15px !important; }
+} */
+
+/* Custom dynamic uploaded image boundaries rules */
+.custom-promo-img-upload {
+  width: auto;
+  max-width: 90%;
+  height: auto;
+  max-height: 120px;
+  object-fit: contain;
+  position: absolute;
+  right: 15px;
+  bottom: 15px;
+}
+
+/* ==========================================================================
+   PROCESS TRACKING BAR (How it Works)
+   ========================================================================== */
+.deal-process-section {
+  /* padding: 40px 80px; */
+  margin-bottom:30px;
+  margin-top:30px;
+  background: #ffffff;
+  /* border-bottom: 1px solid #f1f5f9; */
+}
+
+.deal-process-container {
+  display: grid;
+  grid-template-columns: 1fr 2fr 0.8fr;
+  align-items: center;
+  gap: 30px;
+}
+
+.process-intro h3 { font-size: 16px; font-weight: 800; margin: 0 0 8px 0; }
+.process-intro p { font-size: 12px; color: #64748b; margin: 0; }
+
+.process-steps-grid { display: flex; gap: 20px; }
+.step-card { display: flex; align-items: flex-start; gap: 10px; }
+
+.step-number {
+  font-size: 14px; font-weight: 800;
+  color: #ff5500; border: 2px solid #ff5500;
+  width: 32px; height: 32px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.step-text h4 { font-size: 13px; margin: 0; }
+.step-text p { font-size: 10px; color: #94a3b8; margin: 2px 0 0 0; }
+
+.process-share { text-align: center; border-left: 1px solid #e2e8f0; padding-left: 20px; }
+.process-share p { font-size: 11px; margin-bottom: 8px; }
+.process-share button {
+  background: transparent; border: 1px solid #e2e8f0; padding: 6px 12px;
+  border-radius: 6px; font-size: 12px; font-weight: 700; cursor: pointer;
+}
+.share-icon,
+.share-decoration {
+  display: none;
+}
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .deal-process-container { grid-template-columns: 1fr; text-align: center; }
+  .process-steps-grid { flex-direction: column; }
+  .process-share { border: none; }
+}
+
+@media (max-width: 991px) {
+  /* Product Card Body ko Mobile mein Stack karein */
+  .product-card-body {
+    flex-direction: column !important;
+    padding: 15px !important;
+    gap: 15px !important;
+  }
+
+  /* Image aur Text ko 100% width dein */
+  .image-side, .product-content-side {
+    width: 100% !important;
+  }
+
+  /* Image ka size chhota karein */
+  .image-wrapper {
+    height: 200px !important;
+  }
+
+  /* Title aur Price ko center karein */
+  .p-title, .rating-row, .price-row {
+    justify-content: center !important;
+    text-align: center !important;
+  }
+  
+  .price-row {
+    justify-content: center !important;
+    gap: 10px !important;
+  }
+
+  /* Prepaid aur UPI grid ko mobile par neat karein */
+  .housious-offers-grid {
+    /* flex-direction: column !important; */
+    gap: 8px !important;
+  }
+  
+  .offer-card {
+    width: 100% !important;
+  }
+}
+
+
+/* Mobile Font Size Optimization */
+@media (max-width: 991px) {
+  
+  /* Heading and Sub-headings */
+  .deal-title { font-size: 16px !important; }
+  .deal-subtitle { font-size: 24px !important; }
+  
+  /* Product Card Text */
+  .p-title { 
+    font-size: 14px !important; 
+    height: auto !important; /* Allow height to auto-adjust for smaller fonts */
+  }
+  
+  /* Price and Savings */
+  .current-price { font-size: 18px !important; }
+  .compare-price { font-size: 12px !important; }
+  .discount-tag { font-size: 11px !important; }
+  
+  /* Offer Cards (Prepaid/UPI) */
+  .offer-title { font-size: 10px !important; }
+  .offer-price { font-size: 16px !important; }
+  
+  /* Button */
+  .add-to-cart-btn { font-size: 14px !important; padding: 10px 15px !important; }
+  
+  /* Timer Numbers */
+  .timer-block span { font-size: 22px !important; }
+  .timer-block small { font-size: 9px !important; }
+}
+
+/** Offer-Crad-Mobile View **/
+
+/* --- Mobile Compact Layout Fix --- */
+@media screen and (max-width: 767px) {
+  
+  /* 1. Cards ki height kam karein */
+  .promo-card-item {
+    height: 120px !important; /* Pehle 180px tha, ab 110px */
+  }
+
+  /* 2. Content padding adjust karein */
+  .promo-content-side {
+    padding: 12px !important;
+  }
+
+  /* 3. Text size chhota karein */
+  .promo-text-column h3 {
+    font-size: 13px !important;
+    margin-bottom: 2px !important;
+  }
+  
+  .promo-text-column p {
+    display: none !important; /* Sub-title hide kar dein taki space bache */
+  }
+
+  /* 4. Button size chhota karein */
+  .promo-action-btn-trigger {
+    padding: 5px 10px !important;
+    font-size: 10px !important;
+  }
+
+  /* 5. Graphics side (images) ko shift karein */
+  .promo-graphics-side {
+    width: 30% !important;
+  }
+
+  .custom-promo-img-upload {
+    max-height: 80px !important;
+    right: 5px !important;
+    bottom: 5px !important;
+  }
+  
+  /* 6. UPI Mobile Mockup ka size chhota */
+  .graphic-purple .upi-phone-mockup {
+    width: 35px !important;
+    height: 65px !important;
+    right: 10px !important;
+    bottom: -5px !important;
+  }
+  
+  .success-check-circle {
+    width: 15px !important;
+    height: 15px !important;
+    font-size: 8px !important;
+    margin-top: 5px !important;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  /* 1. Section aur container ko block hone se rokein */
+  .deal-process-section {
+    padding: 20px 10px !important;
+    overflow-x: hidden !important; /* Ghisakna band */
+  }
+
+  .deal-process-container {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 8px;
+  }
+
+  /* 2. Slider Grid ko force karein ki wo horizontal hi rahe */
+  .process-steps-grid {
+    display: flex !important;
+    flex-direction: row !important;
+    overflow-x: auto !important; /* Slider active */
+    gap: 12px !important;
+    padding: 10px 0 !important;
+    width: 100% !important;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory !important;
+  }
+
+  /* 3. Cards ko screen mein fit karein (Cut hona band) */
+  .step-card {
+    flex: 0 0 85% !important; /* Screen ka 85% lega, baki cut nahi hoga */
+    scroll-snap-align: center !important;
+    background: #f8fafc !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 12px !important;
+    padding: 15px !important;
+    display: flex !important;
+    flex-direction: row !important; /* Number left me, text right me */
+    align-items: center !important;
+    gap: 12px !important;
+  }
+
+  .step-number {
+    flex-shrink: 0; 
+    width: 35px ;
+    height: 35px ;
+    font-size: 16px ;
+  }
+
+  .step-text h4 {
+    font-size: 12px !important;
+    margin: 0 !important;
+  }
+
+  .step-text p { display: none !important; }
+
+  
+}
+
+
+@media (max-width: 991px) {
+  .deal-features-badges {
+    flex-direction: column;
+  }
+}
+
+/* =========================================================
+   DEAL OF THE DAY — EXACT MOBILE CARD OVERRIDE
+   Paste at the absolute bottom of section-deal.css
+   ========================================================= */
+
+@media screen and (max-width: 767px) {
+
+  /* Main section spacing */
+  .deal-section {
+    margin: 10px 0 20px !important;
+    padding: 0 15px !important;
+  }
+
+  .deal-section .deal-main-container {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    padding: 0 !important;
+    gap: 18px !important;
+  }
+
+  /* Main rounded card */
+  .deal-section .deal-left-side {
+    width: 100% !important;
+    box-sizing: border-box !important;
+    padding: 32px 20px 24px !important;
+
+    background:
+      radial-gradient(
+        circle at 50% 15%,
+        rgba(255, 246, 240, 0.75) 0%,
+        rgba(255, 255, 255, 1) 48%
+      ) !important;
+
+    border: 1px solid #ffe4d6 !important;
+    border-radius: 18px !important;
+    box-shadow: 0 5px 18px rgba(255, 85, 0, 0.035) !important;
+    text-align: center !important;
+    overflow: hidden !important;
+  }
+
+  /* Stack all main information */
+  .deal-section .deal-info-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    width: 100% !important;
+    gap: 25px !important;
+  }
+
+  .deal-section .deal-text-column {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* Top orange pill */
+  .deal-section .deal-title {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: max-content !important;
+    max-width: 100% !important;
+
+    margin: 0 auto 16px !important;
+    padding: 8px 16px !important;
+
+    color: #ff5a14 !important;
+    background: #fff4ed !important;
+    border: 1px solid #ffe1d1 !important;
+    border-radius: 999px !important;
+
+    font-size: 13px !important;
+    line-height: 1 !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.25px !important;
+    text-transform: uppercase !important;
+    box-shadow: none !important;
+  }
+
+  /* Flame inside heading pill */
+  .deal-section .deal-title::before {
+    content: "🔥";
+    display: inline-block;
+    margin-right: 7px;
+    font-size: 15px;
+    line-height: 1;
+  }
+
+  /* Main heading */
+  .deal-section .deal-subtitle {
+    width: 100% !important;
+    max-width: 330px !important;
+    margin: 0 auto 19px !important;
+
+    color: #111111 !important;
+    font-size: 31px !important;
+    line-height: 1.16 !important;
+    font-weight: 850 !important;
+    letter-spacing: -1px !important;
+    text-align: center !important;
+  }
+
+  /*
+    Force heading into two lines like reference:
+    Unbeatable Deals.
+    Every Day.
+  */
+  .deal-section .deal-subtitle {
+    text-wrap: balance;
+  }
+
+  /* Description */
+  .deal-section .deal-desc {
+    width: 100% !important;
+    max-width: 285px !important;
+    margin: 0 auto !important;
+
+    color: #2f3337 !important;
+    font-size: 13px !important;
+    line-height: 2.45 !important;
+    font-weight: 500 !important;
+    text-align: left !important;
+  }
+
+  /*
+    Reserve space on left for description icons.
+    The HTML currently contains all lines inside one <p>,
+    so CSS cannot assign a different icon to every individual line.
+  */
+  .deal-section .deal-desc {
+    position: relative !important;
+    padding-left: 34px !important;
+  }
+
+  .deal-section .deal-desc::before {
+    content: "◷\A◇\Aϟ";
+    white-space: pre;
+    position: absolute;
+    top: 0;
+    left: 4px;
+
+    color: #ff5a14;
+    font-size: 21px;
+    line-height: 1.52;
+    font-weight: 500;
+    text-align: center;
+  }
+
+  /* Remove desktop separator */
+  .deal-section .deal-vertical-divider {
+    display: none !important;
+  }
+
+  /* Timer area */
+  .deal-section .deal-timer-box-wrapper {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+  }
+
+  /* Timer title with horizontal lines */
+  .deal-section .timer-label {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 18px !important;
+
+    width: 100% !important;
+    margin: 0 0 14px !important;
+
+    color: #202020 !important;
+    font-size: 14px !important;
+    line-height: 1.2 !important;
+    font-weight: 800 !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+  }
+
+  .deal-section .timer-label::before,
+  .deal-section .timer-label::after {
+    content: "";
+    display: block;
+    width: 72px;
+    height: 1px;
+    background: #ffd8c3;
+  }
+
+  .deal-section .timer-flex-row {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    width: 100% !important;
+    gap: 14px !important;
+  }
+
+  .deal-section .timer-outer {
+    width: 100% !important;
+    max-width: 294px !important;
+  }
+
+  .deal-section .timer {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) 14px minmax(0, 1fr) 14px minmax(0, 1fr) !important;
+    align-items: center !important;
+    width: 100% !important;
+    gap: 5px !important;
+  }
+
+  /* Timer boxes */
+  .deal-section .timer-block {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    min-width: 0 !important;
+    height: 66px !important;
+    padding: 7px 4px !important;
+
+    background: #fff1ea !important;
+    border: 0 !important;
+    border-radius: 11px !important;
+    box-shadow: none !important;
+  }
+
+  .deal-section .timer-block span {
+    display: block !important;
+    margin: 0 !important;
+
+    color: #ff5008 !important;
+    font-size: 27px !important;
+    line-height: 1 !important;
+    font-weight: 850 !important;
+    letter-spacing: -0.5px !important;
+  }
+
+  .deal-section .timer-block small {
+    display: block !important;
+    margin-top: 5px !important;
+
+    color: #535353 !important;
+    font-size: 10px !important;
+    line-height: 1 !important;
+    font-weight: 500 !important;
+  }
+
+  .deal-section .timer-colon {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    padding: 0 0 14px !important;
+    color: #ff5008 !important;
+    font-size: 23px !important;
+    line-height: 1 !important;
+    font-weight: 800 !important;
+  }
+
+  /* Sold today pill */
+  .deal-section .hot-selling-badge {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: max-content !important;
+    max-width: 100% !important;
+
+    margin: 0 auto !important;
+    padding: 9px 18px !important;
+    gap: 7px !important;
+
+    background: #ffffff !important;
+    border: 1px solid #ffe1d3 !important;
+    border-radius: 999px !important;
+    box-shadow: 0 3px 10px rgba(255, 85, 0, 0.025) !important;
+  }
+
+  .deal-section .fire-icon {
+    font-size: 16px !important;
+    line-height: 1 !important;
+  }
+
+  .deal-section .hot-text {
+    color: #ff510b !important;
+    font-size: 13px !important;
+    line-height: 1 !important;
+    font-weight: 800 !important;
+    white-space: nowrap !important;
+  }
+
+  /* Three bottom feature cards */
+  .deal-section .deal-features-badges {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    flex-direction: unset !important;
+    flex-wrap: unset !important;
+
+    width: 100% !important;
+    margin: 18px 0 0 !important;
+    gap: 7px !important;
+  }
+
+  .deal-section .f-badge {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 88px !important;
+    box-sizing: border-box !important;
+    padding: 10px 3px 8px !important;
+    gap: 0 !important;
+
+    background: #fffdfb !important;
+    border: 1px solid #ffe8dc !important;
+    border-radius: 12px !important;
+    box-shadow: none !important;
+    text-align: center !important;
+    white-space: normal !important;
+  }
+
+  .deal-section .f-icon {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    width: 31px !important;
+    height: 31px !important;
+    margin: 0 0 7px !important;
+    flex-shrink: 0 !important;
+  }
+
+  .deal-section .f-icon img {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important;
+  }
+
+  .deal-section .f-emoji-fallback {
+    font-size: 25px !important;
+    line-height: 1 !important;
+  }
+
+  .deal-section .f-text-column {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+  }
+
+  .deal-section .f-main-text {
+    display: block !important;
+    width: 100% !important;
+
+    color: #111111 !important;
+    font-size: 10px !important;
+    line-height: 1.15 !important;
+    font-weight: 800 !important;
+    white-space: normal !important;
+    text-align: center !important;
+  }
+
+  .deal-section .f-subtext {
+    display: block !important;
+    width: 100% !important;
+    margin-top: 2px !important;
+
+    color: #5f5f5f !important;
+    font-size: 9px !important;
+    line-height: 1.15 !important;
+    font-weight: 500 !important;
+    white-space: normal !important;
+    text-align: center !important;
+  }
+
+  /* Product card remains below the deal card */
+  .deal-section .deal-right-side {
+    width: 100% !important;
+  }
+}
+
+/* Smaller phones */
+@media screen and (max-width: 380px) {
+  .deal-section .deal-left-side {
+    padding-right: 14px !important;
+    padding-left: 14px !important;
+  }
+
+  .deal-section .deal-subtitle {
+    font-size: 28px !important;
+  }
+
+  .deal-section .timer-label {
+    gap: 10px !important;
+  }
+
+  .deal-section .timer-label::before,
+  .deal-section .timer-label::after {
+    width: 56px;
+  }
+
+  .deal-section .f-main-text {
+    font-size: 9px !important;
+  }
+
+  .deal-section .f-subtext {
+    font-size: 8px !important;
+  }
+
+  .offer-title { font-size: 8px !important; }
+  .offer-card{padding:8px 6px;}
+  .offer-header{display:flex;}
+}
+
+
+
+/* =========================================================
+   DEAL PROCESS STEPS — MOBILE DESIGN OVERRIDE
+   Paste at the absolute bottom of section-deal.css
+   ========================================================= */
+
+/* =========================================================
+   DEAL PROCESS — EXACT MOBILE DESIGN
+   Desktop layout remains unchanged
+   ========================================================= */
+
+/* New SVG elements hidden on desktop */
+
+
+@media screen and (max-width: 767px) {
+
+  /* Section outer card */
+  .deal-process-section {
+    width: calc(100% - 20px) !important;
+    max-width: none !important;
+    margin: 18px auto 24px !important;
+    padding: 12px 14px 11px !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+
+    background:
+      radial-gradient(
+        circle at 50% 0%,
+        rgba(255, 242, 233, 0.95) 0%,
+        rgba(255, 249, 245, 0.98) 48%,
+        #fffdfb 100%
+      ) !important;
+
+    border: 1px solid #ffe3d5 !important;
+    border-radius: 11px !important;
+    box-shadow: none !important;
+  }
+
+  /* Main vertical structure */
+  .deal-process-section .deal-process-container {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+
+    width: 100% !important;
+    gap: 9px !important;
+    text-align: center !important;
+  }
+
+  /* Heading */
+  .deal-process-section .process-intro {
+    width: 100% !important;
+    text-align: center !important;
+  }
+
+  .deal-process-section .process-intro h3 {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+
+    margin: 0 0 3px !important;
+
+    color: #17223a !important;
+    font-size: 16px !important;
+    line-height: 1.15 !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.25px !important;
+    text-align: center !important;
+  }
+
+  .deal-process-section .process-intro h3 span {
+    color: #ff5500 !important;
+  }
+
+  .deal-process-section .process-intro h3::before,
+  .deal-process-section .process-intro h3::after {
+    content: "";
+    display: block;
+    width: 14px;
+    height: 1px;
+    flex-shrink: 0;
+    background: #ff8b52;
+  }
+
+  .deal-process-section .process-intro p {
+    width: 100% !important;
+    max-width: 370px !important;
+    margin: 0 auto !important;
+
+    color: #26334a !important;
+    font-size: 10px !important;
+    line-height: 1.35 !important;
+    font-weight: 500 !important;
+    text-align: center !important;
+  }
+
+  /* Three equal cards */
+  .deal-process-section .process-steps-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    gap: 9px !important;
+
+    overflow: visible !important;
+    scroll-snap-type: none !important;
+  }
+
+  /* Step card */
+  .deal-process-section .step-card {
+    position: relative !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 94px !important;
+    box-sizing: border-box !important;
+
+    flex: initial !important;
+    gap: 2px !important;
+    padding: 9px 5px 8px !important;
+
+    background: rgba(255, 250, 247, 0.88) !important;
+    border: 1px solid #ffe0cf !important;
+    border-radius: 9px !important;
+    box-shadow: none !important;
+
+    text-align: center !important;
+    scroll-snap-align: none !important;
+  }
+
+  /* Orange number */
+  .deal-process-section .step-number {
+    position: absolute;
+    top: 11px;
+    left: 10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 25px;
+    height: 25px;
+    min-width: 25px;
+
+    padding: 0;
+    margin: 0;
+
+    color: #ffffff;
+    background: #ff5500;
+    border: 0;
+    border-radius: 50%;
+
+    font-size: 12px;
+    line-height: 1;
+    font-weight: 800;
+}
+
+  /* SVG icons */
+  .deal-process-section .step-icon {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    width: 38px !important;
+    height: 38px !important;
+    margin: 0 auto 2px !important;
+
+    color: #111111 !important;
+  }
+
+  .deal-process-section .step-icon svg {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    overflow: visible !important;
+  }
+
+  /* Icon-specific sizing */
+  .deal-process-section .step-card--1 .step-icon {
+    width: 37px !important;
+    height: 37px !important;
+  }
+
+  .deal-process-section .step-card--2 .step-icon {
+    width: 40px !important;
+    height: 40px !important;
+  }
+
+  .deal-process-section .step-card--3 .step-icon {
+    width: 39px !important;
+    height: 39px !important;
+  }
+
+  /* Text beneath icons */
+  .deal-process-section .step-text {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .deal-process-section .step-text h4 {
+    display: block !important;
+    width: 100% !important;
+
+    margin: 0 !important;
+
+    color: #111111 !important;
+    font-size: 10px !important;
+    line-height: 1.2 !important;
+    font-weight: 800 !important;
+    text-align: center !important;
+    overflow-wrap: anywhere !important;
+  }
+
+  .deal-process-section .step-text p {
+    display: block !important;
+    width: 100% !important;
+
+    margin: 3px 0 0 !important;
+
+    color: #263045 !important;
+    font-size: 8px !important;
+    line-height: 1.2 !important;
+    font-weight: 500 !important;
+    text-align: center !important;
+  }
+
+  /* Bottom share row */
+  .deal-process-section .process-share {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    gap: 12px !important;
+
+    border: 0 !important;
+    text-align: center !important;
+  }
+
+  .deal-process-section .process-share p {
+    margin: 0 !important;
+
+    color: #23304a !important;
+    font-size: 10px !important;
+    line-height: 1 !important;
+    font-weight: 700 !important;
+    white-space: nowrap !important;
+  }
+
+  /* Orange decorative marks */
+  .deal-process-section .share-decoration {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    width: 11px !important;
+    height: 32px !important;
+    flex-shrink: 0 !important;
+    gap: 4px !important;
+  }
+
+  .deal-process-section .share-decoration i {
+    display: block !important;
+    width: 10px !important;
+    height: 1px !important;
+    background: #ff5500 !important;
+    border-radius: 999px !important;
+  }
+
+  .deal-process-section .share-decoration i:first-child {
+    transform: rotate(30deg) translateX(0px);
+  }
+
+  .deal-process-section .share-decoration i:nth-child(2) {
+    width: 9px !important;
+  }
+
+  .deal-process-section .share-decoration i:last-child {
+    transform: rotate(-30deg) translateX(0px);
+  }
+
+  .deal-process-section .share-decoration--right {
+    transform: scaleX(-1);
+  }
+
+  /* Share pill button */
+  .deal-process-section .deal-share-button {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    min-height: 34px !important;
+    margin: 0 !important;
+    padding: 7px 15px !important;
+    gap: 7px !important;
+
+    color: #172033 !important;
+    background: #ffffff !important;
+    border: 1px solid #dde2e8 !important;
+    border-radius: 999px !important;
+
+    box-shadow:
+      0 1px 2px rgba(15, 23, 42, 0.04),
+      0 3px 8px rgba(15, 23, 42, 0.07) !important;
+
+    font-size: 10px !important;
+    line-height: 1 !important;
+    font-weight: 800 !important;
+    white-space: nowrap !important;
+    cursor: pointer !important;
+  }
+
+  .deal-process-section .share-icon {
+    width: 15px !important;
+    height: 15px !important;
+    flex-shrink: 0 !important;
+    display: block;
+  }
+
+  .deal-process-section .share-arrow {
+    margin-left: -2px !important;
+    font-size: 16px !important;
+    line-height: 0.7 !important;
+    font-weight: 600 !important;
+  }
+}
+
+/* Very small mobile screens */
+@media screen and (max-width: 370px) {
+
+  .deal-process-section {
+    width: calc(100% - 12px) !important;
+    padding-right: 9px !important;
+    padding-left: 9px !important;
+  }
+
+  .deal-process-section .process-steps-grid {
+    gap: 5px !important;
+  }
+  .deal-process-section .step-number {
+    width: 20px !important;
+    height: 20px !important;
+    min-width: 20px !important;
+    top:5px;
+  }
+  .deal-process-section .step-card {
+    padding-right: 3px !important;
+    padding-left: 3px !important;
+  }
+
+  .deal-process-section .step-number {
+    left: 4px !important;
+  }
+
+  .deal-process-section .step-text h4 {
+    font-size: 9px !important;
+  }
+
+  .deal-process-section .step-text p {
+    font-size: 7px !important;
+  }
+
+  .deal-process-section .process-share {
+    gap: 7px !important;
+  }
+
+  .deal-process-section .deal-share-button {
+    padding-right: 11px !important;
+    padding-left: 11px !important;
+  }
+}
+
+/* Extra-small phones */
+@media screen and (max-width: 360px) {
+  .deal-process-section {
+    width: 100% !important;
+    padding-right: 9px !important;
+    margin:15px 0px !important;
+    padding-left: 9px !important;
+  }
+
+  .deal-process-section .process-steps-grid {
+    gap: 5px !important;
+  }
+
+  .deal-process-section .step-card {
+    min-height: 92px !important;
+    padding-right: 3px !important;
+    padding-left: 3px !important;
+  }
+
+  .deal-process-section .step-text h4 {
+    font-size: 9px !important;
+  }
+
+  .deal-process-section .step-text p {
+    font-size: 7px !important;
+  }
+
+  .deal-process-section .process-share {
+    gap: 8px !important;
+  }
+}
+
+/** css load more **/
+
+/* =========================================================
+   DEAL COLLECTION TABS GRID & RESPONSIVE CSS
+   ========================================================= */
+
+.deal-products-grid-container {
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: 20px !important;
+}
+
+/* Tablet view me 3 columns */
+@media screen and (max-width: 1024px) {
+  .deal-products-grid-container {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 15px !important;
+  }
+}
+
+/* Mobile view me 2 columns grid */
+@media screen and (max-width: 767px) {
+  .deal-products-grid-container {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+  }
+  
+  .deal-carousel-slide-item {
+    flex: unset !important;
+    min-width: unset !important;
+    width: 100% !important;
+  }
+  
+  .deal-load-more-btn {
+    width: 100% !important;
+    padding: 12px 20px !important;
+  }
+}

@@ -1,0 +1,244 @@
+.product-gallery {
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+    gap: 20px;
+  }
+
+  .product-thumbnails {
+    display: flex;
+    flex: 0 0 90px;
+    width: 90px;
+    max-height: 520px;
+    flex-direction: column;
+    gap: 10px;
+    overflow-y: auto;
+    scrollbar-width: none;
+  }
+
+  .product-thumbnails::-webkit-scrollbar {
+    display: none;
+  }
+
+  .thumbnail {
+    display: block;
+    flex: 0 0 auto;
+    width: 90px;
+    height: 90px;
+    padding: 0;
+    overflow: hidden;
+    background: #ffffff;
+    border: 1px solid #dddddd;
+    border-radius: 7px;
+    cursor: pointer;
+  }
+
+  .thumbnail img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .thumbnail.active {
+    border: 2px solid #ff5500;
+  }
+
+  .product-main-image {
+    position: relative;
+    min-width: 0;
+    flex: 1;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    background: #ffffff;
+  }
+
+  #MainProductImage {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+  }
+
+  .mobile-gallery-slider,
+  .slider-dots {
+    display: none;
+  }
+
+  .gallery-floating-badge,
+  .gallery-share-button,
+  .gallery-image-counter {
+    position: absolute;
+    z-index: 5;
+  }
+
+  .gallery-floating-badge {
+    top: 16px;
+    left: 14px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 38px;
+    height: 38px;
+
+    color: #2563eb;
+    background: #ffffff;
+    border-radius: 50%;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
+  }
+
+  .gallery-floating-badge svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .gallery-share-button {
+    top: 16px;
+    right: 14px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 38px;
+    height: 38px;
+    padding: 0;
+
+    color: #ffffff;
+    background: rgba(47, 47, 47, 0.72);
+    border: 0;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  .gallery-share-button svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .gallery-image-counter {
+    right: 14px;
+    bottom: 14px;
+
+    padding: 4px 8px;
+
+    color: #ffffff;
+    background: rgba(0, 0, 0, 0.75);
+    border-radius: 12px;
+
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1;
+  }
+
+  @media screen and (max-width: 768px) {
+    .product-gallery {
+      display: block;
+      width: 100%;
+    }
+
+    .product-thumbnails,
+    #MainProductImage {
+      display: none;
+    }
+
+    .product-main-image {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      border-radius: 0;
+      background: #ffffff;
+    }
+
+    .mobile-gallery-slider {
+      display: flex;
+      width: 100%;
+      height: 100%;
+
+      overflow-x: auto;
+      overflow-y: hidden;
+
+      scroll-behavior: smooth;
+      scroll-snap-type: x mandatory;
+      overscroll-behavior-x: contain;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .mobile-gallery-slider::-webkit-scrollbar {
+      display: none;
+    }
+
+    .mobile-slide {
+      flex: 0 0 100%;
+      width: 100%;
+      height: 100%;
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+    }
+
+    .mobile-slide img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .slider-dots {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      min-height: 30px;
+      margin: 0;
+      padding: 8px 0;
+      background: #ffffff;
+    }
+
+    .dot {
+      display: block;
+      width: 8px;
+      height: 8px;
+      padding: 0;
+      border: 0;
+      border-radius: 50%;
+      background: #b8b8b8;
+      cursor: pointer;
+    }
+
+    .dot.active {
+      width: 18px;
+      border-radius: 10px;
+      background: #333333;
+    }
+
+    .gallery-floating-badge {
+      top: 14px;
+      left: 14px;
+      width: 38px;
+      height: 38px;
+    }
+
+    .gallery-share-button {
+      top: 14px;
+      right: 14px;
+      width: 38px;
+      height: 38px;
+    }
+
+    .gallery-image-counter {
+      right: 14px;
+      bottom: 12px;
+      font-size: 12px;
+    }
+  }
+
+.product-main-image > picture,
+.mobile-slide > picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}

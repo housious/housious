@@ -1,0 +1,45 @@
+{%- liquid
+  assign selected_variant = product.selected_or_first_available_variant
+  assign product_price = selected_variant.price | plus: 0
+
+  assign prepaid_percentage = block.settings.offer_1_percentage | plus: 0
+  assign prepaid_multiplier = 100 | minus: prepaid_percentage
+  assign prepaid_price = product_price | times: prepaid_multiplier | divided_by: 100
+  assign prepaid_saving = product_price | minus: prepaid_price
+
+  assign upi_percentage = block.settings.offer_2_percentage | plus: 0
+  assign upi_multiplier = 100 | minus: upi_percentage
+  assign upi_price = product_price | times: upi_multiplier | divided_by: 100
+  assign upi_saving = product_price | minus: upi_price
+-%}
+
+<div class="housious-offers-grid" {{ block.shopify_attributes }} data-product-offers>
+  {%- if block.settings.show_offer_1 -%}
+    <div class="offer-card card-prepaid" data-offer-card data-discount="{{ prepaid_percentage }}">
+      <div class="offer-header">
+        <span class="offer-title" data-offer-title>
+          {{ block.settings.offer_1_title | replace: '[X]', prepaid_percentage }}
+        </span>
+      </div>
+      <div class="offer-price-row">
+        <span class="offer-price" data-offer-price>{{ prepaid_price | money_without_trailing_zeros }}</span>
+        <span class="offer-badge-save" data-offer-saving>Save {{ prepaid_saving | money_without_trailing_zeros }}</span>
+      </div>
+    </div>
+  {%- endif -%}
+
+  {%- if block.settings.show_offer_2 -%}
+    <div class="offer-card card-upi" data-offer-card data-discount="{{ upi_percentage }}">
+      <div class="offer-header">
+        <span class="offer-title" data-offer-title>
+          {{ block.settings.offer_2_title | replace: '[X]', upi_percentage }}
+        </span>
+        <span class="upi-mini-logo">UPI</span>
+      </div>
+      <div class="offer-price-row">
+        <span class="offer-price" data-offer-price>{{ upi_price | money_without_trailing_zeros }}</span>
+        <span class="offer-badge-save upi-save" data-offer-saving>Save {{ upi_saving | money_without_trailing_zeros }}</span>
+      </div>
+    </div>
+  {%- endif -%}
+</div>

@@ -1,0 +1,1119 @@
+{% comment %} 
+
+
+<section class="deal-day-exact section-container {{ section.settings.container_width }}">
+
+  <div class="deal-day-row">
+
+    <!-- HERO -->
+    <div class="deal-hero">
+
+      <div class="deal-hero-content">
+
+        <div class="deal-header">
+
+          <h3>{{ section.settings.heading }}</h3>
+
+          <div
+            class="deal-countdown"
+            data-date="{{ section.settings.timer_end }}"
+          >
+            00 : 00 : 00
+          </div>
+
+        </div>
+
+        <p class="deal-small-text">
+          {{ section.settings.subtitle }}
+        </p>
+
+        <h2>
+          {{ section.settings.offer_text }}
+        </h2>
+
+        <p class="deal-description">
+          {{ section.settings.description }}
+        </p>
+
+        <a href="{{ section.settings.button_link }}">
+          {{ section.settings.button_text }}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+          >
+            <path
+              d="M5 12H19"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M12 5L19 12L12 19"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </a>
+
+      </div>
+
+      <div class="deal-hero-image">
+
+        {% if section.settings.main_image %}
+          {{
+            section.settings.main_image
+            | image_url: width: 900
+            | image_tag
+          }}
+        {% endif %}
+
+      </div>
+
+      <div class="deal-badge">
+        {{ section.settings.badge_text }}
+      </div>
+
+    </div>
+
+    <!-- RIGHT CARDS -->
+    <div class="deal-right">
+
+      {% for block in section.blocks %}
+
+        <a
+          href="{{ block.settings.link }}"
+          class="deal-card"
+          {{ block.shopify_attributes }}
+        >
+
+          <div class="card-content">
+
+            <h4>{{ block.settings.title }}</h4>
+
+            <p>
+              {{ block.settings.subtitle }}
+            </p>
+
+            <span>
+              {{ block.settings.button_text }}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <path
+                  d="M5 12H19"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M12 5L19 12L12 19"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </span>
+
+          </div>
+
+          <div class="card-image">
+
+            {% if block.settings.image %}
+              {{
+                block.settings.image
+                | image_url: width: 500
+                | image_tag
+              }}
+            {% endif %}
+
+          </div>
+
+          {% if block.settings.show_badge %}
+            <div class="card-badge">
+              {{ block.settings.badge_text }}
+            </div>
+          {% endif %}
+
+        </a>
+
+      {% endfor %}
+
+    </div>
+
+  </div>
+
+</section>
+
+<style>
+/* Yahan humne Liquid variables direct CSS ke andar pass kiye hain, HTML bilkul clean hai */
+.deal-day-exact {
+  width: 100%;
+  padding-top: {{ section.settings.padding_top }}px;
+  padding-bottom: {{ section.settings.padding_bottom }}px;
+  margin: 0 auto;
+}
+
+.deal-day-row{
+  display:grid;
+  grid-template-columns:38% 60%;
+  gap:14px;
+}
+
+.deal-hero{
+  background:#edf5eb;
+  border-radius:12px;
+  height:150px;
+  position:relative;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  padding:18px 22px;
+  transition:.3s;
+}
+
+.deal-hero:hover{
+  transform:translateY(-3px);
+}
+
+.deal-hero-content{
+  width:65%;
+  z-index:2;
+}
+
+.deal-header{
+  display:flex;
+  align-items:center;
+  gap:20px;
+}
+
+.deal-header h3{
+  margin:0;
+  font-size:15px;
+  font-weight:700;
+  color:#1e1e1e;
+}
+
+.deal-countdown{
+  font-size:13px;
+  font-weight:700;
+  letter-spacing:.8px;
+  color:#333;
+}
+
+.deal-small-text{
+  margin:6px 0;
+  font-size:12px;
+  color:#666;
+}
+
+.deal-hero-content h2{
+  margin:0;
+  font-size:16px;
+  color:#2d8f42;
+  font-weight:800;
+}
+
+.deal-description{
+  margin:6px 0;
+  font-size:12px;
+  color:#555;
+}
+
+.deal-hero-content a{
+  color:#111;
+  text-decoration:none;
+  font-size:12px;
+  font-weight:600;
+  display:flex;
+  gap:8px;
+}
+
+.deal-hero-image{
+  position:absolute;
+  bottom:0;
+  right:45px;
+  width:170px;
+}
+
+.deal-hero-image img{
+  width:100%;
+  display:block;
+  height:170px;
+}
+
+.deal-badge{
+  position:absolute;
+  right:35px;
+  top:14px;
+  width:52px;
+  height:52px;
+  border-radius:50%;
+  background:#4ca94d;
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  font-size:15px;
+  font-weight:700;
+  line-height:1.1;
+}
+
+.deal-right{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+}
+
+.deal-card{
+  background:#f8f8f8;
+  border-radius:12px;
+  height:150px;
+  position:relative;
+  overflow:hidden;
+  text-decoration:none;
+  padding:18px;
+  transition:.3s;
+}
+
+.deal-card:hover{
+  transform:translateY(-3px);
+  box-shadow:0 8px 18px rgba(0,0,0,.08);
+}
+
+.card-content{
+  max-width:70%;
+}
+
+.card-content h4{
+  margin:0;
+  color:#222;
+  font-size:15px;
+  font-weight:700;
+}
+
+.card-content p{
+  margin:8px 0;
+  color:#666;
+  font-size:12px;
+  line-height:1.6;
+}
+
+.card-content span{
+  color:#f17b34;
+  font-size:12px;
+  font-weight:700;
+  display:flex;
+  gap:8px;
+}
+
+.card-image{
+  position:absolute;
+  right:12px;
+  bottom:0;
+  width:95px;
+}
+
+.card-image img{
+  width:100%;
+  display:block;
+  height: 150px;
+}
+
+.card-badge{
+  position:absolute;
+  top:10px;
+  right:10px;
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  background:#f47a20;
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:10px;
+  font-weight:700;
+}
+
+@media(max-width:1024px){
+
+  .deal-day-row{
+    grid-template-columns:1fr;
+  }
+
+  .deal-right{
+    grid-template-columns:repeat(3,1fr);
+  }
+
+}
+
+@media(max-width:767px){
+
+  .deal-day-exact{
+    padding-top: {{ section.settings.padding_top_mobile }}px;
+    padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
+  }
+
+  .deal-right{
+    display:flex;
+    overflow-x:auto;
+    gap:12px;
+    padding-bottom:5px;
+    scrollbar-width:none;
+  }
+
+  .deal-card{
+    min-width:240px;
+    flex:0 0 240px;
+  }
+
+  .deal-hero{
+    height:auto;
+    min-height:150px;
+  }
+
+  .deal-hero-image{
+    width:130px;
+    right:10px;
+  }
+
+}
+
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+
+    document.querySelectorAll('.deal-countdown').forEach(function (el) {
+
+      const target = new Date(el.dataset.date).getTime();
+
+      function update() {
+
+        const now = new Date().getTime();
+        const diff = target - now;
+
+        if (diff < 0) {
+          el.innerHTML = '00 : 00 : 00';
+          return;
+        }
+
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+        el.innerHTML =
+          String(hours).padStart(2, '0') +
+          ' : ' +
+          String(minutes).padStart(2, '0') +
+          ' : ' +
+          String(seconds).padStart(2, '0');
+      }
+
+      update();
+      setInterval(update, 1000);
+
+    });
+
+  });
+</script>
+
+{% schema %}
+{
+  "name":"Deal Of Day Exact",
+  "settings":[
+    {
+      "type":"header",
+      "content": "Section Padding"
+    },
+    {
+      "type":"range",
+      "id":"padding_top",
+      "label":"Top Padding (Desktop)",
+      "min":0,
+      "max":100,
+      "step":4,
+      "unit":"px",
+      "default":36
+    },
+    {
+      "type":"range",
+      "id":"padding_bottom",
+      "label":"Bottom Padding (Desktop)",
+      "min":0,
+      "max":100,
+      "step":4,
+      "unit":"px",
+      "default":36
+    },
+    {
+      "type":"range",
+      "id":"padding_top_mobile",
+      "label":"Top Padding (Mobile)",
+      "min":0,
+      "max":100,
+      "step":4,
+      "unit":"px",
+      "default":20
+    },
+    {
+      "type":"range",
+      "id":"padding_bottom_mobile",
+      "label":"Bottom Padding (Mobile)",
+      "min":0,
+      "max":100,
+      "step":4,
+      "unit":"px",
+      "default":20
+    },
+    {
+      "type":"header",
+      "content": "Content Settings"
+    },
+    {
+      "type":"text",
+      "id":"heading",
+      "label":"Heading",
+      "default":"Deal of the Day"
+    },
+    {
+      "type":"text",
+      "id":"subtitle",
+      "label":"Subtitle",
+      "default":"Hurry up! Limited time offer"
+    },
+    {
+      "type":"text",
+      "id":"offer_text",
+      "label":"Offer Text",
+      "default":"Extra 15% OFF"
+    },
+    {
+      "type":"text",
+      "id":"description",
+      "label":"Description",
+      "default":"On all kitchen racks"
+    },
+    {
+      "type":"image_picker",
+      "id":"main_image",
+      "label":"Main Image"
+    },
+    {
+      "type":"text",
+      "id":"badge_text",
+      "label":"Badge Text",
+      "default":"15% OFF"
+    },
+    {
+      "type":"text",
+      "id":"button_text",
+      "label":"Button Text",
+      "default":"Shop Now"
+    },
+    {
+      "type":"url",
+      "id":"button_link",
+      "label":"Button Link"
+    },
+    {
+      "type":"text",
+      "id":"timer_end",
+      "label":"Timer End Date",
+      "default":"2025-12-31T23:59:59"
+    },
+    {
+      "type": "select",
+      "id": "container_width",
+      "label": "Container Width",
+      "options": [
+        {
+          "value": "section-container--lg",
+          "label": "Large"
+        },
+        {
+          "value": "section-container--xl",
+          "label": "Extra Large"
+        },
+        {
+          "value": "section-container--full",
+          "label": "Full Width"
+        }
+      ],
+      "default": "section-container--xl"
+    }
+  ],
+  "blocks":[
+    {
+      "type":"card",
+      "name":"Promo Card",
+      "settings":[
+        {
+          "type":"text",
+          "id":"title",
+          "label":"Title"
+        },
+        {
+          "type":"text",
+          "id":"subtitle",
+          "label":"Subtitle"
+        },
+        {
+          "type":"text",
+          "id":"button_text",
+          "label":"Button Text",
+          "default":"Shop Now"
+        },
+        {
+          "type":"url",
+          "id":"link",
+          "label":"Link"
+        },
+        {
+          "type":"image_picker",
+          "id":"image",
+          "label":"Image"
+        },
+        {
+          "type":"checkbox",
+          "id":"show_badge",
+          "label":"Show Badge",
+          "default":false
+        },
+        {
+          "type":"text",
+          "id":"badge_text",
+          "label":"Badge Text",
+          "default":"NEW"
+        }
+      ]
+    }
+  ],
+  "max_blocks":3,
+  "presets":[
+    {
+      "name":"Deal Of Day Exact"
+    }
+  ]
+}
+{% endschema %} {% endcomment %}
+
+
+<section class="deal-day-exact section-container {{ section.settings.container_width }}">
+
+  <div class="deal-day-row">
+
+    <!-- HERO (Now Fully Clickable) -->
+    <a href="{{ section.settings.button_link }}" class="deal-hero" {{ section.shopify_attributes }}>
+
+      <div class="deal-hero-content">
+
+        <div class="deal-header">
+          <h3>{{ section.settings.heading }}</h3>
+          <div class="deal-countdown" data-daily-countdown>
+            00 : 00 : 00
+          </div>
+        </div>
+
+        <p class="deal-small-text">
+          {{ section.settings.subtitle }}
+        </p>
+
+        <h2>
+          {{ section.settings.offer_text }}
+        </h2>
+
+        <p class="deal-description">
+          {{ section.settings.description }}
+        </p>
+
+        <!-- Button text ko span bana diya hai taaki nested link error na aaye -->
+        <span class="deal-action-link">
+          {{ section.settings.button_text }}
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none">
+            <path d="M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M12 5L19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+
+      </div>
+
+      <div class="deal-hero-image">
+        {% if section.settings.main_image %}
+          {{ section.settings.main_image | image_url: width: 900 | image_tag }}
+        {% endif %}
+      </div>
+
+      <div class="deal-badge">
+        {{ section.settings.badge_text }}
+      </div>
+
+    </a>
+
+    <!-- RIGHT CARDS (Already Clickable) -->
+    <div class="deal-right">
+
+      {% for block in section.blocks %}
+
+        <a href="{{ block.settings.link }}" class="deal-card" {{ block.shopify_attributes }}>
+
+          <div class="card-content">
+
+            <h4>{{ block.settings.title }}</h4>
+
+            <p>
+              {{ block.settings.subtitle }}
+            </p>
+
+            <span>
+              {{ block.settings.button_text }}
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none">
+                <path d="M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M12 5L19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+
+          </div>
+
+          <div class="card-image">
+            {% if block.settings.image %}
+              {{ block.settings.image | image_url: width: 500 | image_tag }}
+            {% endif %}
+          </div>
+
+          {% if block.settings.show_badge %}
+            <div class="card-badge">
+              {{ block.settings.badge_text }}
+            </div>
+          {% endif %}
+
+        </a>
+
+      {% endfor %}
+
+    </div>
+
+  </div>
+
+</section>
+
+<style>
+.deal-day-exact {
+  width: 100%;
+  padding-top: {{ section.settings.padding_top }}px;
+  padding-bottom: {{ section.settings.padding_bottom }}px;
+  margin: 0 auto;
+}
+
+.deal-day-row{
+  display:grid;
+  grid-template-columns:38% 60%;
+  gap:14px;
+}
+
+.deal-hero{
+  background:#edf5eb;
+  border-radius:12px;
+  height:150px;
+  position:relative;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  padding:18px 22px;
+  transition:.3s;
+  text-decoration: none; /* Link ke niche aane wali line hatane ke liye */
+}
+
+.deal-hero:hover{
+  transform:translateY(-3px);
+  box-shadow:0 8px 18px rgba(0,0,0,.08);
+}
+
+.deal-hero-content{
+  width:65%;
+  z-index:2;
+}
+
+.deal-header{
+  display:flex;
+  align-items:center;
+  gap:20px;
+}
+
+.deal-header h3{
+  margin:0;
+  font-size:15px;
+  font-weight:700;
+  color:#1e1e1e;
+}
+
+.deal-countdown{
+  font-size:13px;
+  font-weight:700;
+  letter-spacing:.8px;
+  color:#333;
+}
+
+.deal-small-text{
+  margin:6px 0;
+  font-size:12px;
+  color:#666;
+}
+
+.deal-hero-content h2{
+  margin:0;
+  font-size:16px;
+  color:#2d8f42;
+  font-weight:800;
+}
+
+.deal-description{
+  margin:6px 0;
+  font-size:12px;
+  color:#555;
+}
+
+/* Button style ko span par apply kiya hai */
+.deal-action-link{
+  color:#111;
+  text-decoration:none;
+  font-size:12px;
+  font-weight:600;
+  display:flex;
+  gap:8px;
+}
+
+.deal-hero-image{
+  position:absolute;
+  bottom:0;
+  right:45px;
+  width:170px;
+}
+
+.deal-hero-image img{
+  width:100%;
+  display:block;
+  height:170px;
+}
+
+.deal-badge{
+  position:absolute;
+  right:35px;
+  top:14px;
+  width:52px;
+  height:52px;
+  border-radius:50%;
+  background:#4ca94d;
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  font-size:15px;
+  font-weight:700;
+  line-height:1.1;
+  z-index: 3;
+}
+
+.deal-right{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+}
+
+.deal-card{
+  background:#f8f8f8;
+  border-radius:12px;
+  height:150px;
+  position:relative;
+  overflow:hidden;
+  text-decoration:none;
+  padding:18px;
+  transition:.3s;
+}
+
+.deal-card:hover{
+  transform:translateY(-3px);
+  box-shadow:0 8px 18px rgba(0,0,0,.08);
+}
+
+.card-content{
+  max-width:70%;
+}
+
+.card-content h4{
+  margin:0;
+  color:#222;
+  font-size:15px;
+  font-weight:700;
+}
+
+.card-content p{
+  margin:8px 0;
+  color:#666;
+  font-size:12px;
+  line-height:1.6;
+}
+
+.card-content span{
+  color:#f17b34;
+  font-size:12px;
+  font-weight:700;
+  display:flex;
+  gap:8px;
+}
+
+.card-image{
+  position:absolute;
+  right:12px;
+  bottom:0;
+  width:95px;
+}
+
+.card-image img{
+  width:100%;
+  display:block;
+  height: 150px;
+}
+
+.card-badge{
+  position:absolute;
+  top:10px;
+  right:10px;
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  background:#f47a20;
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:10px;
+  font-weight:700;
+  z-index: 3;
+}
+
+@media(max-width:1024px){
+  .deal-day-row{
+    grid-template-columns:1fr;
+  }
+  .deal-right{
+    grid-template-columns:repeat(3,1fr);
+  }
+}
+
+@media(max-width:767px){
+  .deal-day-exact{
+    padding-top: {{ section.settings.padding_top_mobile }}px;
+    padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
+  }
+  .deal-right{
+    display:flex;
+    overflow-x:auto;
+    gap:12px;
+    padding-bottom:5px;
+    scrollbar-width:none;
+  }
+  .deal-card{
+    min-width:240px;
+    flex:0 0 240px;
+  }
+  .deal-hero{
+    height:auto;
+    min-height:150px;
+  }
+  .deal-hero-image{
+    width:130px;
+    right:10px;
+  }
+}
+</style>
+
+<script src="{{ 'daily-deal-countdown.js' | asset_url }}" defer></script>
+
+{% schema %}
+{
+  "name":"Deal Of Day Exact",
+  "settings":[
+    {
+      "type":"header",
+      "content": "Section Padding"
+    },
+    {
+      "type":"range",
+      "id":"padding_top",
+      "label":"Top Padding (Desktop)",
+      "min":0,
+      "max":100,
+      "step":4,
+      "unit":"px",
+      "default":36
+    },
+    {
+      "type":"range",
+      "id":"padding_bottom",
+      "label":"Bottom Padding (Desktop)",
+      "min":0,
+      "max":100,
+      "step":4,
+      "unit":"px",
+      "default":36
+    },
+    {
+      "type":"range",
+      "id":"padding_top_mobile",
+      "label":"Top Padding (Mobile)",
+      "min":0,
+      "max":100,
+      "step":4,
+      "unit":"px",
+      "default":20
+    },
+    {
+      "type":"range",
+      "id":"padding_bottom_mobile",
+      "label":"Bottom Padding (Mobile)",
+      "min":0,
+      "max":100,
+      "step":4,
+      "unit":"px",
+      "default":20
+    },
+    {
+      "type":"header",
+      "content": "Content Settings"
+    },
+    {
+      "type":"text",
+      "id":"heading",
+      "label":"Heading",
+      "default":"Deal of the Day"
+    },
+    {
+      "type":"text",
+      "id":"subtitle",
+      "label":"Subtitle",
+      "default":"Hurry up! Limited time offer"
+    },
+    {
+      "type":"text",
+      "id":"offer_text",
+      "label":"Offer Text",
+      "default":"Daily Special"
+    },
+    {
+      "type":"text",
+      "id":"description",
+      "label":"Description",
+      "default":"Limited-time home essentials"
+    },
+    {
+      "type":"image_picker",
+      "id":"main_image",
+      "label":"Main Image"
+    },
+    {
+      "type":"text",
+      "id":"badge_text",
+      "label":"Badge Text",
+      "default":"DAILY DEAL"
+    },
+    {
+      "type":"text",
+      "id":"button_text",
+      "label":"Button Text",
+      "default":"Shop Now"
+    },
+    {
+      "type":"url",
+      "id":"button_link",
+      "label":"Button Link"
+    },
+    {
+      "type": "select",
+      "id": "container_width",
+      "label": "Container Width",
+      "options": [
+        {
+          "value": "section-container--lg",
+          "label": "Large"
+        },
+        {
+          "value": "section-container--xl",
+          "label": "Extra Large"
+        },
+        {
+          "value": "section-container--full",
+          "label": "Full Width"
+        }
+      ],
+      "default": "section-container--xl"
+    }
+  ],
+  "blocks":[
+    {
+      "type":"card",
+      "name":"Promo Card",
+      "settings":[
+        {
+          "type":"text",
+          "id":"title",
+          "label":"Title"
+        },
+        {
+          "type":"text",
+          "id":"subtitle",
+          "label":"Subtitle"
+        },
+        {
+          "type":"text",
+          "id":"button_text",
+          "label":"Button Text",
+          "default":"Shop Now"
+        },
+        {
+          "type":"url",
+          "id":"link",
+          "label":"Link"
+        },
+        {
+          "type":"image_picker",
+          "id":"image",
+          "label":"Image"
+        },
+        {
+          "type":"checkbox",
+          "id":"show_badge",
+          "label":"Show Badge",
+          "default":false
+        },
+        {
+          "type":"text",
+          "id":"badge_text",
+          "label":"Badge Text",
+          "default":"NEW"
+        }
+      ]
+    }
+  ],
+  "max_blocks":3,
+  "presets":[
+    {
+      "name":"Deal Of Day Exact"
+    }
+  ]
+}
+{% endschema %}

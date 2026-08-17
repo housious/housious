@@ -1,0 +1,81 @@
+<div
+  class="section-container {{ section.settings.container_width }}"
+  data-collection-grid-section-id="{{ section.id }}"
+>
+  <div class="collection-layout-wrapper">
+    {% comment %} SIDEBAR FILTER SNIPPET {% endcomment %}
+    {% render 'collection-filters', collection: collection %}
+
+    {% comment %} RIGHT SIDE: PRODUCTS CONTENT {% endcomment %}
+    <div class="collection-products-content-side" id="ProductGridContainer">
+      <div class="collection-product-grid-wrapper">
+        {% comment %} TOPBAR METADATA & MOBILE TOGGLE BUTTON {% endcomment %}
+        <div class="collection-meta-topbar">
+          <span class="showing-products-count">Showing {{ collection.products_count }} Products</span>
+          <button type="button" class="mobile-filter-toggle-btn" id="MobileFilterToggleBtn">⚙️ Filter & Sort</button>
+        </div>
+
+        {%- paginate collection.products by section.settings.products_per_page -%}
+          {%- if collection.products.size == 0 -%}
+            <div class="collection-empty" style="padding: 40px 0; text-align: center;">
+              <p style="font-size: 16px; color: #666;">No products found matching these filters.</p>
+              <a href="{{ collection.url }}" class="clear-all-link" style="font-weight: 700; text-decoration: underline;">Reset Filters</a>
+            </div>
+          {%- else -%}
+            <div class="products-grid-layout">
+              {%- for product in collection.products -%}
+                {%- assign card_loading = 'lazy' -%}
+                {%- if forloop.index <= 4 -%}
+                  {%- assign card_loading = 'eager' -%}
+                {%- endif -%}
+                {% render 'product-card', card_product: product, image_loading: card_loading %}
+              {%- endfor -%}
+            </div>
+
+            {%- if paginate.pages > 1 -%}
+              <div class="pagination-wrapper">
+                {{ paginate | default_pagination }}
+              </div>
+            {%- endif -%}
+          {%- endif -%}
+        {%- endpaginate -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="filter-drawer-overlay" id="FilterDrawerOverlay"></div>
+<script src="{{ 'collection-filters.js' | asset_url }}" defer></script>
+
+{% schema %}
+{
+  "name": "Product Grid",
+  "settings": [
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "label": "Products per page",
+      "min": 12,
+      "max": 48,
+      "step": 4,
+      "default": 24,
+      "info": "Keep this at 24 for the best balance of browsing and performance."
+    },
+    {
+      "type": "select",
+      "id": "container_width",
+      "label": "Container Width",
+      "options": [
+        { "value": "section-container--sm", "label": "Small" },
+        { "value": "section-container--md", "label": "Medium" },
+        { "value": "section-container--lg", "label": "Large" },
+        { "value": "section-container--full", "label": "Full Width" }
+      ],
+      "default": "section-container--lg"
+    }
+  ],
+  "presets": [
+    { "name": "Product Grid Layout" }
+  ]
+}
+{% endschema %}

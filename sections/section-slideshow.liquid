@@ -1,0 +1,445 @@
+{{ 'hero-slideshow.css' | asset_url | stylesheet_tag }}
+
+{{ 'swiper-bundle.min.css' | asset_url | stylesheet_tag }}
+
+<section
+  class="hero-slideshow section-container {{ section.settings.container_width }}"
+  
+>
+  <h1 class="housious-visually-hidden">Housious Home Solutions & Everyday Essentials</h1>
+
+  <div class="swiper hero-slider"
+  data-autoplay="{{ section.settings.autoplay }}"
+  data-speed="{{ section.settings.speed | times: 1000 }}">
+
+    <div class="swiper-wrapper">
+
+      {% for block in section.blocks %}
+
+        <div
+          class="swiper-slide hero-slide"
+          {{ block.shopify_attributes }}
+        >
+
+          <!-- Left Content -->
+
+          <div class="hero-content">
+
+            {% if block.settings.badge != blank %}
+              <div class="hero-badge">
+                {{ block.settings.badge }}
+              </div>
+            {% endif %}
+
+            {% if block.settings.heading != blank %}
+              <h2 class="hero-title">
+                {{ block.settings.heading }}
+              </h2>
+            {% endif %}
+
+            {% if block.settings.description != blank %}
+              <div class="hero-description">
+                {{ block.settings.description }}
+              </div>
+            {% endif %}
+             {% if block.settings.feature_icon_1 != blank %} 
+              <div class="hero-features">
+
+                {% if block.settings.feature_icon_1 != blank %}
+                  <div class="hero-feature">
+
+                    <div class="hero-feature-icon">
+
+                      {{
+                        block.settings.feature_icon_1
+                        | image_url: width: 60
+                        | image_tag
+                      }}
+
+                    </div>
+
+                    <div class="hero-feature-text">
+                      {{ block.settings.feature_text_1 }}
+                    </div>
+
+                  </div>
+                {% endif %}
+
+                {% if block.settings.feature_icon_2 != blank %}
+                  <div class="hero-feature">
+
+                    <div class="hero-feature-icon">
+
+                      {{
+                        block.settings.feature_icon_2
+                        | image_url: width: 60
+                        | image_tag
+                      }}
+
+                    </div>
+
+                    <div class="hero-feature-text">
+                      {{ block.settings.feature_text_2 }}
+                    </div>
+
+                  </div>
+                {% endif %}
+
+                {% if block.settings.feature_icon_3 != blank %}
+                  <div class="hero-feature">
+
+                    <div class="hero-feature-icon">
+
+                      {{
+                        block.settings.feature_icon_3
+                        | image_url: width: 60
+                        | image_tag
+                      }}
+
+                    </div>
+
+                    <div class="hero-feature-text">
+                      {{ block.settings.feature_text_3 }}
+                    </div>
+
+                  </div>
+                {% endif %}
+
+                {% if block.settings.feature_icon_4 != blank %}
+                  <div class="hero-feature">
+
+                    <div class="hero-feature-icon">
+
+                      {{
+                        block.settings.feature_icon_4
+                        | image_url: width: 60
+                        | image_tag
+                      }}
+
+                    </div>
+
+                    <div class="hero-feature-text">
+                      {{ block.settings.feature_text_4 }}
+                    </div>
+
+                  </div>
+                {% endif %}
+
+              </div>
+            {% endif %}
+            <div class="hero-buttons">
+
+              {% if block.settings.primary_btn_text != blank %}
+                <a
+                  href="{{ block.settings.primary_btn_link }}"
+                  class="hero-btn-primary"
+                >
+                  {{ block.settings.primary_btn_text }}
+                </a>
+              {% endif %}
+
+              {% if block.settings.secondary_btn_text != blank %}
+                <a
+                  href="{{ block.settings.secondary_btn_link }}"
+                  class="hero-btn-secondary"
+                >
+                  {{ block.settings.secondary_btn_text }}
+                </a>
+              {% endif %}
+
+            </div>
+
+          </div>
+
+          <!-- Right Image -->
+
+          <div class="hero-image">
+
+            <picture>
+
+              {% if block.settings.mobile_image != blank %}
+                <source
+                  media="(max-width: 767px)"
+                  srcset="{{ block.settings.mobile_image | image_url: width: 900 }}"
+                >
+              {% endif %}
+
+              {% if block.settings.desktop_image != blank %}
+                {% if forloop.first %}
+                    {{
+                      block.settings.desktop_image
+                      | image_url: width: 2000
+                      | image_tag:
+                        loading: 'eager',
+                        fetchpriority: 'high'
+                    }}
+                  {% else %}
+                    {{
+                      block.settings.desktop_image
+                      | image_url: width: 2000
+                      | image_tag:
+                        loading: 'lazy'
+                    }}
+                  {% endif %}
+              {% endif %}
+
+            </picture>
+
+            {% if block.settings.offer_title != blank %}
+              <div class="hero-offer-card">
+
+                {% if block.settings.offer_badge != blank %}
+                  <div class="hero-offer-badge">
+                    {{ block.settings.offer_badge }}
+                  </div>
+                {% endif %}
+
+                <div class="hero-offer-title">
+                  {{ block.settings.offer_title }}
+                </div>
+
+                <div class="hero-offer-description">
+                  {{ block.settings.offer_description }}
+                </div>
+
+                {% if block.settings.offer_btn_text != blank %}
+                  <a
+                    href="{{ block.settings.offer_btn_link }}"
+                    class="hero-offer-button"
+                  >
+                    {{ block.settings.offer_btn_text }}
+                  </a>
+                {% endif %}
+
+              </div>
+            {% endif %}
+
+          </div>
+
+        </div>
+
+      {% endfor %}
+
+    </div>
+
+    {% if section.settings.show_arrows %}
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-button-next"></div>
+    {% endif %}
+
+    {% if section.settings.show_dots %}
+      <div class="swiper-pagination"></div>
+    {% endif %}
+
+  </div>
+
+</section>
+
+<script src="{{ 'swiper-bundle.min.js' | asset_url }}" defer></script>
+<script src="{{ 'hero-slideshow.js' | asset_url }}" defer></script>
+
+{% schema %}
+{
+  "name": "Hero Slideshow",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Autoplay",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "speed",
+      "label": "Autoplay Speed",
+      "min": 2,
+      "max": 10,
+      "step": 1,
+      "unit": "sec",
+      "default": 5
+    },
+    {
+      "type": "checkbox",
+      "id": "show_arrows",
+      "label": "Show Arrows",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_dots",
+      "label": "Show Dots",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "container_width",
+      "label": "Container Width",
+      "options": [
+        {
+          "value": "section-container--lg",
+          "label": "Large"
+        },
+        {
+          "value": "section-container--xl",
+          "label": "Extra Large"
+        },
+        {
+          "value": "section-container--full",
+          "label": "Full Width"
+        }
+      ],
+      "default": "section-container--xl"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "text",
+          "id": "badge",
+          "label": "Badge"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description"
+        },
+        {
+          "type": "image_picker",
+          "id": "desktop_image",
+          "label": "Desktop Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "mobile_image",
+          "label": "Mobile Image"
+        },
+
+        {
+          "type": "header",
+          "content": "Features"
+        },
+
+        {
+          "type": "image_picker",
+          "id": "feature_icon_1",
+          "label": "Feature Icon 1"
+        },
+        {
+          "type": "text",
+          "id": "feature_text_1",
+          "label": "Feature Text 1"
+        },
+
+        {
+          "type": "image_picker",
+          "id": "feature_icon_2",
+          "label": "Feature Icon 2"
+        },
+        {
+          "type": "text",
+          "id": "feature_text_2",
+          "label": "Feature Text 2"
+        },
+
+        {
+          "type": "image_picker",
+          "id": "feature_icon_3",
+          "label": "Feature Icon 3"
+        },
+        {
+          "type": "text",
+          "id": "feature_text_3",
+          "label": "Feature Text 3"
+        },
+
+        {
+          "type": "image_picker",
+          "id": "feature_icon_4",
+          "label": "Feature Icon 4"
+        },
+        {
+          "type": "text",
+          "id": "feature_text_4",
+          "label": "Feature Text 4"
+        },
+
+        {
+          "type": "header",
+          "content": "Buttons"
+        },
+
+        {
+          "type": "text",
+          "id": "primary_btn_text",
+          "label": "Primary Button Text"
+        },
+        {
+          "type": "url",
+          "id": "primary_btn_link",
+          "label": "Primary Button Link"
+        },
+
+        {
+          "type": "text",
+          "id": "secondary_btn_text",
+          "label": "Secondary Button Text"
+        },
+        {
+          "type": "url",
+          "id": "secondary_btn_link",
+          "label": "Secondary Button Link"
+        },
+
+        {
+          "type": "header",
+          "content": "Offer Card"
+        },
+
+        {
+          "type": "text",
+          "id": "offer_badge",
+          "label": "Offer Badge"
+        },
+        {
+          "type": "text",
+          "id": "offer_title",
+          "label": "Offer Title"
+        },
+        {
+          "type": "textarea",
+          "id": "offer_description",
+          "label": "Offer Description"
+        },
+        {
+          "type": "text",
+          "id": "offer_btn_text",
+          "label": "Offer Button Text"
+        },
+        {
+          "type": "url",
+          "id": "offer_btn_link",
+          "label": "Offer Button Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero Slideshow",
+      "blocks": [
+        {
+          "type": "slide"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

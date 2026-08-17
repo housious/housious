@@ -1,0 +1,107 @@
+{{ 'about.css' | asset_url | stylesheet_tag }}
+
+{% comment %} <section class="centered-manifesto section-{{ section.id }}">
+  <div class="canvas-container"> {% endcomment %}
+  <section class="centered-manifesto section-{{ section.id }}">
+  <div class="section-container {{ section.settings.container_width }}">
+    
+    {% if section.settings.overline != blank %}
+      <span class="canvas-overline">{{ section.settings.overline }}</span>
+    {% endif %}
+    
+    {% if section.settings.heading != blank %}
+      <h2 class="canvas-heading">{{ section.settings.heading }}</h2>
+    {% endif %}
+    
+    {% if section.settings.text != blank %}
+      <div class="canvas-text-desc">{{ section.settings.text }}</div>
+    {% endif %}
+
+  </div>
+</section>
+
+{% comment %} {% schema %}
+{
+  "name": "Brand Manifesto",
+  "settings": [
+    { 
+      "type": "text", 
+      "id": "overline", 
+      "label": "Small Overline", 
+      "default": "THE HOUSIOUS STANDARD" 
+    },
+    { 
+      "type": "text", 
+      "id": "heading", 
+      "label": "Main Center Heading", 
+      "default": "Aesthetics Meet Everyday Utility." 
+    },
+    { 
+      "type": "richtext", 
+      "id": "text", 
+      "label": "Sub-Text Paragraph", 
+      "default": "<p>We believe that the objects around us shape our daily peace. Every detail is meticulously planned, and every material is chosen for its timeless quality.</p>" 
+    }
+  ],
+  "presets": [{ "name": "Brand Manifesto" }]
+}
+{% endschema %} {% endcomment %}
+
+{% schema %}
+{
+  "name": "Brand Manifesto",
+  "settings": [
+    {
+      "type": "text",
+      "id": "overline",
+      "label": "Small Overline",
+      "default": "THE HOUSIOUS STANDARD"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Main Center Heading",
+      "default": "Aesthetics Meet Everyday Utility."
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Sub-Text Paragraph",
+      "default": "<p>We believe that the objects around us shape our daily peace. Every detail is meticulously planned, and every material is chosen for its timeless quality.</p>"
+    },
+    {
+      "type": "select",
+      "id": "container_width",
+      "label": "Container Width",
+      "options": [
+        {
+          "value": "section-container--sm",
+          "label": "Small"
+        },
+        {
+          "value": "section-container--md",
+          "label": "Medium"
+        },
+        {
+          "value": "section-container--lg",
+          "label": "Large"
+        },
+        {
+          "value": "section-container--xl",
+          "label": "Extra Large"
+        },
+        {
+          "value": "section-container--full",
+          "label": "Full Width"
+        }
+      ],
+      "default": "section-container--lg"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Brand Manifesto"
+    }
+  ]
+}
+{% endschema %}

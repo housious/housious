@@ -1,0 +1,64 @@
+/* Temu Style System UI Font Stack Globally */
+*, body, html {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+}
+
+.section-container {
+  width: 100%;
+  margin: 0 auto;
+  padding-inline:var(--page-margin-desktop);
+}
+
+.section-container--sm {
+  max-width: 900px;
+}
+
+.section-container--md {
+  max-width: 1200px;
+}
+
+.section-container--lg {
+  max-width: 1440px;
+}
+
+.section-container--xl {
+  max-width: 1600px;
+}
+
+.section-container--full {
+  max-width: none;
+}
+
+
+@media screen and (max-width:749px){
+  .section-container{
+    padding-inline:var(--page-margin-mobile);
+  }
+}
+
+@media (max-width: 600px) {
+  #AirReviews-BlockWrapper .AirReviews-Widget__V2:has(.AirReviews-Blocks__PresetModern) .AirReviews-Blocks__LayoutList.AirReviews-Blocks__PresetModern {
+    display: block !important;
+  }
+}
+
+.xb-wishlist__header {
+  width:unset !important;
+  height: unset !important;
+}
+
+.xb-product-quantity--bottom-right {
+    bottom: 16px !important;
+    right: 58px !important;
+}
+
+.xb-wishlist-button__add-style svg{
+  height:auto !important;
+  max-width:unset;
+}
+@media (max-width: 900px) {
+  .xb-product-quantity--bottom-right {
+      bottom: 12px !important;
+      right: -3px !important;
+  }
+}

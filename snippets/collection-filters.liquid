@@ -1,0 +1,244 @@
+<aside class="collection-filters-sidebar" id="CollectionFiltersContainer">
+  <form id="CollectionFiltersForm" class="filter-form-wrapper">
+    <div class="filter-header-row">
+  <h2 class="filter-main-heading">Filter By</h2>
+
+  <div class="filter-header-actions">
+    <a href="{{ collection.url }}" class="clear-all-link" id="ClearAllFilters">
+      Clear All
+    </a>
+
+    <button
+      type="button"
+      class="mobile-filter-close-btn"
+      id="MobileFilterCloseBtn"
+      aria-label="Close Filters">
+      ✕
+    </button>
+  </div>
+</div>
+
+    {% comment %} 1. CATEGORY PANEL {% endcomment %}
+{% comment %} <div class="filter-group-block custom-navigation-categories">
+  <h3 class="filter-group-title">Category</h3>
+  <div class="filter-group-content">
+    <ul class="filter-checkbox-list" id="CategoryFilterList">
+      {%- assign item_counter = 0 -%}
+
+      {% comment %} --- LOGIC: Agar 'all-collections' page hai to sab dikhao, warna menu-based dikhao --- {% endcomment %}
+      {% if template.suffix == 'all-collections' or collection.handle == 'all' %}
+        
+        {% for col in collections %}
+          {% unless col.handle == 'frontpage' %}
+            {%- assign item_counter = item_counter | plus: 1 -%}
+            <li class="category-filter-item {% if item_counter > 5 %}hidden-category-item{% endif %}" {% if item_counter > 5 %}style="display: none;"{% endif %}>
+              <a href="{{ col.url }}" style="text-decoration:none; color:inherit; display:flex; align-items:center;">
+                <span class="custom-checkbox-text">{{ col.title }}</span>
+                <span class="filter-item-count" style="margin-left:auto;">({{ col.all_products_count }})</span>
+              </a>
+            </li>
+          {% endunless %}
+        {% endfor %}
+
+      {% else %}
+        
+        {%- assign current_collection_handle = collection.handle -%}
+        {%- assign current_collection_title_down = collection.title | downcase -%}
+        
+        {%- for link in linklists['Home-menu'].links -%}
+          {%- assign link_title_down = link.title | downcase -%}
+          {%- if link_title_down == current_collection_title_down or link.active or link.child_active -%}
+            {%- for child_link in link.links -%}
+              {%- assign sub_collection = child_link.object -%}
+              {%- if sub_collection == blank and child_link.url contains '/collections/' -%}
+                {%- assign url_parts = child_link.url | split: '/' -%}
+                {%- assign sub_handle = url_parts | last -%}
+                {%- assign sub_collection = collections[sub_handle] -%}
+              {%- endif -%}
+              
+              {%- if sub_collection != blank -%}
+                {%- assign item_counter = item_counter | plus: 1 -%}
+                <li class="category-filter-item {% if item_counter > 5 %}hidden-category-item{% endif %}" {% if item_counter > 5 %}style="display: none;"{% endif %}>
+                  <label class="filter-checkbox-label navigation-redirect-label">
+                    <input type="checkbox" class="filter-checkbox-input dynamic-cat-nav" {% if sub_collection.handle == current_collection_handle %}checked{% endif %} onchange="window.location.href='{{ sub_collection.url }}';">
+                    <span class="custom-checkbox-text">{{ sub_collection.title }}</span>
+                    <span class="filter-item-count">({{ sub_collection.all_products_count }})</span>
+                  </label>
+                </li>
+              {%- endif -%}
+            {%- endfor -%}
+          {%- endif -%}
+        {%- endfor -%}
+      {% endif %}
+    </ul>
+
+    {%- if item_counter > 5 -%}
+      {%- assign remaining = item_counter | minus: 5 -%}
+      <button type="button" id="CategoryViewMoreBtn" data-expanded="false" data-count="{{ remaining }}" class="view-more-link" style="background: none; border: none; color: #ff4500; padding: 0; font-weight: 600; cursor: pointer; margin-top: 10px;">
+        + View More ({{ remaining }})
+      </button>
+    {%- endif -%}
+  </div>
+</div> {% endcomment %}
+{% comment %} 1. CATEGORY PANEL {% endcomment %}
+{%- comment -%} 1. Pehle humein ek variable mein check karna hoga ki categories hain ya nahi {%- endcomment -%}
+{%- capture category_content -%}
+  <ul class="filter-checkbox-list" id="CategoryFilterList">
+    {%- assign item_counter = 0 -%}
+
+    {% if template.suffix == 'all-collections' or collection.handle == 'all' %}
+      {% for col in collections %}
+        {% unless col.handle == 'frontpage' %}
+          {%- assign item_counter = item_counter | plus: 1 -%}
+          <li class="category-filter-item {% if item_counter > 5 %}hidden-category-item{% endif %}" {% if item_counter > 5 %}style="display: none;"{% endif %}>
+            <a href="{{ col.url }}" style="text-decoration:none; color:inherit; display:flex; align-items:center;">
+              <span class="custom-checkbox-text">{{ col.title }}</span>
+              <span class="filter-item-count" style="margin-left:auto;">({{ col.all_products_count }})</span>
+            </a>
+          </li>
+        {% endunless %}
+      {% endfor %}
+    {% else %}
+      {%- assign current_collection_handle = collection.handle -%}
+      {%- assign current_collection_title_down = collection.title | downcase -%}
+      
+      {%- for link in linklists['Home-menu'].links -%}
+        {%- assign link_title_down = link.title | downcase -%}
+        {%- if link_title_down == current_collection_title_down or link.active or link.child_active -%}
+          {%- for child_link in link.links -%}
+            {%- assign sub_collection = child_link.object -%}
+            {%- if sub_collection == blank and child_link.url contains '/collections/' -%}
+              {%- assign url_parts = child_link.url | split: '/' -%}
+              {%- assign sub_handle = url_parts | last -%}
+              {%- assign sub_collection = collections[sub_handle] -%}
+            {%- endif -%}
+            
+            {%- if sub_collection != blank -%}
+              {%- assign item_counter = item_counter | plus: 1 -%}
+              <li class="category-filter-item {% if item_counter > 5 %}hidden-category-item{% endif %}" {% if item_counter > 5 %}style="display: none;"{% endif %}>
+                <label class="filter-checkbox-label navigation-redirect-label">
+                  <input type="checkbox" class="filter-checkbox-input dynamic-cat-nav" {% if sub_collection.handle == current_collection_handle %}checked{% endif %} onchange="window.location.href='{{ sub_collection.url }}';">
+                  <span class="custom-checkbox-text">{{ sub_collection.title }}</span>
+                  <span class="filter-item-count">({{ sub_collection.all_products_count }})</span>
+                </label>
+              </li>
+            {%- endif -%}
+          {%- endfor -%}
+        {%- endif -%}
+      {%- endfor -%}
+    {% endif %}
+  </ul>
+
+  {%- if item_counter > 5 -%}
+    {%- assign remaining = item_counter | minus: 5 -%}
+    <button type="button" id="CategoryViewMoreBtn" data-expanded="false" data-count="{{ remaining }}" class="view-more-link" style="background: none; border: none; color: #ff4500; padding: 0; font-weight: 600; cursor: pointer; margin-top: 10px;">
+      + View More ({{ remaining }})
+    </button>
+  {%- endif -%}
+{%- endcapture -%}
+
+{% comment %} 2. Sirf tabhi display karo agar item_counter > 0 ho {% endcomment %}
+{% if item_counter > 0 %}
+  <div class="filter-group-block custom-navigation-categories">
+    <h3 class="filter-group-title">Category</h3>
+    <div class="filter-group-content">
+      {{ category_content }}
+    </div>
+  </div>
+{% endif %}
+
+
+    {% comment %} 2. NATIVE PRICE RANGE FILTER {% endcomment %}
+    {%- assign price_filter = nil -%}
+    {%- for filter in collection.filters -%}
+      {%- if filter.type == 'price_range' -%}
+        {%- assign price_filter = filter -%}
+        {%- break -%}
+      {%- endif -%}
+    {%- endfor -%}
+
+    {%- if price_filter != nil -%}
+      {%- liquid
+        assign price_max = price_filter.range_max | divided_by: 100.0
+        assign price_min_value = 0
+        assign price_max_value = price_max
+        if price_filter.min_value.value != blank
+          assign price_min_value = price_filter.min_value.value | divided_by: 100.0
+        endif
+        if price_filter.max_value.value != blank
+          assign price_max_value = price_filter.max_value.value | divided_by: 100.0
+        endif
+      -%}
+      <div class="filter-group-block dynamic-price-range-canva-block" data-index="price-slider-block">
+        <h3 class="filter-group-title">{{ price_filter.label }}</h3>
+        <div class="filter-group-content">
+          <div class="filter-price-range-wrapper">
+            <div class="range-slider-container">
+              <div class="slider-track"></div>
+              <input
+                type="range"
+                name="{{ price_filter.min_value.param_name }}"
+                class="range-min"
+                min="0"
+                max="{{ price_max }}"
+                value="{{ price_min_value }}"
+                step="1"
+                aria-label="Minimum price"
+              >
+              <input
+                type="range"
+                name="{{ price_filter.max_value.param_name }}"
+                class="range-max"
+                min="0"
+                max="{{ price_max }}"
+                value="{{ price_max_value }}"
+                step="1"
+                aria-label="Maximum price"
+              >
+            </div>
+
+            <div class="price-input-fields">
+              <div class="price-field">
+                <span>Min</span>
+                <input class="filter-price-input dynamic-min-input" value="{{ price_min_value | round }}" type="number" readonly aria-label="Selected minimum price">
+              </div>
+              <div class="price-field">
+                <span>Max</span>
+                <input class="filter-price-input dynamic-max-input" value="{{ price_max_value | round }}" type="number" readonly aria-label="Selected maximum price">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {%- endif -%}
+
+    {% comment %} 3. OTHER NATIVE FILTERS (Price Filter Excluded) {% endcomment %}
+    {%- for filter in collection.filters -%}
+      {%- assign label_down = filter.label | downcase -%}
+      {%- if label_down == 'product type' or label_down == 'type' or label_down == 'category' or filter.type == 'price_range' -%}{%- continue -%}{%- endif -%}
+      
+      <div class="filter-group-block" data-index="{{ forloop.index }}">
+        <h3 class="filter-group-title">{{ filter.label }}</h3>
+        <div class="filter-group-content">
+          <ul class="filter-checkbox-list">
+            {%- for filter_value in filter.values -%}
+              <li>
+                <label class="filter-checkbox-label">
+                  <input type="checkbox"
+                    name="{{ filter_value.param_name }}"
+                    value="{{ filter_value.value }}"
+                    class="filter-checkbox-input"
+                    {% if filter_value.active %}checked{% endif %}
+                  >
+                  <span class="custom-checkbox-text">{{ filter_value.label }}</span>
+                  <span class="filter-item-count">({{ filter_value.count }})</span>
+                </label>
+              </li>
+            {%- endfor -%}
+          </ul>
+        </div>
+      </div>
+    {%- endfor -%}
+
+  </form>
+</aside>

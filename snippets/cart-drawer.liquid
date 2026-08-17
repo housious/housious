@@ -1,0 +1,239 @@
+{% comment %}
+  snippets/cart-drawer.liquid
+  ─────────────────────────────────────────────────────────────────
+  Include in theme.liquid before </body>:
+    {% render 'cart-drawer' %}
+
+  Settings are pulled from config/settings_schema.json.
+  Merchants configure everything in Shopify Customizer →
+  Theme Settings → Cart Drawer.
+{% endcomment %}
+
+{% comment %} ── Inline config passed to JS ── {% endcomment %}
+<script>
+  window.__cartDrawerConfig = {
+    stealDealHandle: {{ settings.cart_drawer_steal_deals_collection | default: '' | json }},
+    tierDiscounts: [
+      {
+        minItems: 4,
+        discount: {{ settings.cart_tier4_discount | default: 15 }},
+        label:    "Flat {{ settings.cart_tier4_discount | default: 15 }}% Off",
+        code:     {{ settings.cart_tier4_code | default: 'BUY4GET15' | json }},
+        tier:     4
+      },
+      {
+        minItems: 3,
+        discount: {{ settings.cart_tier3_discount | default: 10 }},
+        label:    "Flat {{ settings.cart_tier3_discount | default: 10 }}% Off",
+        code:     {{ settings.cart_tier3_code | default: 'BUY3GET10' | json }},
+        tier:     3
+      },
+      {
+        minItems: 2,
+        discount: {{ settings.cart_tier2_discount | default: 5 }},
+        label:    "Flat {{ settings.cart_tier2_discount | default: 5 }}% Off",
+        code:     {{ settings.cart_tier2_code | default: 'BUY2GET5' | json }},
+        tier:     2
+      }
+    ]
+  };
+</script>
+
+<div id="cart-drawer-overlay" class="cart-drawer-overlay" aria-hidden="true"></div>
+
+<div id="cart-drawer" class="cart-drawer" role="dialog" aria-modal="true" aria-label="Shopping Cart" aria-hidden="true">
+
+  {% comment %} ── HEADER ── {% endcomment %}
+  <div class="cart-drawer__header">
+    <h2 class="cart-drawer__title">CART</h2>
+    <button class="cart-drawer__close" id="cart-drawer-close" aria-label="Close cart">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+        <path d="M1 1L17 17M17 1L1 17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </div>
+
+  {% comment %} ── TIERED DISCOUNT BANNER ── {% endcomment %}
+  <div class="cart-drawer__tier-banner" id="cart-tier-banner">
+    <div class="cart-tier-banner__message" id="cart-tier-message">
+      🎁 Add <strong>1</strong> more item to unlock
+      <strong>{{ settings.cart_tier2_discount | default: 5 }}% off</strong>
+    </div>
+    <div class="cart-tier-banner__tiers">
+
+      <div class="cart-tier__item" data-tier="2">
+        <div class="cart-tier__icon-wrap">
+          <svg class="cart-tier__icon" viewBox="0 0 24 24" fill="none">
+            <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"
+                  stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <line x1="3" y1="6" x2="21" y2="6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M16 10a4 4 0 01-8 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <span class="cart-tier__label">Buy 2</span>
+        <span class="cart-tier__discount">{{ settings.cart_tier2_discount | default: 5 }}% OFF</span>
+      </div>
+
+      <div class="cart-tier__divider"></div>
+
+      <div class="cart-tier__item" data-tier="3">
+        <div class="cart-tier__icon-wrap">
+          <svg class="cart-tier__icon" viewBox="0 0 24 24" fill="none">
+            <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"
+                  stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <line x1="3" y1="6" x2="21" y2="6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M16 10a4 4 0 01-8 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <span class="cart-tier__label">Buy 3</span>
+        <span class="cart-tier__discount">{{ settings.cart_tier3_discount | default: 10 }}% OFF</span>
+      </div>
+
+      <div class="cart-tier__divider"></div>
+
+      <div class="cart-tier__item" data-tier="4">
+        <div class="cart-tier__icon-wrap">
+          <svg class="cart-tier__icon" viewBox="0 0 24 24" fill="none">
+            <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"
+                  stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <line x1="3" y1="6" x2="21" y2="6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M16 10a4 4 0 01-8 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <span class="cart-tier__label">Buy 4</span>
+        <span class="cart-tier__discount">{{ settings.cart_tier4_discount | default: 15 }}% OFF</span>
+      </div>
+
+    </div>
+  </div>
+
+  {% comment %} ── CART ITEMS ── {% endcomment %}
+  <div class="cart-drawer__body" id="cart-drawer-body">
+
+    <div class="cart-drawer__items" id="cart-drawer-items"></div>
+
+    <div class="cart-drawer__empty" id="cart-drawer-empty" style="display:none;">
+      <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+        <path d="M8 8h6l8 32h28l6-22H20" stroke="#d1d5db" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="28" cy="52" r="3" fill="#d1d5db"/>
+        <circle cx="44" cy="52" r="3" fill="#d1d5db"/>
+      </svg>
+      <p>Your cart is empty</p>
+      <button class="cart-drawer__continue-btn" id="cart-continue-shopping">Continue Shopping</button>
+    </div>
+
+  </div>
+
+  {% comment %} ── STEAL DEALS (only rendered if collection is set) ── {% endcomment %}
+  {% if settings.cart_drawer_steal_deals_collection != blank %}
+  <div class="cart-drawer__steal-deals" id="cart-steal-deals" style="display:none;">
+    <div class="cart-steal-deals__header">
+      <span class="cart-steal-deals__badge">STEAL DEALS</span>
+    </div>
+    <div class="cart-steal-deals__offer-bar" id="cart-steal-offer-bar">
+      <span class="cart-steal-offer__text" id="cart-steal-offer-text">
+        Offer Unlocked! Flat {{ settings.cart_tier2_discount | default: 5 }}% Off
+      </span>
+      <button class="cart-steal-offer__apply-btn" id="cart-steal-apply-btn">Apply</button>
+    </div>
+    <div class="cart-steal-deals__products" id="cart-steal-products"></div>
+  </div>
+  {% else %}
+  {% comment %} Placeholder so JS IDs don't break when collection not set {% endcomment %}
+  <div id="cart-steal-deals" style="display:none;">
+    <span id="cart-steal-offer-text"></span>
+    <button id="cart-steal-apply-btn" style="display:none;"></button>
+    <div id="cart-steal-products"></div>
+  </div>
+  {% endif %}
+
+  {% comment %} ── FOOTER ── {% endcomment %}
+  <div class="cart-drawer__footer" id="cart-drawer-footer" style="display:none;">
+    <div class="cart-drawer__subtotal">
+      <span class="cart-subtotal__label">Subtotal</span>
+      <span class="cart-subtotal__value" id="cart-subtotal-value">₹ 0</span>
+    </div>
+    <p class="cart-drawer__tax-note">
+      Taxes included. Discounts and
+      <a href="{{ routes.cart_url }}">shipping</a> calculated at checkout.
+    </p>
+    {% comment %}
+      Shopify requires checkout to be triggered via a POST form to /checkout.
+      A plain <a href="/checkout"> gets blocked by Shopify's checkout protection.
+      Using a form with method="post" is the correct approach.
+    {% endcomment %}
+    <form id="cart-drawer-checkout-form" action="/checkout" method="post">
+      <button type="submit" class="cart-drawer__checkout-btn" id="cart-checkout-btn">
+        <span>PLACE ORDER</span>
+        <span class="cart-checkout-btn__sub">Buy more & save up to {{ settings.cart_tier4_discount | default: 15 }}%</span>
+        <span class="cart-checkout-btn__payment-icons">
+          <svg width="20" height="14" viewBox="0 0 38 24" xmlns="http://www.w3.org/2000/svg">
+            <rect width="38" height="24" rx="4" fill="#1a1f71"/>
+            <circle cx="15" cy="12" r="7" fill="#eb001b"/>
+            <circle cx="23" cy="12" r="7" fill="#f79e1b"/>
+            <path d="M19 6.8a7 7 0 010 10.4A7 7 0 0119 6.8z" fill="#ff5f00"/>
+          </svg>
+        </span>
+        <svg class="cart-checkout-btn__arrow" width="20" height="20" viewBox="0 0 24 24" fill="none">
+          <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </form>
+  </div>
+
+</div>
+
+{% comment %} ── ITEM TEMPLATE (cloned by JS) ── {% endcomment %}
+<template id="cart-item-template">
+  <div class="cart-item" data-line-index="">
+    <div class="cart-item__image-wrap">
+      <img class="cart-item__image" src="" alt="" width="80" height="100" loading="lazy">
+    </div>
+    <div class="cart-item__details">
+      <p class="cart-item__title"></p>
+      <div class="cart-item__price-row">
+        <span class="cart-item__price"></span>
+      </div>
+      <div class="cart-item__qty-row">
+        <div class="cart-item__qty-control">
+          <button class="cart-item__qty-btn cart-item__qty-minus" aria-label="Decrease quantity">−</button>
+          <span class="cart-item__qty-value"></span>
+          <button class="cart-item__qty-btn cart-item__qty-plus" aria-label="Increase quantity">+</button>
+        </div>
+        <button class="cart-item__remove" aria-label="Remove item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+            <polyline points="3 6 5 6 21 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M19 6l-1 14H6L5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M10 11v6M14 11v6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M9 6V4h6v2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</template>
+
+{% comment %} ── STEAL DEAL CARD TEMPLATE (cloned by JS) ── {% endcomment %}
+<template id="steal-deal-template">
+  <div class="steal-deal-card">
+    <div class="steal-deal-card__img-wrap">
+      <img class="steal-deal-card__img" src="" alt="" width="80" height="100" loading="lazy">
+      <span class="steal-deal-card__discount-badge"></span>
+    </div>
+    <div class="steal-deal-card__info">
+      <p class="steal-deal-card__title"></p>
+      <div class="steal-deal-card__prices">
+        <span class="steal-deal-card__original-price"></span>
+        <span class="steal-deal-card__sale-price"></span>
+      </div>
+      <button class="steal-deal-card__add-btn" aria-label="Add to cart">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+          <circle cx="9" cy="21" r="1" fill="white"/>
+          <circle cx="20" cy="21" r="1" fill="white"/>
+          <path d="M1 1h4l2.68 13.39a2 2 0 001.99 1.61h9.72a2 2 0 001.99-1.61L23 6H6"
+                stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</template>

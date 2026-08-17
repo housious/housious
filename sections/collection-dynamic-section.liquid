@@ -1,0 +1,175 @@
+{% liquid
+  assign section_id = 'collection-grid-' | append: section.id
+%}
+
+{{ 'grid-collection.css' | asset_url | stylesheet_tag }}
+
+<section id="{{ section_id }}" class="collection-grid-section section-container {{ section.settings.container_width }}">
+  <div class="page-width">
+
+    {% if section.settings.heading != blank %}
+      <div class="collection-grid-header">
+        <h2>{{ section.settings.heading }}</h2>
+      </div>
+    {% endif %}
+
+    <div class="
+      collection-grid-wrapper
+      {% if section.settings.layout_type == 'slider' %}collection-slider-wrapper{% endif %}
+    ">
+      {% for block in section.blocks %}
+        {% assign collection = collections[block.settings.collection] %}
+
+        <a
+          href="{% if collection %}{{ collection.url }}{% else %}#{% endif %}"
+          class="collection-card"
+          {{ block.shopify_attributes }}
+        >
+          {% if block.settings.image != blank %}
+            {{
+              block.settings.image
+              | image_url: width: 1200
+              | image_tag:
+              loading: 'lazy',
+              class: 'collection-card-image'
+            }}
+          {% elsif collection.featured_image %}
+            {{
+              collection.featured_image
+              | image_url: width: 1200
+              | image_tag:
+              loading: 'lazy',
+              class: 'collection-card-image'
+            }}
+          {% endif %}
+        </a>
+      {% endfor %}
+    </div>
+
+  </div>
+</section>
+
+
+{% schema %}
+{
+  "name": "Collection Banner Grid",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "Explore Our Collections"
+    },
+    {
+      "type": "range",
+      "id": "card_height",
+      "label": "Desktop Height",
+      "min": 120,
+      "max": 500,
+      "step": 10,
+      "default": 180
+    },
+    {
+      "type": "range",
+      "id": "mobile_height",
+      "label": "Mobile Height",
+      "min": 120,
+      "max": 400,
+      "step": 10,
+      "default": 180
+    },
+    {
+      "type": "select",
+      "id": "layout_type",
+      "label": "Layout Type",
+      "options": [
+        {
+          "value": "grid",
+          "label": "Grid"
+        },
+        {
+          "value": "slider",
+          "label": "Slider"
+        }
+      ],
+      "default": "grid"
+    },
+    {
+      "type": "select",
+      "id": "container_width",
+      "label": "Container Width",
+      "options": [
+        {
+          "value": "section-container--lg",
+          "label": "Large"
+        },
+        {
+          "value": "section-container--xl",
+          "label": "Extra Large"
+        },
+        {
+          "value": "section-container--full",
+          "label": "Full Width"
+        }
+      ],
+      "default": "section-container--xl"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection_card",
+      "name": "Collection Card",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Custom Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Small Kitchen"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Sub Heading",
+          "default": "Big Solutions"
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Button Text",
+          "default": "Explore"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "Collection Banner Grid",
+      "blocks": [
+        {
+          "type": "collection_card"
+        },
+        {
+          "type": "collection_card"
+        },
+        {
+          "type": "collection_card"
+        },
+        {
+          "type": "collection_card"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

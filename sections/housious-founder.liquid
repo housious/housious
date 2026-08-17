@@ -1,0 +1,171 @@
+{%- style -%}
+  .housious-founder-section {
+    padding: 20px 4%; /* Compact spacing */
+    background-color: #ffffff;
+    
+  }
+  .founder-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr; /* Image left, Text right */
+    gap: 60px;
+    align-items: center;
+  }
+  .founder-image-wrapper {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    height: 400px; /* Locked compact height */
+    box-shadow: 0 10px 30px rgba(46, 26, 71, 0.04);
+  }
+  .founder-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .founder-meta {
+   
+    font-size: 12px;
+    font-weight: 700;
+    color: {{ section.settings.accent_color }};
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    display: block;
+    margin-bottom: 10px;
+  }
+  /* .founder-title {
+    
+    color: {{ section.settings.title_color }};
+    font-size: 32px;
+    font-weight: 600;
+    margin: 0 0 20px 0;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+  } */
+
+  .founder-title {
+    
+    color: {{ section.settings.title_color }};
+    
+    font-size: 28px; /* Desktop heading standard size lowering from 38px */
+    margin-bottom: 20px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    text-transform: capitalize;
+
+  }
+  .founder-story-p {
+    font-size: 16px;
+    color: #4A5568;
+    line-height: 1.6;
+    margin: 0 0 15px 0;
+  }
+  .founder-quote {
+    color: {{ section.settings.accent_color }};
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: 20px;
+    border-left: 3px solid {{ section.settings.accent_color }};
+    padding-left: 15px;
+  }
+
+  @media (max-width: 768px) {
+    .founder-container {
+      grid-template-columns: 1fr; /* Stacks image on top for mobile */
+      gap: 30px;
+    }
+    .founder-image-wrapper {
+      height: 320px;
+    }
+    .founder-title {
+      font-size: 20px;
+    }
+
+    .founder-story-p{
+      font-size:10px;
+    }
+
+    .founder-quote{
+      font-size:10px;
+    }
+
+   .founder-meta{
+    font-size:10px;
+    }
+  }
+{%- endstyle -%}
+
+<section class="housious-founder-section">
+  <div class="founder-container">
+    
+    <div class="founder-image-wrapper">
+      {%- if section.settings.image != blank -%}
+        {{ section.settings.image | image_url: width: 600 | image_tag: loading: 'lazy', alt: section.settings.heading }}
+      {%- else -%}
+        {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+      {%- endif -%}
+    </div>
+
+    <div class="founder-text-block">
+      <span class="founder-meta">Behind the Brand</span>
+      <h2 class="founder-title">{{ section.settings.heading }}</h2>
+      <div class="founder-story-p">
+        {{ section.settings.story_text }}
+      </div>
+      {%- if section.settings.quote != blank -%}
+        <p class="founder-quote">"{{ section.settings.quote }}"</p>
+      {%- endif -%}
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Housious Founder Story",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "The Heart of Housious"
+    },
+    {
+      "type": "richtext",
+      "id": "story_text",
+      "label": "Story Paragraphs",
+      "default": "<p>Housious was born out of a simple, everyday frustration. We realized that a cluttered kitchen or an unorganized space isn't just a physical hassle—it directly affects your peace of mind. Our founder envisioned a brand that brings international standards of durability and modern aesthetics into Indian homes, making utility look beautiful.</p>"
+    },
+    {
+      "type": "text",
+      "id": "quote",
+      "label": "Founder Quote",
+      "default": "A tidy space leads to a peaceful mind."
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Founder Image"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title Color",
+      "default": "#2E1A47"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent Color",
+      "default": "#E91E63"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Housious Founder Story"
+    }
+  ]
+}
+{% endschema %}

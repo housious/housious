@@ -1,0 +1,347 @@
+
+
+{%- style -%}
+  .housious-counters-section {
+    padding: 20px 20px;
+    background-color: {{ section.settings.bg_color }};
+    text-align: center;
+  }
+  .counters-heading {
+    color: {{ section.settings.text_color }};
+    font-size: 28px; /* Desktop heading standard size lowering from 38px */
+    margin-bottom: 45px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    text-transform: capitalize;
+  }
+  .counters-grid {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  .counter-box {
+    flex: 1;
+    padding: 15px 10px;
+    border-right: 1px solid rgba(0,0,0,0.05); /* Soft premium separators */
+  }
+  .counter-box:last-child {
+    border-right: none;
+  }
+  .counter-number {
+    font-size: 48px; /* Desktop size optimized down from 72px for a truly premium look */
+    font-weight: 700;
+    color: {{ section.settings.number_color }};
+    line-height: 1.1;
+    margin-bottom: 10px;
+    display: block;
+    letter-spacing: -1px;
+    font-variant-numeric: tabular-nums; 
+  }
+  .counter-label {
+    font-size: 13px; /* Clean & crisp labels */
+    color: {{ section.settings.text_color }};
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    display: block;
+    opacity: 0.85;
+  }
+
+  /* Mobile Layout Enhancements */
+  @media (max-width: 768px) {
+    .housious-counters-section {
+      padding: 20px 15px;
+    }
+    .counters-heading {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+    .counters-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr); /* Pure desktop layout simulation on mobile */
+      gap: 10px;
+    }
+    .counter-box {
+      padding: 10px 5px;
+      border-right: 1px solid rgba(0,0,0,0.05);
+    }
+    .counter-box:last-child {
+      border-right: none;
+    }
+    .counter-number {
+      font-size: 20px; /* Perfectly downscaled for mobile view to prevent layout breaks */
+      margin-bottom: 6px;
+    }
+    .counter-label {
+      font-size: 10px;
+      letter-spacing: 0.8px;
+    }
+  }
+{%- endstyle -%}
+
+{% comment %} <section class="housious-counters-section" id="CountersSection-{{ section.id }}"> {% endcomment %}
+
+<section
+  class="housious-counters-section section-container {{ section.settings.container_width }}"
+  id="CountersSection-{{ section.id }}"
+>
+  {%- if section.settings.heading != blank -%}
+    <h2 class="counters-heading">{{ section.settings.heading }}</h2>
+  {%- endif -%}
+
+  <div class="counters-grid">
+    {%- for block in section.blocks -%}
+      <div class="counter-box" {{ block.shopify_attributes }}>
+        <span class="counter-number" 
+              data-target="{{ block.settings.target_number }}" 
+              data-suffix="{{ block.settings.suffix }}">{{ block.settings.target_number }}{{ block.settings.suffix }}</span>
+        <span class="counter-label">{{ block.settings.label }}</span>
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const section = document.getElementById('CountersSection-{{ section.id }}');
+    if (!section) return;
+    
+    const counters = section.querySelectorAll('.counter-number');
+    
+    const animateCounter = (counter) => {
+      const target = +counter.getAttribute('data-target');
+      const suffix = counter.getAttribute('data-suffix') || '';
+      counter.innerText = '0' + suffix;
+      
+      // Total duration of animation in milliseconds (2 Seconds = Perfect Premium Timing)
+      const totalDuration = 2000; 
+      const frameRate = 1000 / 60; // 60 FPS smooth rendering
+      const totalFrames = Math.round(totalDuration / frameRate);
+      
+      let currentFrame = 0;
+
+      const EasingFunc = (t) => t === 1 ? 1 : 1 - Math.pow(2, -10 * t); // Premium Ease-Out effect
+
+      const update = () => {
+        currentFrame++;
+        const progress = currentFrame / totalFrames;
+        const easeProgress = EasingFunc(progress);
+        
+        const currentValue = Math.floor(easeProgress * target);
+
+        if (currentFrame < totalFrames) {
+          counter.innerText = currentValue + suffix;
+          requestAnimationFrame(update); // CSS standard engine optimization
+        } else {
+          counter.innerText = target + suffix;
+        }
+      };
+
+      requestAnimationFrame(update);
+    };
+
+    // Intersection Observer
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          counters.forEach(counter => animateCounter(counter));
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.2 });
+
+    observer.observe(section);
+  });
+</script>
+
+{% comment %} {% schema %}
+{
+  "name": "Housious Counters",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "Housious by the Numbers"
+    },
+    {
+      "type": "color",  
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "number_color",
+      "label": "Numbers Color",
+      "default": "#E91E63"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#2E1A47"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "counter_block",
+      "name": "Counter Item",
+      "settings": [
+        {
+          "type": "number",
+          "id": "target_number",
+          "label": "Target Number",
+          "default": 250
+        },
+        {
+          "type": "text",
+          "id": "suffix",
+          "label": "Suffix (e.g. K+, +, %)",
+          "default": "K+"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label Text",
+          "default": "Families Served"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Housious Counters",
+      "blocks": [
+        { "type": "counter_block", "settings": { "target_number": 250, "suffix": "K+", "label": "Families Served" } },
+        { "type": "counter_block", "settings": { "target_number": 500, "suffix": "+", "label": "Unique Designs" } },
+        { "type": "counter_block", "settings": { "target_number": 12, "suffix": "+", "label": "Product Categories" } }
+      ]
+    }
+  ]
+}
+{% endschema %} {% endcomment %}
+
+{% schema %}
+{
+  "name": "Housious Counters",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "Housious by the Numbers"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "number_color",
+      "label": "Numbers Color",
+      "default": "#E91E63"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#2E1A47"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "container_width",
+      "label": "Container Width",
+      "options": [
+        {
+          "value": "section-container--sm",
+          "label": "Small"
+        },
+        {
+          "value": "section-container--md",
+          "label": "Medium"
+        },
+        {
+          "value": "section-container--lg",
+          "label": "Large"
+        },
+        {
+          "value": "section-container--xl",
+          "label": "Extra Large"
+        },
+        {
+          "value": "section-container--full",
+          "label": "Full Width"
+        }
+      ],
+      "default": "section-container--lg"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "counter_block",
+      "name": "Counter Item",
+      "settings": [
+        {
+          "type": "number",
+          "id": "target_number",
+          "label": "Target Number",
+          "default": 250
+        },
+        {
+          "type": "text",
+          "id": "suffix",
+          "label": "Suffix (e.g. K+, +, %)",
+          "default": "K+"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label Text",
+          "default": "Families Served"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Housious Counters",
+      "blocks": [
+        {
+          "type": "counter_block",
+          "settings": {
+            "target_number": 250,
+            "suffix": "K+",
+            "label": "Families Served"
+          }
+        },
+        {
+          "type": "counter_block",
+          "settings": {
+            "target_number": 500,
+            "suffix": "+",
+            "label": "Unique Designs"
+          }
+        },
+        {
+          "type": "counter_block",
+          "settings": {
+            "target_number": 12,
+            "suffix": "+",
+            "label": "Product Categories"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

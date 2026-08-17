@@ -1,0 +1,174 @@
+<div class="trust-icons-section section-{{ section.id }}">
+  <div class="page-width">
+    <div class="trust-icons-grid">
+      
+      {% for block in section.blocks %}
+        <div class="trust-icon-item" {{ block.shopify_attributes }}>
+          
+          <div class="trust-icon-media">
+            {% if block.settings.icon_svg != blank %}
+              <div class="trust-icon-svg">
+                {{ block.settings.icon_svg }}
+              </div>
+            {% elsif block.settings.image != blank %}
+              <img 
+                src="{{ block.settings.image | image_url: width: 50 }}" 
+                alt="{{ block.settings.title | default: 'Trust icon' | escape }}" 
+                loading="lazy"
+              >
+            {% else %}
+              {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+            {% endif %}
+          </div>
+
+          <div class="trust-icon-content">
+            {% if block.settings.title != blank %}
+              <h4 class="trust-icon-title">{{ block.settings.title }}</h4>
+            {% endif %}
+
+            {% if block.settings.subtext != blank %}
+              <p class="trust-icon-subtext">{{ block.settings.subtext }}</p>
+            {% endif %}
+          </div>
+
+        </div>
+      {% endfor %}
+
+    </div>
+  </div>
+</div>
+
+<style>
+  .trust-icons-section {
+    padding: 30px 0;
+    background-color: {{ section.settings.bg_color }};
+    border-top: 1px solid #ebebeb;
+    border-bottom: 1px solid #ebebeb;
+    margin: 20px 0;
+  }
+
+  .trust-icons-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    align-items: center;
+  }
+
+  .trust-icon-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    transition: transform 0.2s ease;
+  }
+
+  .trust-icon-item:hover {
+    transform: translateY(-2px);
+  }
+
+  .trust-icon-media {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+  }
+
+  .trust-icon-media svg,
+  .trust-icon-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    max-width: 100%;
+    max-height: 100%;
+  }
+
+  .trust-icon-title {
+    margin: 0 0 2px 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: #222;
+  }
+
+  .trust-icon-subtext {
+    margin: 0;
+    font-size: 12px;
+    color: #666;
+  }
+
+  /* Mobile */
+  @media screen and (max-width: 768px) {
+    .trust-icons-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .trust-icon-item {
+      gap: 10px;
+    }
+
+    .trust-icon-title {
+      font-size: 13px;
+    }
+
+    .trust-icon-subtext {
+      font-size: 10px;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Trust Icons",
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "icon",
+      "name": "Trust Icon",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "icon_svg",
+          "label": "SVG Icon (optional)"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image Icon"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Free Shipping"
+        },
+        {
+          "type": "text",
+          "id": "subtext",
+          "label": "Subtext",
+          "default": "On all orders"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "Trust Icons",
+      "blocks": [
+        { "type": "icon" },
+        { "type": "icon" },
+        { "type": "icon" },
+        { "type": "icon" }
+      ]
+    }
+  ]
+}
+{% endschema %}

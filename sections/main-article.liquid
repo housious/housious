@@ -1,0 +1,78 @@
+{% comment %} <link rel="stylesheet" href="{{ 'blog.css' | asset_url }}" type="text/css">
+
+<article class="custom-article-wrapper">
+  <h1>{{ article.title }}</h1>
+  
+  <div class="article-meta">
+    <span>{{ article.published_at | date: '%b %d, %Y' }}</span> by <span>{{ article.author }}</span>
+  </div>
+
+  {% if article.image %}
+    <div class="article-featured-image">
+      <img src="{{ article.image | img_url: 'master' }}" alt="{{ article.image.alt }}">
+    </div>
+  {% endif %}
+
+  <div class="article-content">
+    {{ article.content }}
+  </div>
+</article>
+
+{% schema %}
+{
+  "name": "Article Content",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Article Content"
+    }
+  ]
+}
+{% endschema %} {% endcomment %}
+
+<link rel="stylesheet" href="{{ 'blog.css' | asset_url }}" type="text/css">
+
+{% comment %} Senior ka bataya hua common structure {% endcomment %}
+<section class="section-container {{ section.settings.container_width }}">
+  <article class="custom-article-wrapper">
+    <h1>{{ article.title }}</h1>
+    
+    <div class="article-meta">
+      <span>{{ article.published_at | date: '%b %d, %Y' }}</span> by <span>{{ article.author }}</span>
+    </div>
+
+    {% if article.image %}
+      <div class="article-featured-image">
+        <img src="{{ article.image | img_url: 'master' }}" alt="{{ article.image.alt }}">
+      </div>
+    {% endif %}
+
+    <div class="article-content">
+      {{ article.content }}
+    </div>
+  </article>
+</section>
+
+{% schema %}
+{
+  "name": "Article Content",
+  "settings": [
+    {
+      "type": "select",
+      "id": "container_width",
+      "label": "Container Width",
+      "options": [
+        { "value": "section-container--sm", "label": "Small" },
+        { "value": "section-container--md", "label": "Medium" },
+        { "value": "section-container--lg", "label": "Large" },
+        { "value": "section-container--xl", "label": "Extra Large" },
+        { "value": "section-container--full", "label": "Full Width" }
+      ],
+      "default": "section-container--lg"
+    }
+  ],
+  "presets": [
+    { "name": "Article Content" }
+  ]
+}
+{% endschema %}

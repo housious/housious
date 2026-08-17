@@ -1,0 +1,215 @@
+<script src="{{ 'theme-deal-timer.js' | asset_url }}" defer></script>
+
+<section class="deal-section section-container {{ section.settings.container_width }}">
+  <div class="deal-main-container">
+    <div class="deal-left-side">
+      <div class="deal-info-grid">
+        <div class="deal-text-column">
+          <h2 class="deal-title">{{ section.settings.deal_title }}</h2>
+          <h3 class="deal-subtitle">{{ section.settings.deal_subtitle }}</h3>
+          <p class="deal-desc">{{ section.settings.deal_desc | newline_to_br }}</p>
+        </div>
+
+        <div class="deal-vertical-divider"></div>
+
+        <div class="deal-timer-box-wrapper" data-daily-deal-timer>
+          <p class="timer-label">{{ section.settings.timer_label }}</p>
+          <div class="timer-flex-row">
+            <div class="timer-outer">
+              <div class="timer">
+                <div class="timer-block"><span>00</span><small>Hours</small></div>
+                <div class="timer-colon">:</div>
+                <div class="timer-block"><span>00</span><small>Mins</small></div>
+                <div class="timer-colon">:</div>
+                <div class="timer-block"><span>00</span><small>Secs</small></div>
+              </div>
+            </div>
+
+            {% if section.settings.show_hot_badge and section.settings.hot_badge_text != blank %}
+              <div class="hot-selling-badge">
+                <span class="fire-icon">{{ section.settings.hot_badge_icon }}</span>
+                <span class="hot-text">{{ section.settings.hot_badge_text }}</span>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+
+      <div class="deal-features-badges">
+        {% for block in section.blocks %}
+          {% if block.type == 'feature_badge' %}
+            <div class="f-badge" {{ block.shopify_attributes }}>
+              <span class="f-icon">
+                {% if block.settings.badge_icon_img != blank %}
+                  {{ block.settings.badge_icon_img | image_url: width: 40 | image_tag: loading: 'lazy', alt: block.settings.badge_main_text }}
+                {% else %}
+                  <span class="f-emoji-fallback">{{ block.settings.badge_icon_emoji }}</span>
+                {% endif %}
+              </span>
+              <div class="f-text-column">
+                <span class="f-main-text">{{ block.settings.badge_main_text }}</span>
+                <span class="f-subtext">{{ block.settings.badge_sub_text }}</span>
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="deal-right-side">
+      {%- assign deal_product = blank -%}
+      {%- if section.settings.featured_product != blank -%}
+        {%- assign deal_product = all_products[section.settings.featured_product] -%}
+      {%- endif -%}
+      {%- if deal_product == blank -%}
+        {%- for candidate in collections.all.products limit: 50 -%}
+          {%- if candidate.metafields.custom.deal_of_the_day.value == true -%}
+            {%- assign deal_product = candidate -%}
+            {%- break -%}
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endif -%}
+
+      {%- if deal_product != blank -%}
+        {%- liquid
+          assign deal_variant = deal_product.selected_or_first_available_variant
+          assign product_price = deal_variant.price | plus: 0
+          assign compare_price = deal_variant.compare_at_price | plus: 0
+          assign prepaid_price = product_price | times: 93 | divided_by: 100
+          assign prepaid_save = product_price | minus: prepaid_price
+          assign upi_price = product_price | times: 90 | divided_by: 100
+          assign upi_save = product_price | minus: upi_price
+          assign air_review_count = deal_product.metafields.air_reviews_product.review_count.value | default: deal_product.metafields.air_reviews_product.review_count
+        -%}
+
+        <div class="featured-product-card">
+          {% if section.settings.badge_text != blank %}<div class="badge">{{ section.settings.badge_text }}</div>{% endif %}
+
+          <div class="product-card-body">
+            <a href="{{ deal_product.url }}" class="product-link image-side">
+              <div class="image-wrapper">
+                {% if deal_product.featured_image %}
+                  <img
+                    src="{{ deal_product.featured_image | image_url: width: 720 }}"
+                    srcset="{{ deal_product.featured_image | image_url: width: 360 }} 360w, {{ deal_product.featured_image | image_url: width: 540 }} 540w, {{ deal_product.featured_image | image_url: width: 720 }} 720w"
+                    sizes="(max-width: 749px) 45vw, 320px"
+                    alt="{{ deal_product.featured_image.alt | default: deal_product.title | escape }}"
+                    width="720"
+                    height="720"
+                    loading="eager"
+                    fetchpriority="high"
+                  >
+                {% endif %}
+              </div>
+            </a>
+
+            <div class="product-content-side">
+              <a href="{{ deal_product.url }}" class="product-link"><h4 class="p-title">{{ deal_product.title }}</h4></a>
+
+              <div class="rating-row">
+                <div class="air-reviews-product-stars" data-js-air-reviews-product-stars data-id="{{ deal_product.id }}"></div>
+                {% if air_review_count != blank and air_review_count != 0 %}<span class="count">({{ air_review_count }})</span>{% endif %}
+              </div>
+
+              <div class="price-row">
+                <span class="current-price">{{ product_price | money_without_trailing_zeros }}</span>
+                {% if compare_price > product_price %}
+                  <span class="compare-price">{{ compare_price | money_without_trailing_zeros }}</span>
+                  {% assign main_percent = compare_price | minus: product_price | times: 100 | divided_by: compare_price %}
+                  <span class="discount-tag">{{ main_percent }}% OFF</span>
+                {% endif %}
+              </div>
+
+              <div class="housious-offers-grid" style="display:flex;gap:10px;margin:12px 0;width:100%;">
+                <div class="offer-card card-prepaid">
+                  <div class="offer-header"><span class="offer-title">Prepaid Price (Extra 7% OFF)</span></div>
+                  <div class="offer-price-row">
+                    <span class="offer-price">{{ prepaid_price | money_without_trailing_zeros }}</span>
+                    <span class="offer-badge-save">Save {{ prepaid_save | money_without_trailing_zeros }}</span>
+                  </div>
+                </div>
+                <div class="offer-card card-upi">
+                  <div class="offer-header"><span class="offer-title">UPI Special Price (10% OFF)</span><span class="upi-mini-logo">UPI</span></div>
+                  <div class="offer-price-row">
+                    <span class="offer-price">{{ upi_price | money_without_trailing_zeros }}</span>
+                    <span class="offer-badge-save upi-save">Save {{ upi_save | money_without_trailing_zeros }}</span>
+                  </div>
+                </div>
+              </div>
+
+              {% form 'product', deal_product %}
+                <input type="hidden" name="id" value="{{ deal_variant.id }}">
+                <button type="submit" class="add-to-cart-btn" {% unless deal_product.available %}disabled{% endunless %}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+                  {% if deal_product.available %}Add to Cart{% else %}Sold Out{% endif %}
+                </button>
+              {% endform %}
+            </div>
+          </div>
+        </div>
+      {%- else -%}
+        <div class="featured-product-card">
+          <div class="product-card-body">
+            <div class="product-content-side" style="padding:24px;">
+              <h4 class="p-title">No deal product selected</h4>
+              <p>Please select a current deal product in the Theme Editor.</p>
+            </div>
+          </div>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Deal of the Day",
+  "settings": [
+    {
+      "type": "select",
+      "id": "container_width",
+      "label": "Container Width",
+      "options": [
+        { "value": "section-container--sm", "label": "Small" },
+        { "value": "section-container--md", "label": "Medium" },
+        { "value": "section-container--lg", "label": "Large" },
+        { "value": "section-container--xl", "label": "Extra Large" },
+        { "value": "section-container--full", "label": "Full Width" }
+      ],
+      "default": "section-container--lg"
+    },
+    { "type": "text", "id": "deal_title", "label": "Heading", "default": "DEAL OF THE DAY" },
+    { "type": "text", "id": "deal_subtitle", "label": "Sub Heading", "default": "Unbeatable Deals. Every Day." },
+    { "type": "textarea", "id": "deal_desc", "label": "Description", "default": "New deals everyday at 12:00 AM. Explore today’s featured offers before the daily deal refreshes." },
+    { "type": "text", "id": "timer_label", "label": "Timer Label", "default": "Deal Ends In" },
+    { "type": "checkbox", "id": "show_hot_badge", "label": "Show Availability Badge", "default": true },
+    { "type": "text", "id": "hot_badge_icon", "label": "Badge Icon (Emoji)", "default": "🔥" },
+    { "type": "text", "id": "hot_badge_text", "label": "Availability Badge Text", "default": "Today’s Deal" },
+    { "type": "product", "id": "featured_product", "label": "Main Deal Product" },
+    { "type": "text", "id": "badge_text", "label": "Badge Banner", "default": "BEST DEAL" }
+  ],
+  "blocks": [
+    {
+      "type": "feature_badge",
+      "name": "Feature Badge",
+      "limit": 4,
+      "settings": [
+        { "type": "image_picker", "id": "badge_icon_img", "label": "Upload Custom Icon Image (SVG/PNG)" },
+        { "type": "text", "id": "badge_icon_emoji", "label": "Fallback Emoji", "default": "🏷️" },
+        { "type": "text", "id": "badge_main_text", "label": "Main Text", "default": "Lowest Prices" },
+        { "type": "text", "id": "badge_sub_text", "label": "Sub Text", "default": "Guaranteed" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Deal of the Day",
+      "blocks": [
+        { "type": "feature_badge", "settings": { "badge_icon_emoji": "📋", "badge_main_text": "Lowest Prices", "badge_sub_text": "Guaranteed" } },
+        { "type": "feature_badge", "settings": { "badge_icon_emoji": "⏰", "badge_main_text": "Daily Deal", "badge_sub_text": "Fresh Offer" } },
+        { "type": "feature_badge", "settings": { "badge_icon_emoji": "🛡️", "badge_main_text": "Quality Assured", "badge_sub_text": "100% Original" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,135 @@
+
+{{ 'customer-state.css' | asset_url | stylesheet_tag }}
+
+<section class="trust-bar section-container {{ section.settings.container_width }}">
+  <div class="trust-bar__wrapper">
+
+    <div class="trust-bar__stats">
+      {% for block in section.blocks %}
+        <div class="trust-stat">
+
+          {% if block.settings.icon != blank %}
+            <img
+              src="{{ block.settings.icon | image_url: width: 96 }}"
+              alt=""
+              width="{{ block.settings.icon.width | default: 96 }}"
+              height="{{ block.settings.icon.height | default: 96 }}"
+              loading="lazy"
+              class="trust-stat__icon"
+            >
+          {% endif %}
+
+          <div class="trust-stat__content">
+            <h3>{{ block.settings.number }}</h3>
+            <p>{{ block.settings.label }}</p>
+          </div>
+
+        </div>
+      {% endfor %}
+    </div>
+
+    <div class="trust-bar__social">
+
+      {% if section.settings.people_image %}
+        <img
+          src="{{ section.settings.people_image | image_url: width: 500 }}"
+          alt=""
+          width="{{ section.settings.people_image.width | default: 500 }}"
+          height="{{ section.settings.people_image.height | default: 300 }}"
+          loading="lazy"
+          class="people-collage"
+        >
+      {% endif %}
+
+      <div class="social-text">
+        <strong>{{ section.settings.right_heading }}</strong>
+      </div>
+
+        <span class="customer-heart-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none">
+                <path
+                d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5
+                2 5.42 4.42 3 7.5 3
+                c1.74 0 3.41.81 4.5 2.09
+                C13.09 3.81 14.76 3 16.5 3
+                19.58 3 22 5.42 22 8.5
+                c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                />
+            </svg>
+        </span>
+
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "people_image",
+      "label": "People Collage"
+    },
+    {
+      "type": "text",
+      "id": "right_heading",
+      "label": "Right Text",
+      "default": "Loved by homes across India"
+    },
+    {
+      "type": "select",
+      "id": "container_width",
+      "label": "Container Width",
+      "options": [
+        {
+          "value": "section-container--lg",
+          "label": "Large"
+        },
+        {
+          "value": "section-container--xl",
+          "label": "Extra Large"
+        },
+        {
+          "value": "section-container--full",
+          "label": "Full Width"
+        }
+      ],
+      "default": "section-container--xl"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "stat",
+      "name": "Stat",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon"
+        },
+        {
+          "type": "text",
+          "id": "number",
+          "label": "Number"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Customer State"
+    }
+  ]
+}
+
+{% endschema %}

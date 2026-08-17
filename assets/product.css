@@ -1,0 +1,1745 @@
+/* Container Box */
+/* .housious-product-page-layout {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 20px 20px;
+} */
+
+.breadcrumbs-full-width {
+  width: 100%;
+  margin-bottom: 25px;
+    margin-top: 25px;
+}
+
+/* Flex Split Dynamic Layout */
+.housious-main-product-content {
+  display: flex;
+  gap: 30px;
+  align-items: flex-start; /* CHANGE: Dobara flex-start par le aayin taaki upar se line zero block rahe */
+  margin-top: 10px;
+}
+
+/* Left Side Gallery Styles */
+/* .product-gallery-container {
+  display: flex;
+  flex: 1.2;
+  gap: 15px;
+  position: sticky;
+  top: 20px;
+} */
+
+.product-gallery-container.thumbnail-pos-left {
+  flex-direction: row;
+}
+
+.product-gallery-container.thumbnail-pos-bottom {
+  flex-direction: column-reverse;
+}
+
+/* 
+product-gallery-container {
+  display: flex;
+  flex: 1.2;
+  gap: 15px;
+  position: sticky;
+  top: 20px;
+} */
+
+
+/* Vertical Thumbnails Column Left */
+.product-thumbnails-side {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 90px;
+  min-width: 90px;
+}
+
+.product-details-container.section-container{
+  padding-inline:0px;
+}
+.thumbnail-item {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  cursor: pointer;
+  overflow: hidden;
+  background: #fff;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.thumbnail-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.thumbnail-item.active, .thumbnail-item:hover {
+  border: 2px solid #000; /* Canva dark accent theme */
+  transform: scale(0.96);
+}
+
+/* Main Display Picture Window */
+/* .product-main-image-display {
+  flex: 1;
+  position: relative;
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  max-width: 510px;
+  max-height: 510px;
+  border: 1px solid #f1f5f9;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fafafa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+} */
+
+.product-main-image-display {
+  flex: 1;
+  position: relative;
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  max-width: 510px; 
+  border: 1px solid #f1f5f9;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fafafa;
+}
+
+.product-main-image-display img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+/* Badge Layouts */
+.badge-best-seller {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  background: #e11d48;
+  color: #fff;
+  padding: 5px 14px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+  z-index: 2;
+}
+
+.badge-new-arrival {
+  background: #f0fdf4;
+  color: #16a34a;
+  padding: 4px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 4px;
+  display: inline-block;
+  margin-bottom: 12px;
+}
+
+/* Right Side Configuration details */
+.product-details-container {
+  flex: 1;
+}
+
+.product-title {
+  font-size: 22px;
+  line-height: 1.3;
+  font-weight: 700;
+  margin: 0 !important;
+  color: #0f172a;
+}
+
+.product-rating-row {
+  margin-bottom: 5px;
+  font-size: 14px;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.product-rating-row .stars {
+  color: #f59e0b;
+}
+
+/* Price Tags formatting */
+.product-price-block {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.current-price {
+  font-size: 25px;
+  font-weight: 400;
+  color: #0f172a;
+}
+
+.compare-price {
+  font-size: 20px;
+  text-decoration: line-through;
+  color: #94a3b8;
+}
+
+.discount-percentage {
+  /* color: #dc2626; */
+  color:#ff5600;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+/* Selectors & Swatches Layout */
+.variant-selector {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 20px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 15px;
+  color: #334155;
+  background: #fff;
+}
+
+.quantity-and-buttons {
+  display: flex;
+  gap: 15px;
+  align-items: stretch;
+}
+
+.qty-selector {
+  display: flex;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.qty-selector button {
+  background: #f8fafc;
+  border: none;
+  width: 40px;
+  font-size: 18px;
+  cursor: pointer;
+  color: #475569;
+}
+
+.qty-selector input {
+  width: 45px;
+  text-align: center;
+  border: none;
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.action-buttons {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.btn-add-to-cart {
+  background: #0f172a;
+  color: white;
+  border: none;
+  padding: 14px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.btn-add-to-cart:hover {
+  background: #1e293b;
+}
+
+/* Mobile Responsive */
+@media (max-width: 991px) {
+  .housious-main-product-content {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .product-gallery-container {
+    flex-direction: column-reverse;
+    width: 100%;
+  }
+  .product-thumbnails-side {
+    flex-direction: row;
+    width: 100%;
+    overflow-x: auto;
+  }
+  .thumbnail-item {
+    width: 75px;
+    min-width: 75px;
+  }
+}   
+=======
+/* ==========================================================================
+   HOUSIOUS PRODUCT PAGE MAIN STYLES
+   ========================================================================== */
+
+/* --- 1. BREADCRUMBS STYLE --- */
+/* .housious-breadcrumbs {
+  padding: 12px 0;
+  margin-bottom: 20px;
+  font-size: 13px;
+  color: #666666;
+  display: flex;
+  gap: 8px;
+} */
+
+.housious-breadcrumbs {
+  padding: 12px 0;
+  margin-bottom: 20px;
+  font-size: 13px;
+  color: #666666;
+  display: flex;
+  gap: 8px;
+  align-items: center; /* Ensures text and arrows stay aligned vertically */
+}
+/* .breadcrumb-link { color: #666666; text-decoration: none; } */
+
+.breadcrumb-link { 
+  color: #666666; 
+  text-decoration: none; 
+}
+
+/* This targets the last item (current product) */
+.breadcrumb-current {
+  font-weight: 500;    /* Makes the text bold */
+  color: #000000;      /* Makes the text black/dark */
+  pointer-events: none; /* Prevents it from acting like a link */
+}
+
+/* .breadcrumb-link:hover { color: #000000; } */
+
+.breadcrumb-link:hover { 
+  color: #000000; 
+}
+
+
+/* --- 2. TITLE & RATINGS STYLE --- */
+.product-title-section-wrapper {
+  margin-bottom: 20px;
+}
+.tag-new-arrival {
+  background: #EBFDF2;
+  color: #14A049;
+  padding: 5px 10px;
+  border-radius: 4px;
+}
+
+
+/* --- Flex Split Dynamic Gallery Layout --- */
+/* .product-gallery-container {
+  display: flex;
+  width: 100%;
+  gap: 15px;
+  align-items: stretch; 
+  height: 100%; 
+} */
+
+/* --- Flex Split Dynamic Gallery Layout --- */
+.product-gallery-container {
+  display: flex;
+  width: 100%;
+  gap: 16px;
+  align-items: flex-start;
+  /* height: 510px;
+  max-height: 510px; */
+}
+/* Position Variant Selector Logic */
+.product-gallery-container.thumbnail-pos-left {
+  flex-direction: row;
+}
+
+.product-gallery-container.thumbnail-pos-bottom {
+  flex-direction: column-reverse;
+}
+
+/* Dynamic Thumbnail Container Switcher */
+/* .product-gallery-container.thumbnail-pos-left .product-thumbnails-side {
+display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 85px;
+  min-width: 85px;
+  height: auto; 
+  max-height: none; 
+  overflow-y: visible; 
+} */
+
+/* Dynamic Thumbnail Container Switcher - Smooth Vertical Scroll */
+/* .product-gallery-container.thumbnail-pos-left .product-thumbnails-side {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 85px;
+  min-width: 85px;
+  height: 520px; 
+  max-height: 100%;
+  
+
+  overflow-y: auto;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch; 
+} */
+
+/* Dynamic Thumbnail Container Switcher - Smooth Vertical Scroll (FIXED) */
+.product-gallery-container.thumbnail-pos-left .product-thumbnails-side {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 85px;
+  min-width: 85px;
+  
+  /* Match the height elegantly to the current viewport main aspect-box size */
+  height: 100%;
+  max-height: 510px; /* Limits scroll height to your max design specification */
+  
+  /* SMOOTH SCROLL ENGINE */
+  overflow-y: auto;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+.product-thumbnails-side::-webkit-scrollbar {
+  width: 4px;
+}
+.product-thumbnails-side::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+.product-gallery-container.thumbnail-pos-bottom .product-thumbnails-side {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  width: 100%;
+  overflow-x: auto;
+}
+
+/* Dynamic Aspect Ratio Switcher Engine */
+.thumb-ratio-square .thumbnail-item {
+  aspect-ratio: 1 / 1;
+}
+
+.thumb-ratio-portrait .thumbnail-item {
+  aspect-ratio: 2 / 3;
+}
+
+/* Core Thumbnail Items Styling */
+/* Core Thumbnail Items Styling Alignment */
+.thumbnail-item {
+  width: 100%;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  cursor: pointer;
+  overflow: hidden;
+  background: #fff;
+  flex-shrink: 0; /* Isse dynamic heights ke andar items collapse nahi honge */
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+/* If position is bottom, make sure horizontal list items don't shrink out of view */
+.product-gallery-container.thumbnail-pos-bottom .thumbnail-item {
+  width: 75px;
+  min-width: 75px;
+}
+
+.thumbnail-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.thumbnail-item.active, .thumbnail-item:hover {
+  border: 2px solid #000;
+  transform: scale(0.96);
+}
+
+
+/* ==========================================================================
+   CANVA UI MATCHED OFFERS GRID STYLES
+   ========================================================================== */
+
+.housious-offers-grid {
+  display: flex;
+  gap: 16px;
+  /* margin: 10px 0; */
+  width: 100%;
+}
+
+.offer-card {
+  flex: 1;  
+  padding: 8px 10px;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  /* position: relative; */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* 1. Prepaid Card Green UI */
+.card-prepaid {
+  background-color: #f0fdf4; /* Light Canva Green */
+  border: 1px solid #bbf7d0;
+}
+
+.card-prepaid .offer-title {
+  color: #16a34a; /* Text Green */
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* 2. UPI Card Purple UI */
+.card-upi {
+  background-color: #f5f3ff; /* Light Purple */
+  border: 1px solid #ddd6fe;
+}
+
+.card-upi .offer-title {
+  color: #6d28d9; /* Text Purple */
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* Header layout containing title + mini tags */
+.offer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.upi-mini-logo {
+  font-size: 9px;
+  font-weight: 800;
+  color: #6d28d9;
+  background: #ffffff;
+  padding: 1px 4px;
+  border: 1px solid #c084fc;
+  border-radius: 3px;
+  letter-spacing: 0.5px;
+}
+
+/* Bottom Price Layout Row */
+.offer-price-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.offer-price {
+  font-size: 20px;
+  font-weight: 500;
+  color: #0f172a; /* Dark sleek slate */
+  letter-spacing: -0.5px;
+}
+
+/* Dynamic Save Amount Badges */
+.offer-badge-save {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 4px;
+  color: #ffffff;
+  background-color: #16a34a; /* Green Pill */
+}
+
+.offer-badge-save.upi-save {
+  background-color: #6d28d9; /* Purple Pill */
+}
+
+/* Mobile Responsiveness Framework */
+/* ==========================================================================
+   OFFERS GRID - EXACT DESKTOP LAYOUT FOR MOBILE (SIDE-BY-SIDE)
+   ========================================================================== */
+@media (max-width: 767px) {
+  /* Mobile par grid ko column hone se roka aur ek line me fix kiya */
+  .housious-offers-grid {
+    display: flex !important;
+    flex-direction: row !important; /* Forces side-by-side layout on mobile */
+    gap: 10px !important; /* Compact spacing for smaller mobile screens */
+    margin: 16px 0 !important;
+    width: 100% !important;
+  }
+
+  .product-details-container.section-container{
+    padding-inline:16px;
+  }
+  .housious-main-product-content {
+      margin-top:0px;
+  }
+
+  .breadcrumbs-full-width{
+    display:none;
+  }
+
+  .product-details-container {
+      overflow-y:unset;
+      max-height:unset;
+  }
+
+  /* Cards ki sizes aur padding ko screen me adjust karne ke liye compress kiya */
+  .offer-card {
+    flex: 1 !important; /* Dono cards barabar width lenge */
+    padding: 10px 6px !important; /* Decreased padding to fit text neatly */
+    border-radius: 6px !important;
+  }
+
+  /* Title ki font size choti ki taaki mobile screen me break na ho */
+  .card-prepaid .offer-title,
+  .card-upi .offer-title {
+    font-size: 11px !important;
+    line-height: 1.2 !important;
+  }
+
+  /* Price text alignment aur size settings */
+  .offer-price {
+    font-size: 18px !important; /* Slightly smaller to prevent text overlapping */
+    font-weight: 800 !important;
+  }
+
+  /* Save Badge ko chote screens ke liye scale down kiya */
+  .offer-badge-save {
+    font-size: 9px !important;
+    padding: 2px 6px !important;
+  }
+  
+  .upi-mini-logo {
+    font-size: 8px !important;
+    padding: 1px 3px !important;
+  }
+
+  .offer-price-row {
+    margin-top: 6px !important;
+    align-items: center !important;
+  }
+}
+.housious-extra-discount-tag {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: #f2fbf5; /* Soft Canva Light Green */
+  border: 1px dashed #76c893; /* Green dashed border */
+  border-radius: 6px;
+  padding: 10px 14px;
+  margin: 6px 0 8px 0;
+}
+
+.housious-extra-discount-tag .discount-icon {
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+}
+
+.housious-extra-discount-tag .discount-text-wrapper {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #1b4332; /* Deep Theme Green */
+}
+
+.housious-extra-discount-tag .discount-divider {
+  color: #b7e4c7;
+}
+
+.housious-extra-discount-tag .discount-code-badge {
+  background-color: #ffffff;
+  color: #1b4332;
+  border: 1px solid #1b4332;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/* @media (max-width: 767px) {
+  .housious-extra-discount-tag .discount-text-wrapper {
+    font-size: 12px;
+  }
+  .housious-extra-discount-tag .discount-divider {
+    display: none;
+  }
+} */
+
+/* ==========================================================================
+   EXTRA DISCOUNT TAG - ONLY MOBILE SINGLE LINE ENFORCEMENT
+   ========================================================================== */
+/* @media (max-width: 767px) {
+  
+  .housious-extra-discount-tag .discount-text-wrapper {
+    display: flex !important;
+    align-items: center !important;
+    flex-wrap: nowrap !important;
+    gap: 4px !important;
+    font-size: 11px !important;
+    width: 100% !important;
+    min-width: 0 !important; 
+  }
+
+  .housious-extra-discount-tag .discount-main-text {
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    flex-shrink: 1 !important; 
+    min-width: 0 !important;    
+  }
+} */
+
+
+/* --- FIXED MOBILE DISCOUNT TAG ENGINE --- */
+@media (max-width: 767px) {
+  /* .housious-extra-discount-tag {
+    padding: 8px 10px !important;
+    align-items: flex-start !important; 
+  } */
+
+  /* .housious-extra-discount-tag .discount-text-wrapper {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 2px !important;
+    width: 100% !important;
+  }
+
+  .housious-extra-discount-tag .discount-divider {
+    display: none !important; 
+  } */
+
+  /* .housious-extra-discount-tag .discount-main-text,
+  .housious-extra-discount-tag .discount-coupon-text {
+    font-size: 11px !important;
+    line-height: 1.4 !important;
+    white-space: normal !important; 
+  } */
+}
+
+/* Trust Budget */
+/* Housious Trust Badges Layout Container */
+.housious-trust-badges-wrapper {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  /* background-color: #fafafa;  */
+  border: 1px solid #eaeaea;
+  border-radius: 8px;
+  padding: 8px;
+  /* margin: 16px 0; */
+}
+
+.trust-badge-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px;
+}
+
+.trust-badge-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #495057;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.trust-badge-icon svg, 
+.trust-badge-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Isse uploaded PNG stretch nahi hogi */
+}
+
+.trust-badge-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.trust-badge-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: #212529;
+  line-height: 1.2;
+}
+
+.trust-badge-sub {
+  font-size: 10px;
+  color: #6c757d;
+  margin-top: 2px;
+  line-height: 1.2;
+}
+
+/* Responsive Overrides for Compact Mobile Views */
+/* --- TRUST BADGES GRID - EXACT DESKTOP LAYOUT FOR MOBILE (SIDE-BY-SIDE) --- */
+  .housious-trust-badges-wrapper {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important; /* Forces 3 columns side-by-side on mobile */
+    gap: 6px !important;            /* Tight compact gutter space to fit text neatly */
+  
+  }
+  
+  .trust-badge-item { /* Better layout strategy: Stack icon on top of text inside its block */
+    align-items: center !important;
+    text-align: center !important;
+    border-bottom: none !important;    /* Removes the old stacked divider lines */
+    padding-bottom: 0 !important;
+    padding: 4px 2px !important;
+  }
+
+  .trust-badge-icon {
+    width: 25px !important;            /* Scale down slightly to fit lower width targets */
+    height: 25px !important;
+    margin-bottom: 4px !important;
+  }
+
+  .trust-badge-title {
+    font-size: 10px !important;        /* Strong compression fix to avoid text wrapping to 3+ lines */
+    font-weight: 700 !important;
+    line-height: 1.1 !important;
+  }
+
+  .trust-badge-sub {
+    font-size: 8px !important;         /* Micro scaling sub-label adjustments */
+    margin-top: 1px !important;
+    line-height: 1.1 !important;
+  }
+
+/* ==========================================================================
+   CANVA EXACT MATCHED PRODUCT FORM ENGINE
+   ========================================================================== */
+.product-form-wrapper {
+  margin-top: 5px;
+  width: 100%;
+}
+
+/* Inline Row Alignment for Quantity text + box */
+.housious-canva-qty-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.canva-qty-label {
+  font-size: 14px;
+  font-weight: 700;
+  color: #000000;
+}
+
+/* Rounded Compact Border Box Selector */
+/* .housious-qty-container {
+  display: flex;
+  align-items: center;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  background: #ffffff;
+  height: 40px;
+  width: 110px;
+} */
+
+housious-qty-container {
+  display: flex;
+  align-items: center;
+  border: 1px solid #cccccc; /* Canva style subtle border */
+  border-radius: 4px;
+  background: #ffffff;
+  height: 40px;
+  width: 110px; /* Thoda sa width adjust karein taaki compact lage */
+  overflow: hidden; /* Rounded corners ke liye */
+}
+
+
+
+/* .housious-qty-container .qty-btn {
+  background: none;
+  border: none;
+  width: 35px;
+  height: 100%;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  color: #333333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+} */
+
+.housious-qty-container .qty-btn {
+  border: none;
+  width: 35px;
+  height: 100%;
+  font-size: 18px;
+  cursor: pointer;
+  color: #334155;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+/* .housious-qty-container input {
+  width: 40px;
+  height: 100%;
+  border: none;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 700;
+  color: #000000;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: normal; 
+} */
+
+/* .housious-qty-container .qty-btn:hover {
+  background: #e2e8f0;
+}
+
+.housious-qty-container input {
+  width: 40px;
+  height: 100%;
+  border: none;
+  border-left: 1px solid #cccccc;
+  border-right: 1px solid #cccccc;
+  text-align: center;
+  font-weight: 700;
+  font-size: 15px;
+  color: #000000;
+  background: transparent;
+} */
+
+/* Full Width Add To Cart Container Box */
+.housious-cart-btn-container {
+  width: 100%;
+  margin-bottom: 5px;
+}
+
+.btn-add-to-cart {
+  width: 100%;
+  background-color: #ff5600; /* Pure Canva Brand Orange */
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Full Width Buy It Now Shopify Button Custom Outline Fixes */
+.housious-checkout-payment-box {
+  width: 100%;
+  margin-bottom: 5px;
+}
+
+.housious-checkout-payment-box .shopify-payment-button__button--unbranded {
+  background-color: #ffffff !important;
+  color: #ff5600 !important;
+  border: 1px solid #ff5600 !important;
+  border-radius: 4px !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  box-shadow: none !important;
+  text-transform: none !important;
+  transition: background 0.2s ease;
+  height:unset !important;
+}
+
+.housious-checkout-payment-box .shopify-payment-button__button--unbranded:hover {
+  background-color: #fffaf7 !important;
+}
+
+/* Clean Centered Wishlist Elements Layout */
+.housious-wishlist-row {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 12px;
+}
+
+.btn-add-to-wishlist {
+  width: 100%;
+  height: 40px;
+  background-color: #ffffff; /* Transparent white background */
+  color: #000000; /* Sleek black text */
+  border: 1px solid #cccccc; /* Soft grey border outline jaisa design me hai */
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px; /* Heart icon aur text ke beech ka space */
+  transition: all 0.2s ease;
+}
+
+.btn-add-to-wishlist:hover {
+  background-color: #f8fafc; /* Hover karne par soft tint effect */
+  border-color: #94a3b8;
+}
+
+.btn-add-to-wishlist svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+}
+
+@media (max-width: 767px) {
+  .btn-add-to-cart,
+  .housious-checkout-payment-box .shopify-payment-button__button--unbranded,
+  .btn-add-to-wishlist {
+    height: unset !important; /* Mobile UI scalability fix */
+    font-size: 14px !important;
+  }
+}
+
+/* --- MOBILE RESPONSIVE LAYOUT FIX --- */
+@media (max-width: 767px) {
+  .btn-add-to-cart,
+  .housious-checkout-payment-box .shopify-payment-button__button--unbranded {
+    height: unset !important; /* Mobile layouts standard touch padding scaling */
+    font-size: 14px !important;
+  }
+}
+
+/* /** Product-media Left ** / */
+
+.housious-media-left-column {
+  display: flex;
+  flex-direction: column;
+  /* gap:10px; */
+  /* gap:2px; */
+  flex: 1.2;
+  width: 100%;
+  max-width: 600px;
+  /* Fixed max-height removed taaki niche features block smoothly generate ho ske */
+}
+/* 
+.product-gallery-container {
+  position: static !important;
+} */
+
+
+
+
+/**Featured-icon.css **/
+
+/*Thumbnail scroll smooth **/
+/* Custom Sleek Scrollbar Framework for Thumbnails */
+.product-gallery-container.thumbnail-pos-left .product-thumbnails-side::-webkit-scrollbar {
+  width: 4px; /* Ekdum thin modern bar */
+}
+
+.product-gallery-container.thumbnail-pos-left .product-thumbnails-side::-webkit-scrollbar-track {
+  background: #f1f5f9; /* Light grey slate track background */
+  border-radius: 10px;
+}
+
+.product-gallery-container.thumbnail-pos-left .product-thumbnails-side::-webkit-scrollbar-thumb {
+  background: #cbd5e1; /* Canva theme matching muted steel grey handle */
+  border-radius: 10px;
+}
+
+.product-gallery-container.thumbnail-pos-left .product-thumbnails-side::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8; /* Interactive hover dark effect */
+}
+
+
+
+/* ==========================================================================
+   DESKTOP SAFE PARAMETERS (Protects Large Layout Integrity)
+   ========================================================================== */
+.desktop-only-main-img {
+  display: block !important;
+}
+.mobile-gallery-slider {
+  display: none !important; /* Destroys mobile slider layout mechanics on desktop views */
+}
+.gallery-dot {
+  display: none;
+}
+
+/* ==========================================================================
+   PURE MOBILE MANUAL ENGINE & SIDE-BY-SIDE OFFERS FIXED (767px and below)
+   ========================================================================== */
+@media (max-width: 767px) {
+
+  .housious-product-page.section-container{
+    padding-inline:0px !important;
+  }
+  
+  /* --- A. FIXED SIDE-BY-SIDE OFFERS SECTION --- */
+  .housious-offers-grid {
+    display: flex !important;
+    flex-direction: row !important; /* Forced horizontal side-by-side view like desktop */
+    gap: 10px !important; /* Clean compact gutter space */
+    margin: 10px 0 !important;
+    width: 100% !important;
+  }
+
+  .offer-card {
+    flex: 1 !important; /* Compels both cards to stay equally proportioned in single line */
+    padding: 10px 12px !important; /* Reduced internal scaling space */
+    border-radius: 6px !important;
+  }
+
+  .card-prepaid .offer-title,
+  .card-upi .offer-title {
+    font-size: 11px !important;
+    line-height: 1.2 !important;
+  }
+
+  .offer-price {
+    font-size: 18px !important;
+    font-weight: 500 !important;
+  }
+
+  .offer-badge-save {
+    font-size: 9px !important;
+    padding: 2px 6px !important;
+  }
+  
+  .upi-mini-logo {
+    font-size: 8px !important;
+    padding: 1px 3px !important;
+  }
+
+  .offer-price-row {
+    margin-top: 6px !important;
+  }
+
+  /* --- B. FIXED PRODUCT IMAGES SWIPE SLIDER --- */
+  .product-gallery-container,
+  .product-gallery-container.thumbnail-pos-left,
+  .product-gallery-container.thumbnail-pos-bottom {
+    display: flex !important;
+    flex-direction: column !important; /* Image on top, dots underneath layout */
+    gap: 2px !important;
+    width: 100% !important;
+    height: auto !important;
+  }
+
+  .desktop-only-main-img {
+    display: none !important;
+  }
+
+  .product-main-image-display {
+    max-width: 100% !important;
+    width: 100% !important;
+    aspect-ratio: 1 / 1 !important;
+    border-radius: 12px;
+    overflow: hidden !important;
+  }
+
+  .mobile-gallery-slider {
+    display: flex !important; /* Enables smooth manual slider track window */
+    flex-direction: row !important;
+    width: 100% !important;
+    height: 100% !important;
+    overflow-x: auto !important; /* Permits hand scrolling touch movements */
+    overflow-y: hidden !important;
+    scroll-snap-type: x mandatory !important; /* Snaps cards firmly down in the center */
+    scroll-behavior: smooth !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  .mobile-slide-item {
+    flex-shrink: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    scroll-snap-align: start !important;
+  }
+
+  .housious-custom-mobile-swipe-img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important;
+  }
+
+  /* Remove scrollbars under touch views */
+  .mobile-gallery-slider::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+  }
+
+  /* --- C. CONVERT THUMBNAILS TO PAGINATION DOTS --- */
+  .product-gallery-container.thumbnail-pos-left .product-thumbnails-side,
+  .product-gallery-container.thumbnail-pos-bottom .product-thumbnails-side,
+  .product-thumbnails-side {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: center !important; /* Brings dots right in the middle horizontally */
+    align-items: center !important;
+    gap: 8px !important;
+    width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    padding: 8px 0 !important;
+    background: transparent !important;
+  }
+
+  /* Structural box changes into round micro circles */
+  .thumbnail-item,
+  .product-gallery-container.thumbnail-pos-bottom .thumbnail-item {
+    width: 8px !important;
+    height: 8px !important;
+    min-width: 8px !important;
+    max-width: 8px !important;
+    border: none !important;
+    background: #cbd5e1 !important; /* Inactive dots palette color code */
+    border-radius: 50% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: visible !important;
+    transform: none !important;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .thumbnail-item img {
+    display: none !important; /* Strips standard gallery images on phone screens */
+  }
+
+  /* Sleek Extended active pill dot indicator style */
+  .thumbnail-item.active {
+    background: #000000 !important; /* Canva dark accent active indicator */
+    width: 18px !important;
+    border-radius: 4px !important;
+  }
+}
+
+/* --- MOBILE TITLE ACCENT OVERRIDE --- */
+@media (max-width: 767px) {
+  .product-title {
+    font-size: 18px !important; /* Slightly smaller to prevent title crowding on mobile */
+    line-height: 1.25 !important;
+    margin-bottom: 8px !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .product-gallery-container.thumbnail-pos-left {
+    flex-direction: row-reverse !important;
+  }
+}
+
+
+/** Share Button Css **/
+
+.btn-share-product {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border:1px solid #e2e8f0;
+  border-radius:5px;
+  cursor: pointer;
+  font-size: 14px;
+  /* color: #64748b; */
+  margin-left: auto; 
+  padding: 5px;
+  transition: color 0.2s;
+}
+
+.btn-share-product:hover {
+  color: #000;
+}
+
+
+/**Title Wishlist Raw **/
+
+/* Title Wrapper Flexbox */
+/* .product-title-wrapper {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 15px !important;
+  margin-bottom:5px !important;
+} */
+
+.product-title-wrapper {
+  display: flex !important;
+  /* align-items: baseline !important;  */
+  justify-content: space-between !important;
+  gap: 15px !important;
+  margin-bottom: 10px !important; 
+  min-height: 44px; /* Title aur icon ke liye ek fixed minimum height set karein */
+}
+
+/* Product Card jaisa Floating/Hover Wishlist Button */
+/* .card-wishlist-toggle-btn {
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08) !important;
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.2s ease !important;
+  padding: 0 !important;
+} */
+
+.card-wishlist-toggle-btn {
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  width: 36px !important;  /* Size thoda chota kiya taaki title ke sath balance ho */
+  height: 36px !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  flex-shrink: 0; /* Isse icon shrink nahi hoga */
+  margin-top: 0 !important; /* Top margin hata dein */
+}
+/* Icon Design */
+.card-wishlist-toggle-btn .icon-heart-shape {
+  width: 18px !important;
+  height: 18px !important;
+  color: #111111 !important;
+  fill: transparent !important;
+  transition: all 0.3s ease !important;
+}
+
+/* Same Hover Effect as Product Card */
+.card-wishlist-toggle-btn:hover {
+  transform: scale(1.1) !important;
+}
+
+.card-wishlist-toggle-btn:hover .icon-heart-shape {
+  color: #ff3b30 !important;
+  fill: #ff3b30 !important;
+}
+
+/* Active State */
+.card-wishlist-toggle-btn.is-active .icon-heart-shape {
+  color: #ff3b30 !important;
+  fill: #ff3b30 !important;
+}
+
+
+
+/** Right side scrolling **/
+
+/* Left Column: Fixed/Sticky rahega */
+/* .housious-media-left-column {
+  flex: 1.2;
+  position: sticky;
+  top: 20px;
+  align-self: flex-start;
+}
+
+.product-details-container {
+  flex: 1;
+  max-height: calc(100vh - 40px); 
+  overflow-y: auto; 
+  padding-right: 15px;
+
+
+.product-details-container::-webkit-scrollbar {
+  width: 6px;
+}
+.product-details-container::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 10px;
+} */
+
+
+/* Right Column: Scrollable but Invisible Scrollbar */
+.product-details-container {
+  flex: 1;
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+  padding-right: 15px;
+  
+  /* Scrollbar hide karne ke liye */
+  scrollbar-width: none; /* Firefox ke liye */
+  -ms-overflow-style: none; /* IE aur Edge ke liye */
+}
+
+/* Chrome, Safari, aur Opera ke liye scrollbar hide */
+.product-details-container::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+
+/**Breadcrumb Mobile View **/
+
+/* --- MOBILE BREADCRUMBS SPACING OPTIMIZATION --- */
+@media (max-width: 767px) {
+  .housious-breadcrumbs {
+    padding: 6px 0 !important;      /* Top aur bottom padding kam ki */
+    margin-bottom: 10px !important;  /* Niche wale elements se gap kam kiya */
+    font-size: 11px !important;      /* Font size chota kiya taaki mobile me space bache */
+    gap: 4px !important;             /* Links ke beech ka gap compress kiya */
+    flex-wrap: wrap;                 /* Agar title bada ho toh next line me properly break ho */
+  }
+  
+  .breadcrumb-separator {
+    font-size: 11px !important;      /* Separator (›) ko bhi text jitna chota kiya */
+  }
+}
+
+/***Mobile Price And Title **/
+
+/* ==========================================================================
+   MOBILE VIEW COMPACT SCALE ENGINE (767px and below)
+   ========================================================================== */
+ @media (max-width: 767px) {
+  
+  /* 1. Title Dynamic Sizing Fix */
+  .product-title {
+    font-size: 14px !important;    
+    line-height: 1.25 !important;
+    font-weight: 400 !important;
+    margin-bottom: 4px !important;
+  }
+  
+  .product-title-wrapper {
+    min-height: auto !important;   
+    margin-bottom: 6px !important;
+    gap: 8px !important;
+  }
+
+   .product-details-container{
+    overflow-y:unset;
+    max-height:unset;
+   }
+  
+  .product-rating-row {
+    font-size: 10px !important;    
+    gap: 4px !important;
+    margin-bottom: 5px !important;
+  }
+
+  .btn-share-product {
+    font-size: 11px !important;   
+    gap: 4px !important;
+    padding: 2px 4px !important;
+  }
+
+  .btn-share-product svg {
+    width: 14px !important;        
+    height: 14px !important;
+  }
+
+
+  .product-price-block {
+    gap: 8px !important;
+    margin-bottom: 8px !important;
+    align-items: baseline !important;
+  }
+
+  .current-price {
+    font-size: 22px !important;    
+    font-weight: 400 !important;
+  }
+
+  .compare-price {
+    font-size: 15px !important;   
+  }
+
+  .discount-percentage {
+    font-size: 13px !important;    
+    font-weight: 700 !important;
+  }
+
+  /* New Arrival Badge Sizing */
+  .badge-new-arrival {
+    font-size: 10px !important;
+    padding: 3px 8px !important;
+    margin-bottom: 6px !important;
+  }
+} 
+
+.product-item-card {
+    border: 1px solid #e0e0e0; /* Border ka color */
+    border-radius: 8px;        /* Corner ko smooth karne ke liye */
+    padding: 15px;             /* Andar ki jagah */
+    background-color: #ffffff; /* Background color */
+    transition: box-shadow 0.3s; /* Hover effect ke liye */
+}
+
+.product-item-card:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Mouse le jane par shadow */
+}
+
+.product-image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+.product-title {
+    font-size: 18px;
+    font-weight: 400;
+    margin: 10px 0;
+}
+
+.product-price {
+    color: #e67e22; /* Price ka rang */
+    font-size: 18px;
+}
+
+/* Canva-style Row Alignment */
+.housious-canva-qty-row {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin: 15px 0;
+}
+
+.canva-qty-label {
+  font-size: 14px;
+  font-weight: 700;
+  color: #000000;
+  text-transform: uppercase; /* Canva vibes */
+  letter-spacing: 0.5px;
+}
+
+/* Quantity Container - Compact & Sleek */
+.housious-qty-container {
+  display: flex;
+  align-items: center;
+  border: 1px solid #cbd5e1; /* Smooth grey border */
+  border-radius: 6px;
+  height: 42px; /* Add-to-cart button ki height se match karein */
+  width: 120px;
+  overflow: hidden;
+}
+
+.housious-qty-container .qty-btn {
+  border: none;
+  width: 40px;
+  height: 100%;
+  font-size: 20px;
+  cursor: pointer;
+  color: #475569;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+
+.housious-qty-container input {
+  width: 40px;
+  height: 100%;
+  border: none;
+  border-left: 1px solid #cbd5e1;
+  border-right: 1px solid #cbd5e1;
+  text-align: center;      /* This is the key property for the text */
+  font-weight: 700;
+  font-size: 16px;
+  background: transparent;
+  display: block;          /* Ensures it respects the container width */
+  padding: 0;              /* Removes default browser input padding */
+  margin: 0;
+  outline: none;           /* Removes blue focus outline if you prefer cleaner look */
+}
+
+/* Remove arrows from number input */
+.housious-qty-container input::-webkit-outer-spin-button,
+.housious-qty-container input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.housious-qty-container input[type=number] {
+  -moz-appearance: textfield; /* Firefox support */
+}
+
+.cart-button-wrapper{
+  display:flex;
+  gap: 10px;
+}
+
+.product-card-action-form,
+.checkout-form{
+  width:50%;
+}
+
+
+/* =========================================
+   SINGLE ROW DISCOUNT COUPON BADGE
+   ========================================= */
+
+.housious-extra-discount-tag {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 12px;
+
+  margin: 8px 0;
+  padding: 8px 14px;
+
+  background: #ffffff;
+  border: 1px solid #ececec;
+  border-radius: 7px;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
+  box-sizing: border-box;
+  justify-content:center;
+  color: #222222;
+}
+
+.discount-ticket-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  flex: 0 0 26px;
+
+  color: #ff5a1f;
+}
+
+.discount-ticket-icon svg {
+  display: block;
+  width: 24px;
+  height: 24px;
+}
+
+.discount-main-text {
+  min-width: 0;
+  color: #222222;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.discount-divider {
+  width: 1px;
+  height: 22px;
+  flex: 0 0 1px;
+  background: #e5e5e5;
+}
+
+.discount-coupon-text {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  color: #444444;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.discount-code-badge {
+  color: #222222;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.discount-copy-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+
+  /* margin-left: auto; */
+  padding: 4px;
+
+  color: #ff5a1f;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.discount-copy-button span {
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.discount-copy-button svg {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+}
+
+.discount-copy-button.copied span {
+  color: #16a34a;
+}
+
+/* Mobile */
+@media screen and (max-width: 767px) {
+  .housious-extra-discount-tag {
+    gap: 7px;
+    padding: 7px 9px;
+    overflow: hidden;
+  }
+
+  .discount-ticket-icon {
+    width: 21px;
+    height: 21px;
+    flex-basis: 21px;
+  }
+
+  .discount-ticket-icon svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .discount-main-text {
+    flex: 1 1 auto;
+    overflow: hidden;
+    font-size: 10px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .discount-divider {
+    height: 18px;
+  }
+
+  .discount-coupon-text {
+    flex: 0 0 auto;
+    font-size: 9px;
+  }
+
+  .discount-copy-button {
+    flex: 0 0 auto;
+    gap: 3px;
+    padding: 2px;
+  }
+
+  .discount-copy-button span {
+    font-size: 9px;
+  }
+
+  .discount-copy-button svg {
+    width: 13px;
+    height: 13px;
+  }
+}

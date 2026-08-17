@@ -1,0 +1,96 @@
+{%- if block -%}
+  <div class="housious-extra-discount-tag" {{ block.shopify_attributes }}>
+    
+    <span class="discount-ticket-icon">
+  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <path d="M3 8a2 2 0 0 0 2-2h14a2 2 0 0 0 2 2v2a2 2 0 0 0 0 4v2a2 2 0 0 0-2 2H5a2 2 0 0 0-2-2v-2a2 2 0 0 0 0-4V8z"/>
+    <path d="M12 7v10"/>
+  </svg>
+</span>
+
+    <span class="discount-main-text">
+      Extra {{ block.settings.discount_percentage }}% OFF above ₹{{ block.settings.min_amount }}
+    </span>
+
+    <span class="discount-divider"></span>
+
+    <span class="discount-coupon-text">
+      Code:
+      <strong class="discount-code-badge">
+        {{ block.settings.coupon_code }}
+      </strong>
+    </span>
+
+    <button
+      type="button"
+      class="discount-copy-button"
+      data-coupon-code="{{ block.settings.coupon_code | escape }}"
+      aria-label="Copy coupon code {{ block.settings.coupon_code | escape }}"
+    >
+      <span>Copy</span>
+
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <rect
+          x="8"
+          y="8"
+          width="10"
+          height="10"
+          rx="2"
+          stroke="currentColor"
+          stroke-width="1.8"
+        />
+        <path
+          d="M16 8V6C16 4.9 15.1 4 14 4H6C4.9 4 4 4.9 4 6V14C4 15.1 4.9 16 6 16H8"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+        />
+      </svg>
+    </button>
+
+  </div>
+{%- endif -%}
+
+<script>
+  document.addEventListener('click', function (event) {
+    const button = event.target.closest('.discount-copy-button');
+
+    if (!button) return;
+
+    const couponCode = button.dataset.couponCode;
+    const buttonText = button.querySelector('span');
+
+    if (!couponCode) return;
+
+    navigator.clipboard.writeText(couponCode)
+      .then(function () {
+        const originalText = buttonText.textContent;
+
+        buttonText.textContent = 'Copied';
+        button.classList.add('copied');
+
+        window.setTimeout(function () {
+          buttonText.textContent = originalText;
+          button.classList.remove('copied');
+        }, 1500);
+      })
+      .catch(function () {
+        const temporaryInput = document.createElement('textarea');
+
+        temporaryInput.value = couponCode;
+        temporaryInput.style.position = 'fixed';
+        temporaryInput.style.opacity = '0';
+
+        document.body.appendChild(temporaryInput);
+        temporaryInput.select();
+        document.execCommand('copy');
+        temporaryInput.remove();
+
+        buttonText.textContent = 'Copied';
+
+        window.setTimeout(function () {
+          buttonText.textContent = 'Copy';
+        }, 1500);
+      });
+  });
+</script>

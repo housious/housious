@@ -1,0 +1,101 @@
+.featured-collection-products{
+  /* margin:30px 0; */
+   margin:30px auto;
+}
+
+.section-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:24px;
+}
+
+.section-header h2{
+  margin:0;
+  font-size:32px;
+  font-weight:700;
+}
+
+.view-all-link{
+  text-decoration:none;
+  font-weight:600;
+  color: black;
+}
+
+.products-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:20px;
+}
+
+@media(max-width:991px){
+  .products-grid{
+    grid-template-columns:repeat(3,1fr);
+  }
+}
+
+@media(max-width:767px){
+  .products-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+  .section-header h2{
+      font-size:20px;
+    }
+}
+
+/**** Changes **/
+
+.featured-collection-products {
+  margin: 30px auto;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+
+.view-all-link {
+  text-decoration: none;
+  font-weight: 600;
+  color: black;
+}
+
+/* 1 row mein 5 products (Desktop) */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); 
+  gap: 10px;
+}
+
+/* Tablet (3 products) */
+@media(max-width: 991px) {
+  .products-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Mobile (2 products) */
+@media(max-width: 767px) {
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .view-all-link {
+      font-size:14px;
+  }
+}
+
+.featured-collection-products {
+  padding-top: var(--padding-top, 36px);
+  padding-bottom: var(--padding-bottom, 36px);
+  margin: 0 auto; /* Removed fixed top/margin to let padding handle vertical spacing cleanly */
+}
+
+@media(max-width: 767px) {
+  .featured-collection-products {
+    padding-top: var(--padding-top-mobile, 20px);
+    padding-bottom: var(--padding-bottom-mobile, 20px);
+  }

@@ -1,0 +1,186 @@
+
+{% comment %} <section class="deal-features-section" {{ section.shopify_attributes }}>
+  <div class="deal-features-main-wrapper">
+    <div class="deal-features-grid-layout"> {% endcomment %}
+    <section class="deal-features-section section-container {{ section.settings.container_width }}" {{ section.shopify_attributes }}>
+  <div class="deal-features-main-wrapper">
+    <div class="deal-features-grid-layout">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'feature_item' -%}
+          
+          {%- assign is_upi = false -%}
+          {%- if block.settings.icon_preset == 'upi' or block.settings.title contains 'UPI' or block.settings.title contains 'upi' -%}
+            {%- assign is_upi = true -%}
+          {%- endif -%}
+
+          <div class="deal-feature-item-card {% if is_upi %}upi-custom-capsule-card{% endif %}" {{ block.shopify_attributes }}>
+            <div class="feature-icon-wrapper-box">
+              {%- if block.settings.custom_icon_img != blank -%}
+                <img src="{{ block.settings.custom_icon_img | image_url: width: 50 }}" 
+                     alt="{{ block.settings.title }}" 
+                     loading="lazy">
+              {%- else -%}
+                {%- case block.settings.icon_preset -%}
+                  {%- when 'shipping' -%}
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+                  {%- when 'discount' -%}
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
+                  {%- when 'return' -%}
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+                  {%- when 'secure' -%}
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                  {%- when 'upi' -%}
+                    <span class="upi-raw-logo-text">UPI</span>
+                {%- endcase -%}
+              {%- endif -%}
+            </div>
+            
+            <div class="feature-text-wrapper-box">
+              <span class="feature-main-title-label">{{ block.settings.title }}</span>
+              {%- if block.settings.subtitle != blank -%}
+                <span class="feature-subtitle-label">{{ block.settings.subtitle }}</span>
+              {%- endif -%}
+            </div>
+          </div>
+
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+{% comment %} 
+{% schema %}
+{
+  "name": "Deals Icon Bar",
+  "settings": [],
+  "max_blocks": 5,
+  "blocks": [
+    {
+      "type": "feature_item",
+      "name": "Feature Box",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "custom_icon_img",
+          "label": "Upload Custom Icon Image"
+        },
+        {
+          "type": "select",
+          "id": "icon_preset",
+          "label": "Fallback Preset Icon",
+          "options": [
+            { "value": "shipping", "label": "Free Shipping Truck" },
+            { "value": "discount", "label": "Extra Discount Tag" },
+            { "value": "return", "label": "Easy Returns Arrow" },
+            { "value": "secure", "label": "Secure Payments Shield" },
+            { "value": "upi", "label": "UPI Mini Badge" }
+          ],
+          "default": "shipping"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Free Shipping"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Sub-heading",
+          "default": "on orders above ₹499"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Deals Icon Bar",
+      "blocks": [
+        { "type": "feature_item", "settings": { "icon_preset": "shipping", "title": "Free Shipping", "subtitle": "on orders above ₹499" } },
+        { "type": "feature_item", "settings": { "icon_preset": "discount", "title": "Extra 7% OFF", "subtitle": "on prepaid orders" } },
+        { "type": "feature_item", "settings": { "icon_preset": "return", "title": "7-Day Returns", "subtitle": "Unused & undamaged only" } },
+        { "type": "feature_item", "settings": { "icon_preset": "secure", "title": "100% Secure Payments", "subtitle": "Trusted & safe checkout" } },
+        { "type": "feature_item", "settings": { "icon_preset": "upi", "title": "UPI Special Discount", "subtitle": "Extra 10% OFF" } }
+      ]
+    }
+  ]
+}
+{% endschema %} {% endcomment %}
+
+{% schema %}
+{
+  "name": "Deals Icon Bar",
+  "settings": [
+    {
+      "type": "select",
+      "id": "container_width",
+      "label": "Container Width",
+      "options": [
+        { "value": "section-container--sm", "label": "Small" },
+        { "value": "section-container--md", "label": "Medium" },
+        { "value": "section-container--lg", "label": "Large" },
+        { "value": "section-container--xl", "label": "Extra Large" },
+        { "value": "section-container--full", "label": "Full Width" }
+      ],
+      "default": "section-container--lg"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    }
+  ],
+  "max_blocks": 5,
+  "blocks": [
+    {
+      "type": "feature_item",
+      "name": "Feature Box",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "custom_icon_img",
+          "label": "Upload Custom Icon Image"
+        },
+        {
+          "type": "select",
+          "id": "icon_preset",
+          "label": "Fallback Preset Icon",
+          "options": [
+            { "value": "shipping", "label": "Free Shipping Truck" },
+            { "value": "discount", "label": "Extra Discount Tag" },
+            { "value": "return", "label": "Easy Returns Arrow" },
+            { "value": "secure", "label": "Secure Payments Shield" },
+            { "value": "upi", "label": "UPI Mini Badge" }
+          ],
+          "default": "shipping"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Free Shipping"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Sub-heading",
+          "default": "on orders above ₹499"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Deals Icon Bar",
+      "blocks": [
+        { "type": "feature_item", "settings": { "icon_preset": "shipping", "title": "Free Shipping", "subtitle": "on orders above ₹499" } },
+        { "type": "feature_item", "settings": { "icon_preset": "discount", "title": "Extra 7% OFF", "subtitle": "on prepaid orders" } },
+        { "type": "feature_item", "settings": { "icon_preset": "return", "title": "7-Day Returns", "subtitle": "Unused & undamaged only" } },
+        { "type": "feature_item", "settings": { "icon_preset": "secure", "title": "100% Secure Payments", "subtitle": "Trusted & safe checkout" } },
+        { "type": "feature_item", "settings": { "icon_preset": "upi", "title": "UPI Special Discount", "subtitle": "Extra 10% OFF" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

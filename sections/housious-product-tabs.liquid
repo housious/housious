@@ -1,0 +1,339 @@
+{{ 'product-tabs.css' | asset_url | stylesheet_tag }}
+{%- assign tab_review_count = product.metafields.air_reviews_product.review_count.value | default: product.metafields.air_reviews_product.review_count -%}
+
+{% comment %} <div class="product-tabs-section"> {% endcomment %}
+ <div class="product-tabs-section">
+  <!-- Added the container here -->
+  <div class="section-container {{ section.settings.container_width }}">
+  <div class="tabs-header" role="tablist">
+    <button class="tab-btn active" data-tab="tab-description" role="tab" aria-selected="true">Description</button>
+    <button class="tab-btn" data-tab="tab-specifications" role="tab" aria-selected="false">Specifications</button>
+    <button class="tab-btn" data-tab="tab-reviews" role="tab" aria-selected="false">Reviews{% if tab_review_count != blank and tab_review_count != 0 %} ({{ tab_review_count }}){% endif %}</button>
+    <button class="tab-btn" data-tab="tab-qa" role="tab" aria-selected="false">Q&A</button>
+    <button class="tab-btn" data-tab="tab-shipping" role="tab" aria-selected="false">Shipping & Returns</button>
+  </div>
+
+  <div class="tab-panels-content-wrapper">
+    
+    <div class="tab-panel-item active" id="tab-description" role="tabpanel">
+      <div class="description-grid">
+        <div class="content-card info-card">
+          <h2 class="canva-headline-main">About {{ product.title }}</h2>
+          <div class="description-text-wrapper rte">
+            {%- if product.description != blank -%}
+              {{ product.description }}
+            {%- else -%}
+              <p>Product details are being updated. Please refer to the specifications and product images for the currently available information.</p>
+            {%- endif -%}
+          </div>
+        </div>
+
+        {%- if product.metafields.custom.what_s_included.value != blank -%}
+          <div class="content-card included-card">
+            <h3 class="canva-card-title">What's Included</h3>
+            <ul class="included-bullets-list">
+              {%- assign lines = product.metafields.custom.what_s_included.value | newline_to_br | split: '<br />' -%}
+              {%- for line in lines -%}
+                {%- if line != blank -%}
+                  <li>
+                    <span class="bullet-tick">✓</span>
+                    <span class="bullet-text">{{ line | strip }}</span>
+                  </li>
+                {%- endif -%}
+              {%- endfor -%}
+            </ul>
+
+            {%- if product.metafields.custom.included_image.value != blank -%}
+              <div class="included-meta-img-box">
+                <img
+                  src="{{ product.metafields.custom.included_image.value | image_url: width: 450 }}"
+                  alt="Items included with {{ product.title | escape }}"
+                  width="450"
+                  loading="lazy"
+                >
+              </div>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+
+        {%- if product.metafields.custom.description_image.value != blank -%}
+          <div class="content-card brand-highlight-card">
+            <div class="brand-right-showcase-img">
+              <img 
+                src="{{ product.metafields.custom.description_image.value | image_url: width: 500 }}" 
+                alt="{{ product.title | escape }} lifestyle feature"
+                width="500"
+                loading="lazy"
+              >
+            </div>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+
+
+    {% comment %} <div class="tab-panel-item" id="tab-specifications" role="tabpanel">
+  <div class="content-panel-inner-fallback">
+    <h3 class="fallback-panel-title">Product Specifications</h3>
+    
+    {%- if product.metafields.custom.specification.value != blank -%}
+      <table class="housious-spec-table">
+        {%- comment -%} Multi-line text ko newline character se break karke automatic row/table me split karein {%- endcomment -%}
+        {%- assign spec_lines = product.metafields.custom.specification.value | newline_to_br | split: '<br />' -%}
+        
+        {%- for line in spec_lines -%}
+          {%- assign clean_line = line | strip | remove: '\n' | remove: '\r' -%}
+          {%- if clean_line != blank and clean_line contains ':' -%}
+            {%- assign parts = clean_line | split: ':' -%}
+            <tr>
+              <td><strong>{{ parts[0] | strip }}</strong></td>
+              <td>{{ parts[1] | strip }}</td>
+            </tr>
+          {%- endif -%}
+        {%- endfor -%}
+      </table>
+    {%- else -%}
+      <table class="housious-spec-table">
+        <tr><td><strong>Material</strong></td><td>Standard Material</td></tr>
+        <tr><td><strong>Lid Type</strong></td><td>Airtight & Leakproof Locking Lid</td></tr>
+        <tr><td><strong>Safe For</strong></td><td>Microwave, Oven, Dishwasher, Freezer</td></tr>
+        <tr><td><strong>Certifications</strong></td><td>BPA Free, Food Grade Safe</td></tr>
+      </table>
+    {%- endif -%}
+
+  </div>
+</div> {% endcomment %}
+<div class="tab-panel-item" id="tab-specifications" role="tabpanel">
+  <div class="content-panel-inner-fallback">
+    <h3 class="fallback-panel-title">Product Specifications</h3>
+    
+    {%- if product.metafields.custom.specification.value != blank -%}
+      <table class="housious-spec-table">
+        {%- assign spec_lines = product.metafields.custom.specification.value | newline_to_br | split: '<br />' -%}
+        
+        {%- for line in spec_lines -%}
+          {%- assign clean_line = line | strip | remove: '\n' | remove: '\r' -%}
+          {%- if clean_line != blank -%}
+            
+            <tr>
+              {%- if clean_line contains ':' -%}
+                {%- assign parts = clean_line | split: ':' -%}
+                <td><strong>{{ parts[0] | strip }}</strong></td>
+                <td>{{ parts[1] | strip }}</td>
+              {%- else -%}
+                <td colspan="2" style="font-weight: 500; color: #1e293b;">
+                  • {{ clean_line }}
+                </td>
+              {%- endif -%}
+            </tr>
+            
+          {%- endif -%}
+        {%- endfor -%}
+      </table>
+    {%- else -%}
+      <p class="fallback-panel-text">Product specifications are being updated. Please refer to the product description and images for the currently available information.</p>
+    {%- endif -%}
+
+  </div>
+</div>
+
+    {% comment %} <div class="tab-panel-item" id="tab-reviews" role="tabpanel">
+      <div class="content-panel-inner-fallback">
+        <h3 class="fallback-panel-title">Customer Reviews</h3>
+        <p class="fallback-panel-text">Reviews widget or application content blocks load dynamically here.</p>
+      </div>
+    </div> {% endcomment %}
+
+   <div class="tab-panel-item" id="tab-reviews" role="tabpanel">
+      <div class="content-panel-inner-fallback">
+        
+        {% comment %} 👉 FIXED: Added missing closing bracket in endif 👈 {% endcomment %}
+        {%- for block in section.blocks -%}
+          {%- if block.type == '@app' -%}
+            <div class="housious-tab-reviews-app-wrapper" {{ block.shopify_attributes }}>
+              {% render block %}
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+
+      </div>
+    </div>
+    {% comment %} <div class="tab-panel-item" id="tab-qa" role="tabpanel">
+      <div class="content-panel-inner-fallback">
+        <h3 class="fallback-panel-title">Questions & Answers</h3>
+        <p class="fallback-panel-text">Have a question about this item? Browse responses or contact our help desk support team.</p>
+      </div>
+    </div> {% endcomment %}
+
+    {% comment %} <div class="tab-panel-item" id="tab-qa" role="tabpanel">
+      <div class="content-panel-inner-fallback">
+        <h3 class="fallback-panel-title">Questions & Answers</h3>
+        
+        {%- if product.metafields.custom.product_q_a.value != blank -%}
+          <div class="housious-qa-wrapper">
+            {%- for qa_item in product.metafields.custom.product_q_a.value -%}
+              <div class="qa-block-item">
+                <div class="qa-question-row">
+                  <span class="qa-badge q-badge">Q</span>
+                  <h4 class="qa-question-text">{{ qa_item.question.value }}</h4>
+                </div>
+                <div class="qa-answer-row">
+                  <span class="qa-badge a-badge">A</span>
+                  <div class="qa-answer-text">{{ qa_item.answer.value | newline_to_br }}</div>
+                </div>
+              </div>
+            {%- endfor -%}
+          </div>
+        {%- else -%}
+          <p class="fallback-panel-text">Have a question about this item? Browse responses or contact our help desk support team.</p>
+        {%- endif -%}
+
+      </div>
+    </div> {% endcomment %}
+
+    <div class="tab-panel-item" id="tab-qa" role="tabpanel">
+      <div class="content-panel-inner-fallback">
+        <h3 class="fallback-panel-title">Questions & Answers</h3>
+        
+        {%- if product.metafields.custom.product_q_a.value != blank -%}
+          <div class="housious-accordion-wrapper">
+            {%- for qa_item in product.metafields.custom.product_q_a.value -%}
+              <details class="qa-accordion-item" {% if forloop.first %}open{% endif %}>
+                <summary class="qa-accordion-header">
+                  <div class="qa-question-title-box">
+                    <span class="qa-badge q-badge">Q</span>
+                    <h4 class="qa-question-text">{{ qa_item.question.value }}</h4>
+                  </div>
+                  <span class="accordion-icon">
+                    <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                  </span>
+                </summary>
+                <div class="qa-accordion-content">
+                  <div class="qa-answer-row">
+                    <span class="qa-badge a-badge">A</span>
+                    <div class="qa-answer-text">{{ qa_item.answer.value | newline_to_br }}</div>
+                  </div>
+                </div>
+              </details>
+            {%- endfor -%}
+          </div>
+        {%- else -%}
+          <p class="fallback-panel-text">Have a question about this item? Browse responses or contact our help desk support team.</p>
+        {%- endif -%}
+
+      </div>
+    </div>
+
+    {% comment %} <div class="tab-panel-item" id="tab-shipping" role="tabpanel">
+      <div class="content-panel-inner-fallback">
+        <h3 class="fallback-panel-title">Shipping & Returns Policy</h3>
+        <p class="fallback-panel-text">Free shipping on orders above ₹499. Returns are accepted within 7 days of delivery for unused and undamaged products only.</p>
+      </div>
+    </div> {% endcomment %}
+
+    <div class="tab-panel-item" id="tab-shipping" role="tabpanel">
+      <div class="content-panel-inner-fallback">
+        <h3 class="fallback-panel-title">Shipping & Returns Policy</h3>
+        <div class="fallback-panel-text">
+          {{ section.settings.shipping_text }}
+        </div>  
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+{% comment %} {% schema %}
+{
+  "name": "Product Tabs",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "right_image",
+      "label": "Right Highlight Image"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "shipping_text",
+      "label": "Shipping & Returns Policy Text",
+      "default": "Free shipping on orders above ₹499. Returns are accepted within 7 days of delivery for unused and undamaged products only."
+    }
+    
+  ],
+  "blocks": [
+    {
+      "type": "@app"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Tabs"
+    }
+  ]
+}
+{% endschema %} {% endcomment %}
+
+{% schema %}
+{
+  "name": "Product Tabs",
+  "settings": [
+    {
+      "type": "select",
+      "id": "container_width",
+      "label": "Container Width",
+      "options": [
+        { "value": "section-container--lg", "label": "Large" },
+        { "value": "section-container--xl", "label": "Extra Large" },
+        { "value": "section-container--full", "label": "Full Width" }
+      ],
+      "default": "section-container--xl"
+    },
+    {
+      "type": "image_picker",
+      "id": "right_image",
+      "label": "Right Highlight Image"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "shipping_text",
+      "label": "Shipping & Returns Policy Text",
+      "default": "Free shipping on orders above ₹499. Returns are accepted within 7 days of delivery for unused and undamaged products only."
+    }
+  ],
+  "blocks": [
+    { "type": "@app" }
+  ],
+  "presets": [
+    { "name": "Product Tabs" }
+  ]
+}
+{% endschema %}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const tabButtons = document.querySelectorAll('.tab-btn');
+  const tabPanels = document.querySelectorAll('.tab-panel-item');
+
+  tabButtons.forEach(btn => {
+    btn.addEventListener('click', function() {
+      // Remove Active classes from everywhere
+      tabButtons.forEach(item => {
+        item.classList.remove('active');
+        item.setAttribute('aria-selected', 'false');
+      });
+      tabPanels.forEach(panel => panel.classList.remove('active'));
+
+      // Add active flag to clicked button
+      this.classList.add('active');
+      this.setAttribute('aria-selected', 'true');
+
+      // Sync specific visibility engine
+      const targetId = this.getAttribute('data-tab');
+      const activePanel = document.getElementById(targetId);
+      if (activePanel) {
+        activePanel.classList.add('active');
+      }
+    });
+  });
+});
+</script>

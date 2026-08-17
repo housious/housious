@@ -1,0 +1,261 @@
+.luxury-pure-banner {
+  width: 100%;
+  display: block;
+  overflow: hidden;
+  box-sizing: border-box;
+  /* padding-top: 30px; 
+  padding-bottom: 50px; */
+}
+
+/* .pure-banner__container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 40px;
+} */
+
+.pure-banner__media {
+  display: block;
+  width: 100%;
+}
+
+.pure-banner__img {
+  width: 100%;
+  height: auto;
+  max-height: 650px; /* Desktop height control */
+  object-fit: cover;
+  display: block;
+  border-radius: 4px; /* Premium subtle edge */
+}
+
+.pure-banner__placeholder {
+  width: 100%;
+  height: 450px;
+  background-color: #f4f4f4;
+}
+
+/* Mobile Screen Specific Logic (Under 767px) */
+@media (max-width: 767px) {
+  /* .pure-banner__container {
+    padding: 0 15px; 
+  } */
+  
+  .pure-banner__img {
+    max-height: none; /* Mobile banner ko complete height display karne dega */
+    object-fit: contain; /* Banner bina crop huye professional canvas fill karega */
+  }
+}
+
+/** Section 2**/
+.brand-manifesto {
+  padding: 120px 20px;
+  background-color: #FDFBF7; /* Match your theme bg */
+  text-align: center;
+}
+.manifesto__container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+.manifesto__overline {
+  display: block;
+  font-size: 12px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #777;
+  margin-bottom: 24px;
+}
+.manifesto__heading {
+  font-size: 42px;
+  font-weight: 300;
+  line-height: 1.2;
+  margin-bottom: 30px;
+  color: #121212;
+}
+.manifesto__text p {
+  font-size: 18px;
+  line-height: 1.8;
+  color: #4a4a4a;
+  font-weight: 300;
+}
+@media (max-width: 767px) {
+  .brand-manifesto { padding: 80px 20px; }
+  .manifesto__heading { font-size: 30px; }
+  .manifesto__text p { font-size: 16px; }
+}
+
+/** Second Section **/
+
+/* --- SECTION 2: CLEAN CANVA-STYLE CENTERED NARRATIVE --- */
+.centered-manifesto {
+  padding: 20px 20px; /* Top aur bottom se heavy premium spacing */
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.canvas-container {
+  max-width: 780px; /* Text block ko failne se rokega taaki read karne mein luxury feel aaye */
+  margin: 0 auto;
+}
+
+/* Heading ke upar choti uppercase line */
+.canvas-overline {
+  display: block;
+  font-size: 11px;
+  letter-spacing: 0.3em; /* Character letters ke beech luxury spacing */
+  text-transform: uppercase;
+  color: #8c8c8c;
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+/* Main Center Heading */
+/* .canvas-heading {
+  font-size: 42px;
+  line-height: 1.3;
+  font-weight: 300; 
+  color: #1a1a1a;
+  margin: 0 0 28px 0;
+  letter-spacing: -0.01em;
+} */
+
+.canvas-heading {
+font-size: 28px; /* Desktop heading standard size lowering from 38px */
+    margin-bottom: 20px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    text-transform: capitalize;
+}
+
+/* Sub-text Paragraph under heading */
+.canvas-text-desc p {
+  font-size: 17px;
+  color: #4a4a4a;
+  font-weight: 300;
+  max-width: 640px;
+  margin: 0 auto; /* Paragraph content center alignment */
+}
+
+/* --- MOBILE FINE TUNING --- */
+
+
+/* --- SECTION 3: BRAND STORY ASYMMETRICAL GRID --- */
+.story-grid-section {
+  padding: 60px 0 120px 0;
+  background-color: #FDFBF7; /* Cozy luxury background */
+}
+
+.story-grid__container {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+.story-grid__layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* 50-50 Clean balance */
+  gap: 60px;
+  align-items: center;
+}
+
+/* Text Card Container */
+.story-grid__text-card {
+  padding-right: 40px;
+}
+
+.story-grid__subtitle {
+  display: block;
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #8c8c8c;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+.story-grid__title {
+  font-size: 38px;
+  line-height: 1.3;
+  font-weight: 300;
+  color: #1a1a1a;
+  margin: 0 0 24px 0;
+  letter-spacing: -0.01em;
+}
+
+.story-grid__paragraph {
+  font-size: 16px;
+  line-height: 1.8;
+  color: #555555;
+  font-weight: 300;
+  margin: 0;
+}
+
+/* Image Block Styling */
+.story-grid__image-card {
+  width: 100%;
+  overflow: hidden;
+  border-radius: 4px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.02); /* Soft professional shadow */
+}
+
+.story-grid__img {
+  width: 100%;
+  height: 600px;
+  object-fit: cover;
+  display: block;
+}
+
+.story-grid__placeholder {
+  width: 100%;
+  height: 600px;
+  background-color: #e5e5e5;
+}
+
+/* --- MOBILE RESPONSIVE TUNING --- */
+@media (max-width: 990px) {
+  .story-grid__layout {
+    grid-template-columns: 1fr; /* Stack vertically on phones */
+    gap: 40px;
+  }
+  
+  .story-grid__text-card {
+    padding-right: 0;
+    order: 2; /* Text niche aayega mobile par */
+  }
+  
+  .story-grid__image-card {
+    order: 1; /* Image upar dikhegi phone par */
+  }
+  
+  .story-grid__img {
+    height: 400px;
+  }
+  
+  .story-grid__title {
+    font-size: 28px;
+  }
+}
+
+/* --- MOBILE FINE TUNING FIXED --- */
+/* Sirf mobile ke liye settings */
+@media (max-width: 767px) {
+  .centered-manifesto {
+    padding: 20px 20px !important; /* Spacing kam kar di */
+    font-size: 10px;
+  }
+
+  .canvas-heading {
+    font-size: 15px !important;    /* Mobile ke liye size thoda chhota */
+    line-height: 1.2 !important;
+    margin-bottom: 5px !important;
+  }
+
+  .canvas-text-desc p {
+    font-size: 10px !important;    /* Mobile ke liye readable size */
+    line-height: 1.2 !important;
+  }
+  .canvas-overline{
+    margin-bottom:8px;
+    font-size: 8px;
+  }
+}

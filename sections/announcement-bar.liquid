@@ -1,0 +1,322 @@
+{% comment %} <div class="custom-announcement-bar section-container {{ section.settings.container_width }}"> {% endcomment %}
+ <!-- Change this line: -->
+
+ <div class="custom-announcement-bar section-container {{ section.settings.container_width }}">
+    <div class="announcement-wrapper">
+
+      <div class="announcement-left">
+
+        {% for block in section.blocks %}
+          {% if block.type == 'announcement' %}
+            <div class="announcement-item">
+              {% if block.settings.icon != blank %}
+                    {{
+                        block.settings.icon
+                        | image_url: width: 40
+                        | image_tag:
+                        class: 'announcement-icon',
+                        loading: 'lazy'
+                    }}
+              {% endif %}
+              <span>{{ block.settings.text }}</span>
+            </div>
+          {% endif %}
+        {% endfor %}
+
+      </div>
+
+      <div class="announcement-right">
+
+        {% if section.settings.download_text != blank %}
+          <a href="{{ section.settings.download_link }}" class="top-link">
+            {% comment %} {{ section.settings.download_text }} {% endcomment %}
+            <div class="announcement-item">
+              {% if section.settings.download_icon != blank %}
+                    {{
+                        section.settings.download_icon
+                        | image_url: width: 40
+                        | image_tag:
+                        class: 'announcement-icon',
+                        loading: 'lazy'
+                    }}
+              {% endif %}
+              <span>{{ section.settings.download_text }}</span>
+            </div>
+          </a>
+        {% endif %}
+
+        {% if section.settings.track_text != blank %}
+          <a href="{{ section.settings.track_link }}" class="top-link">
+            
+            <div class="announcement-item">
+              {% if section.settings.track_icon != blank %}
+                    {{
+                        section.settings.track_icon
+                        | image_url: width: 40
+                        | image_tag:
+                        class: 'announcement-icon',
+                        loading: 'lazy'
+                    }}
+              {% endif %}
+              <span>{{ section.settings.track_text }}</span>
+            </div>
+          </a>
+        {% endif %}
+
+      </div>
+</div>
+</div>
+
+<style>
+  
+ .custom-announcement-bar{
+  background:#0f1115;
+  color:#fff;
+  font-size:12px;
+  overflow-x:auto;
+}  
+
+{% comment %} .announcement-wrapper{
+    background:#0f1115;
+  color:#fff;
+  font-size:12px;
+  overflow-x:auto;
+  padding-left:8px;
+  padding-right:8px;
+} {% endcomment %}
+
+.announcement-wrapper{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  min-height:42px;
+  flex-wrap:nowrap;
+  gap:16px;
+}
+
+.announcement-left{
+  display:flex;
+  gap:28px;
+  flex-wrap:nowrap;
+  overflow-x:auto;
+  scrollbar-width:none;
+}
+
+.announcement-left::-webkit-scrollbar{
+  display:none;
+}
+
+.announcement-item{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  white-space:nowrap;
+  flex-shrink:0;
+}
+
+.announcement-wrapper img{
+  height:30px;
+  width:30px;
+  flex-shrink:0;
+}
+
+.announcement-right{
+  display:flex;
+  gap:24px;
+  flex-shrink:0;
+}
+
+.top-link{
+  color:#fff;
+  text-decoration:none;
+  transition:.3s;
+  white-space:nowrap;
+}
+
+.top-link:hover{
+  color:#ff7a1a;
+}
+
+/* Hide entire bar on mobile */
+@media(max-width:768px){
+  .custom-announcement-bar{
+    display:none;
+  }
+}
+</style>
+
+{% comment %} {% schema %}
+{
+  "name":"Custom Announcement Bar",
+  "settings":[
+    {
+      "type":"text",
+      "id":"download_text",
+      "label":"Download App Text",
+      "default":"Download App"
+    },
+    {
+      "type":"url",
+      "id":"download_link",
+      "label":"Download App Link"
+    },
+    {
+          "type":"image_picker",
+          "id":"download_icon",
+          "label":"Icon"
+    },
+    {
+      "type":"text",
+      "id":"track_text",
+      "label":"Track Order Text",
+      "default":"Track Order"
+    },
+    {
+          "type":"image_picker",
+          "id":"track_icon",
+          "label":"Icon"
+    },
+    {
+      "type":"url",
+      "id":"track_link",
+      "label":"Track Order Link"
+    },
+    {
+        "type": "header",
+        "content": "Layout"
+    },
+    {
+        "type": "select",
+        "id": "container_width",
+        "label": "Container Width",
+        "options": [
+            {
+            "value": "section-container--sm",
+            "label": "Small"
+            },
+            {
+            "value": "section-container--md",
+            "label": "Medium"
+            },
+            {
+            "value": "section-container--lg",
+            "label": "Large"
+            },
+            {
+            "value": "section-container--xl",
+            "label": "Extra Large"
+            },
+            {
+            "value": "section-container--full",
+            "label": "Full Width"
+            }
+        ],
+        "default": "section-container--lg"
+    },
+    
+  ],
+  "blocks":[
+    {
+      "type":"announcement",
+      "name":"Announcement",
+      "settings":[
+        {
+          "type":"image_picker",
+          "id":"icon",
+          "label":"Icon"
+        },
+        {
+          "type":"text",
+          "id":"text",
+          "label":"Text"
+        }
+      ]
+    }
+  ],
+  "presets":[
+    {
+      "name":"Custom Announcement Bar"
+    }
+  ]
+}
+{% endschema %} {% endcomment %}
+
+{% schema %}
+{
+  "name": "Custom Announcement Bar",
+  "settings": [
+    {
+      "type": "text",
+      "id": "download_text",
+      "label": "Download App Text",
+      "default": "Download App"
+    },
+    {
+      "type": "url",
+      "id": "download_link",
+      "label": "Download App Link"
+    },
+    {
+      "type": "image_picker",
+      "id": "download_icon",
+      "label": "Download Icon"
+    },
+    {
+      "type": "text",
+      "id": "track_text",
+      "label": "Track Order Text",
+      "default": "Track Order"
+    },
+    {
+      "type": "url",
+      "id": "track_link",
+      "label": "Track Order Link"
+    },
+    {
+      "type": "image_picker",
+      "id": "track_icon",
+      "label": "Track Icon"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "container_width",
+      "label": "Container Width",
+      "options": [
+        { "value": "section-container--sm", "label": "Small" },
+        { "value": "section-container--md", "label": "Medium" },
+        { "value": "section-container--lg", "label": "Large" },
+        { "value": "section-container--xl", "label": "Extra Large" },
+        { "value": "section-container--full", "label": "Full Width" }
+      ],
+      "default": "section-container--lg"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "announcement",
+      "name": "Announcement",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Announcement Bar"
+    }
+  ]
+}
+{% endschema %}

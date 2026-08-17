@@ -1,0 +1,60 @@
+{% comment %}
+  Housious Dynamic Breadcrumbs Navigation
+  Matches: Home > Kitchen > Food Storage > ...
+{% endcomment %}
+
+{% comment %} {%- unless template == 'index' or template == 'cart' or template == 'list-collections' or template == '404' -%}
+<nav class="housious-breadcrumbs" aria-label="breadcrumbs">
+  
+  <a href="{{ routes.root_url }}" class="breadcrumb-link">Home</a>
+  
+  {%- if template contains 'product' -%}
+    <span class="breadcrumb-separator">&rsaquo;</span>
+    
+    {%- if collection -%}
+      <a href="{{ collection.url }}" class="breadcrumb-link">{{ collection.title }}</a>
+    {%- else -%}
+      {%- if product.collections.size > 0 -%}
+        <a href="{{ product.collections.first.url }}" class="breadcrumb-link">{{ product.collections.first.title }}</a>
+      {%- else -%}
+        <a href="collections/all" class="breadcrumb-link">Shop</a>
+      {%- endif -s%}
+    {%- endif -%}
+    
+    <span class="breadcrumb-separator">&rsaquo;</span>
+    <span class="breadcrumb-current" aria-current="page">{{ product.title }}</span>
+
+  {%- endif -%}
+</nav>
+{%- endunless -%} {% endcomment %}
+
+{% comment %}
+  Housious Dynamic Breadcrumbs Navigation
+  Matches: Home > [Collection] > Product Title
+{% endcomment %}
+
+{%- unless template == 'index' or template == 'cart' or template == 'list-collections' or template == '404' -%}
+<nav class="housious-breadcrumbs" aria-label="breadcrumbs">
+  <a href="{{ routes.root_url }}" class="breadcrumb-link">Home</a>
+  
+  {%- if template contains 'product' -%}
+    {%- assign current_collection = collection -%}
+    
+    {%- if current_collection == blank and product.collections.size > 0 -%}
+      {%- assign current_collection = product.collections.first -%}
+    {%- endif -%}
+
+    {%- if current_collection -%}
+      <span class="breadcrumb-separator">&rsaquo;</span>
+      <a href="{{ current_collection.url }}" class="breadcrumb-link">{{ current_collection.title }}</a>
+    {%- else -%}
+      <span class="breadcrumb-separator">&rsaquo;</span>
+      {% comment %} Fixed: Added leading slash for correct path {% endcomment %}
+      <a href="collections/all" class="breadcrumb-link">Shop</a>
+    {%- endif -%}
+    
+    <span class="breadcrumb-separator">&rsaquo;</span>
+    <span class="breadcrumb-current" aria-current="page">{{ product.title }}</span>
+  {%- endif -%}
+</nav>
+{%- endunless -%}
