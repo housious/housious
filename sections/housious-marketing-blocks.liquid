@@ -121,21 +121,38 @@
               {%- capture fbt_associated_items -%}
                 {%- if product.metafields.custom.frequently_bought_together.value != blank -%}
                   {%- for associative_product in product.metafields.custom.frequently_bought_together.value limit: 2 -%}
-                    {%- if associative_product.has_only_default_variant and associative_product.first_available_variant != blank -%}
+                    {%- assign fbt_associated_variant = associative_product.first_available_variant -%}
+                    {%- if fbt_associated_variant != blank -%}
+                      {%- assign fbt_associated_image = fbt_associated_variant.featured_image | default: associative_product.featured_image -%}
                       {%- assign fbt_eligible_count = fbt_eligible_count | plus: 1 -%}
-                      {%- assign fbt_total_price = fbt_total_price | plus: associative_product.first_available_variant.price -%}
+                      {%- assign fbt_total_price = fbt_total_price | plus: fbt_associated_variant.price -%}
                       <div class="fbt-plus-sign-divider">+</div>
                       <div
                         class="fbt-single-img-node"
                         data-fbt-item
-                        data-variant-id="{{ associative_product.first_available_variant.id }}"
-                        data-price="{{ associative_product.first_available_variant.price }}"
+                        data-variant-id="{{ fbt_associated_variant.id }}"
+                        data-price="{{ fbt_associated_variant.price }}"
+                        data-variant-title="{{ fbt_associated_variant.title | escape }}"
                       >
-                        <img
-                          src="{{ associative_product.featured_image | image_url: width: 120 }}"
-                          alt="{{ associative_product.title | escape }}"
-                          loading="lazy"
+                        <a
+                          href="{{ associative_product.url }}?variant={{ fbt_associated_variant.id }}"
+                          aria-label="View {{ associative_product.title | escape }}"
+                          style="display:block;color:inherit;text-decoration:none;"
                         >
+                          <img
+                            src="{{ fbt_associated_image | image_url: width: 120 }}"
+                            alt="{{ fbt_associated_image.alt | default: associative_product.title | escape }}"
+                            loading="lazy"
+                          >
+                          {%- unless associative_product.has_only_default_variant -%}
+                            <span
+                              class="fbt-selected-variant-label"
+                              style="display:block;max-width:120px;margin-top:5px;font-size:10px;line-height:1.25;color:#666;text-align:center;"
+                            >
+                              Selected: {{ fbt_associated_variant.title }}
+                            </span>
+                          {%- endunless -%}
+                        </a>
                       </div>
                     {%- endif -%}
                   {%- endfor -%}
