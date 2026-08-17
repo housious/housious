@@ -109,102 +109,84 @@
                 </div>
               </div>
 
-              <div class="canva-fbt-integrated-footer-panel">
+              {%- assign fbt_main_variant = product.selected_or_first_available_variant -%}
+              {%- assign fbt_eligible_count = 0 -%}
+              {%- assign fbt_total_price = 0 -%}
+              {%- if fbt_main_variant != blank -%}
+                {%- assign fbt_eligible_count = 1 -%}
+                {%- assign fbt_total_price = fbt_main_variant.price -%}
+              {%- endif -%}
+
+              {%- capture fbt_associated_items -%}
+                {%- if product.metafields.custom.frequently_bought_together.value != blank -%}
+                  {%- for associative_product in product.metafields.custom.frequently_bought_together.value limit: 2 -%}
+                    {%- if associative_product.has_only_default_variant and associative_product.first_available_variant != blank -%}
+                      {%- assign fbt_eligible_count = fbt_eligible_count | plus: 1 -%}
+                      {%- assign fbt_total_price = fbt_total_price | plus: associative_product.first_available_variant.price -%}
+                      <div class="fbt-plus-sign-divider">+</div>
+                      <div
+                        class="fbt-single-img-node"
+                        data-fbt-item
+                        data-variant-id="{{ associative_product.first_available_variant.id }}"
+                        data-price="{{ associative_product.first_available_variant.price }}"
+                      >
+                        <img
+                          src="{{ associative_product.featured_image | image_url: width: 120 }}"
+                          alt="{{ associative_product.title | escape }}"
+                          loading="lazy"
+                        >
+                      </div>
+                    {%- endif -%}
+                  {%- endfor -%}
+                {%- endif -%}
+              {%- endcapture -%}
+
+              {%- if fbt_eligible_count > 1 -%}
+              <div
+                class="canva-fbt-integrated-footer-panel"
+                data-fbt-panel
+                data-fbt-main-variant-id="{{ fbt_main_variant.id }}"
+                data-fbt-main-price="{{ fbt_main_variant.price }}"
+                data-fbt-main-available="{{ fbt_main_variant.available }}"
+              >
                 <div class="fbt-products-preview-master-wrapper">
                   <h4 class="fbt-panel-header-title">Frequently Bought Together</h4>
 
                   <div class="fbt-images-plus-flex-row">
-                    <div class="fbt-single-img-node" data-variant-id="{{ product.first_available_variant.id }}">
+                    <div
+                      class="fbt-single-img-node"
+                      data-fbt-main-item
+                      data-variant-id="{{ fbt_main_variant.id }}"
+                      data-price="{{ fbt_main_variant.price }}"
+                    >
                       <img
                         src="{{ product.featured_image | image_url: width: 120 }}"
                         alt="{{ product.title | escape }}"
                         loading="lazy"
                       >
                     </div>
-
-                    {%- if product.metafields.custom.frequently_bought_together.value != blank -%}
-                      {%- for associative_product in product.metafields.custom.frequently_bought_together.value limit: 2 -%}
-                        <div class="fbt-plus-sign-divider">+</div>
-                        <div class="fbt-single-img-node" data-variant-id="{{ associative_product.first_available_variant.id }}">
-                          <img
-                            src="{{ associative_product.featured_image | image_url: width: 120 }}"
-                            alt="{{ associative_product.title | escape }}"
-                            loading="lazy"
-                          >
-                        </div>
-                      {%- endfor -%}
-                    {%- endif -%}
+                    {{ fbt_associated_items }}
                   </div>
                 </div>
 
-                {% comment %}
-                  <div class="fbt-action-pricing-checkout-block">
-                      <div class="fbt-checkout-pricing-header-line">
-                        Total Price: <span class="fbt-strike-old-label">{{ section.settings.old_price }}</span>
-                        <span class="fbt-vibrant-active-price">{{ section.settings.new_price }}</span>
-                        <span class="fbt-discount-pill-badge">
-                          (
-                          {%- if product.metafields.custom.fbt_discount.value != blank -%}
-                            {{ product.metafields.custom.fbt_discount.value }}% OFF
-                          {%- else -%}
-                            {{ section.settings.discount_label }}
-                          {%- endif -%}
-                          )
-                        </span>
-                      </div>
-                      <button type="button" class="canva-huge-action-submit-btn" id="HousiousAddAllToCartTrigger">Add All 3 to Cart</button>
-                      <button type="button" class="canva-secondary-link-wishlist-btn">♡ Add All to Wishlist</button>
-                      <div class="fbt-save-alert-text" style="color: #166534; font-size: 11px; text-align: center; margin-top: 6px; font-weight: 700;">
-                        You Save {{ section.settings.old_price | minus: section.settings.new_price }} on this combo
-                      </div>
-                    </div>
-                  </div>
-                {% endcomment %}
                 <div class="fbt-action-pricing-checkout-block">
-                  {%- comment -%} 1. Initialize the base total with the primary product's price {%- endcomment -%}
-                  {%- assign total_compare_price = product.price -%}
-
-                  {%- comment -%} 2. Add the prices of the metafield products to the total {%- endcomment -%}
-                  {%- if product.metafields.custom.frequently_bought_together.value != blank -%}
-                    {%- for associative_product in product.metafields.custom.frequently_bought_together.value limit: 2 -%}
-                      {%- assign total_compare_price = total_compare_price | plus: associative_product.price -%}
-                    {%- endfor -%}
-                  {%- endif -%}
-
-                  {%- comment -%} 3. Fetch the discount percentage from your metafield or fallback to schema setting {%- endcomment -%}
-                  {%- if product.metafields.custom.fbt_discount.value != blank -%}
-                    {%- assign discount_percent = product.metafields.custom.fbt_discount.value -%}
-                  {%- else -%}
-                    {%- assign discount_percent = section.settings.discount_label | remove: '%' | remove: ' OFF' | plus: 0 -%}
-                  {%- endif -%}
-
-                  {%- comment -%} 4. Calculate the discounted selling price {%- endcomment -%}
-                  {%- assign discount_multiplier = 100 | minus: discount_percent -%}
-                  {%- assign total_selling_price = total_compare_price | times: discount_multiplier | divided_by: 100 -%}
-                  {%- assign savings_amount = total_compare_price | minus: total_selling_price -%}
-
                   <div class="fbt-checkout-pricing-header-line">
                     Total Price:
-                    <span class="fbt-strike-old-label">{{ total_compare_price | money }}</span>
-                    <span class="fbt-vibrant-active-price">{{ total_selling_price | money }}</span>
-                    <span class="fbt-discount-pill-badge">({{ discount_percent }}% OFF)</span>
+                    <span class="fbt-vibrant-active-price" data-fbt-total-price>{{ fbt_total_price | money }}</span>
                   </div>
 
-                  <button type="button" class="canva-huge-action-submit-btn" id="HousiousAddAllToCartTrigger">
-                    Add All 3 to Cart
-                  </button>
-                  {% comment %} <button type="button" class="canva-secondary-link-wishlist-btn">♡ Add All to Wishlist</button> {% endcomment %}
-
-                  <div
-                    class="fbt-save-alert-text"
-                    style="color: #166534; font-size: 11px; text-align: center; margin-top: 6px; font-weight: 700;"
+                  <button
+                    type="button"
+                    class="canva-huge-action-submit-btn"
+                    id="HousiousAddAllToCartTrigger"
+                    data-fbt-count="{{ fbt_eligible_count }}"
+                    {% unless fbt_main_variant.available %}disabled{% endunless %}
                   >
-                    You Save {{ savings_amount | money }} on this combo
-                  </div>
+                    {% if fbt_eligible_count == 2 %}Add Both to Cart{% else %}Add All {{ fbt_eligible_count }} to Cart{% endif %}
+                  </button>
                 </div>
-                {% comment %} <- Ye block ka direct closing hai {% endcomment %}
               </div>
-              {% comment %} <- Ye main left-side stack ka panel handle karne ke liye mandatory div hai {% endcomment %}
+              {%- endif -%}
             </div>
 
             <div class="canva-card you-may-like-wide-card">
@@ -537,59 +519,104 @@
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     const addAllBtn = document.getElementById('HousiousAddAllToCartTrigger');
-    if (!addAllBtn) return;
+    const fbtPanel = document.querySelector('[data-fbt-panel]');
 
-    addAllBtn.addEventListener('click', async function (e) {
-      e.preventDefault();
+    if (addAllBtn && fbtPanel) {
+      const formatMoney = (paise) => new Intl.NumberFormat('en-IN', {
+        style: 'currency',
+        currency: 'INR',
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      }).format((Number(paise) || 0) / 100);
 
-      const variantNodes = document.querySelectorAll('.fbt-single-img-node[data-variant-id]');
-      const items = [];
+      const getAssociatedItems = () => Array.from(
+        fbtPanel.querySelectorAll('[data-fbt-item][data-variant-id]')
+      ).map((node) => ({
+        id: parseInt(node.dataset.variantId, 10),
+        quantity: 1,
+        price: parseInt(node.dataset.price, 10) || 0
+      })).filter((item) => item.id);
 
-      variantNodes.forEach(node => {
-        const variantId = parseInt(node.dataset.variantId, 10);
+      const updateFbtState = (variant) => {
+        const mainNode = fbtPanel.querySelector('[data-fbt-main-item]');
+        const totalPriceEl = fbtPanel.querySelector('[data-fbt-total-price]');
+        const associatedItems = getAssociatedItems();
 
-        if (variantId) {
-          items.push({
-            id: variantId,
-            quantity: 1
-          });
+        const mainVariantId = parseInt(variant?.id ?? fbtPanel.dataset.fbtMainVariantId, 10);
+        const mainPrice = parseInt(variant?.price ?? fbtPanel.dataset.fbtMainPrice, 10) || 0;
+        const mainAvailable = variant ? variant.available === true : fbtPanel.dataset.fbtMainAvailable === 'true';
+        const itemCount = mainVariantId ? associatedItems.length + 1 : associatedItems.length;
+
+        fbtPanel.dataset.fbtMainVariantId = mainVariantId || '';
+        fbtPanel.dataset.fbtMainPrice = String(mainPrice);
+        fbtPanel.dataset.fbtMainAvailable = String(mainAvailable);
+
+        if (mainNode) {
+          mainNode.dataset.variantId = mainVariantId || '';
+          mainNode.dataset.price = String(mainPrice);
         }
+
+        const totalPrice = mainPrice + associatedItems.reduce((sum, item) => sum + item.price, 0);
+        if (totalPriceEl) totalPriceEl.textContent = formatMoney(totalPrice);
+
+        addAllBtn.dataset.fbtCount = String(itemCount);
+        addAllBtn.textContent = itemCount === 2 ? 'Add Both to Cart' : `Add All ${itemCount} to Cart`;
+        addAllBtn.disabled = !mainAvailable || itemCount < 2;
+      };
+
+      updateFbtState();
+
+      document.addEventListener('variant:change', function (event) {
+        const variant = event.detail?.variant;
+        if (!variant || !event.target.closest('.housious-product-page')) return;
+        updateFbtState(variant);
       });
 
-      if (!items.length) return;
+      addAllBtn.addEventListener('click', async function (e) {
+        e.preventDefault();
 
-      addAllBtn.disabled = true;
-      addAllBtn.textContent = 'Adding...';
+        const mainVariantId = parseInt(fbtPanel.dataset.fbtMainVariantId, 10);
+        const mainAvailable = fbtPanel.dataset.fbtMainAvailable === 'true';
+        const associatedItems = getAssociatedItems().map(({ id, quantity }) => ({ id, quantity }));
 
-      try {
-        const response = await fetch('/cart/add.js', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-          },
-          body: JSON.stringify({ items: items })
-        });
+        if (!mainVariantId || !mainAvailable || associatedItems.length === 0) return;
 
-        if (!response.ok) {
-          const error = await response.json();
-          throw new Error(error.description || 'Could not add products');
+        const items = [
+          { id: mainVariantId, quantity: 1 },
+          ...associatedItems
+        ];
+
+        addAllBtn.disabled = true;
+        addAllBtn.textContent = 'Adding...';
+
+        try {
+          if (window.CartDrawer && typeof window.CartDrawer.addItemsToCart === 'function') {
+            await window.CartDrawer.addItemsToCart(items);
+          } else {
+            const response = await fetch('/cart/add.js', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+              },
+              body: JSON.stringify({ items })
+            });
+
+            if (!response.ok) {
+              const error = await response.json();
+              throw new Error(error.description || 'Could not add products');
+            }
+
+            window.location.href = '/cart';
+          }
+        } catch (error) {
+          console.error(error);
+          alert(error.message || 'Something went wrong');
+        } finally {
+          updateFbtState();
         }
-
-        if (window.CartDrawer && typeof window.CartDrawer.open === 'function') {
-          window.CartDrawer.open();
-        } else {
-          window.location.href = '/cart';
-        }
-
-      } catch (error) {
-        console.error(error);
-        alert(error.message || 'Something went wrong');
-      } finally {
-        addAllBtn.disabled = false;
-        addAllBtn.textContent = 'Add All to Cart';
-      }
-    });
+      });
+    }
 
     const comboBtn = document.querySelector('.combo-add-to-cart-btn');
     if (!comboBtn) return;
