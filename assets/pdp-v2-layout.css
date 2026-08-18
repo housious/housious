@@ -6,84 +6,137 @@
 
 @media screen and (min-width: 992px) {
   .housious-product-page {
-    --pdp-v2-max-width: 1520px;
-    --pdp-v2-page-gutter: clamp(24px, 2.2vw, 34px);
-    --pdp-v2-column-gap: clamp(28px, 2.6vw, 44px);
+    --pdp-v2-max-width: 1640px;
+    --pdp-v2-page-gutter: clamp(18px, 1.7vw, 28px);
+    --pdp-v2-column-gap: clamp(28px, 2vw, 38px);
     --pdp-v2-sticky-top: 118px;
 
     width: min(
       calc(100% - (var(--pdp-v2-page-gutter) * 2)),
       var(--pdp-v2-max-width)
-    );
-    max-width: var(--pdp-v2-max-width);
-    margin-inline: auto;
+    ) !important;
+    max-width: var(--pdp-v2-max-width) !important;
+    margin-inline: auto !important;
     padding-inline: 0 !important;
   }
 
+  .housious-product-page .housious-product-page-layout {
+    width: 100% !important;
+    max-width: none !important;
+  }
+
   .housious-product-page .housious-main-product-content {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    column-gap: var(--pdp-v2-column-gap);
-    align-items: start;
-    width: 100%;
-    margin-top: 0;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+    column-gap: var(--pdp-v2-column-gap) !important;
+    align-items: start !important;
+    width: 100% !important;
+    max-width: none !important;
+    margin-top: 0 !important;
   }
 
   .housious-product-page .housious-media-left-column,
   .housious-product-page .product-details-container {
-    min-width: 0;
-    width: 100%;
-    align-self: start;
+    min-width: 0 !important;
+    width: 100% !important;
+    max-width: none !important;
+    flex: none !important;
+    align-self: start !important;
     margin-top: 0 !important;
   }
 
-  /* Keep the visual top edge of the gallery and purchase rail on the same
-     horizontal line, matching the Temu-style desktop product composition. */
-  .housious-product-page .product-gallery,
+  /* Temu-style gallery composition: the thumbnail rail belongs inside the
+     left 50% column and the hero image consumes all remaining space. */
+  .housious-product-page .product-gallery {
+    display: grid !important;
+    grid-template-columns: 76px minmax(0, 1fr) !important;
+    gap: 14px !important;
+    align-items: start !important;
+    width: 100% !important;
+    max-width: none !important;
+    min-width: 0 !important;
+    margin-top: 0 !important;
+  }
+
+  .housious-product-page .product-thumbnails {
+    width: 76px !important;
+    max-width: 76px !important;
+    flex: 0 0 76px !important;
+    max-height: 640px !important;
+    gap: 8px !important;
+  }
+
+  .housious-product-page .thumbnail {
+    width: 76px !important;
+    height: 76px !important;
+    border-radius: 6px !important;
+  }
+
+  .housious-product-page .product-main-image {
+    width: 100% !important;
+    max-width: none !important;
+    min-width: 0 !important;
+    aspect-ratio: 1 / 1 !important;
+    margin-top: 0 !important;
+  }
+
+  /* Keep the visual top edge of the gallery and purchase rail on the exact
+     same horizontal line. */
   .housious-product-page .product-details-container,
-  .housious-product-page .product-title-wrapper {
+  .housious-product-page .product-title-wrapper,
+  .housious-product-page .product-title {
     margin-top: 0 !important;
+    padding-top: 0 !important;
   }
 
-  /*
-   * Sticky purchase rail foundation.
-   * It releases naturally at the end of .housious-main-product-content.
-   * Later PDP V2 steps will extend the left-content parent through reviews /
-   * details / description so this same rail can remain sticky for longer.
-   */
+  /* Sticky purchase rail foundation. It releases naturally at the end of the
+     current main-product parent. Later PDP steps will extend that parent through
+     details/reviews/description for the full Temu-style scroll journey. */
   .housious-product-page .product-details-container {
-    position: sticky;
-    top: var(--pdp-v2-sticky-top);
+    position: sticky !important;
+    top: var(--pdp-v2-sticky-top) !important;
     z-index: 3;
     padding-inline: 0 !important;
   }
 
-  /* Keep gallery inside its own equal-width column instead of allowing
-     intrinsic media dimensions to push the purchase rail out of alignment. */
-  .housious-product-page .product-gallery,
-  .housious-product-page .product-main-image {
-    min-width: 0;
-    max-width: 100%;
+  /* Compact breadcrumb spacing so both columns begin soon after the header. */
+  .housious-product-page .breadcrumbs-full-width {
+    width: 100% !important;
+    margin-top: 10px !important;
+    margin-bottom: 12px !important;
   }
 
-  /* Breadcrumb stays compact so the two equal columns begin together soon
-     after the header, rather than creating an oversized vertical gap. */
-  .housious-product-page .breadcrumbs-full-width {
-    width: 100%;
-    margin-top: 12px;
-    margin-bottom: 14px;
+  .housious-product-page .housious-breadcrumbs {
+    margin-bottom: 0 !important;
+    padding-block: 6px !important;
   }
 }
 
-/* Laptop safeguard: keep the same true 50 / 50 composition while reducing
-   only the gutter and sticky offset. */
+/* Laptop safeguard: keep a true 50 / 50 composition while reducing only
+   gutters and gallery chrome. */
 @media screen and (min-width: 992px) and (max-width: 1180px) {
   .housious-product-page {
-    --pdp-v2-column-gap: 24px;
+    --pdp-v2-column-gap: 22px;
     --pdp-v2-sticky-top: 108px;
   }
 
   .housious-product-page .housious-main-product-content {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+  }
+
+  .housious-product-page .product-gallery {
+    grid-template-columns: 68px minmax(0, 1fr) !important;
+    gap: 12px !important;
+  }
+
+  .housious-product-page .product-thumbnails {
+    width: 68px !important;
+    max-width: 68px !important;
+    flex-basis: 68px !important;
+  }
+
+  .housious-product-page .thumbnail {
+    width: 68px !important;
+    height: 68px !important;
   }
 }
