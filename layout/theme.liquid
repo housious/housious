@@ -78,6 +78,9 @@
 
       {{ 'cart-drawer.css' | asset_url | stylesheet_tag }}
       <script src="{{ 'cart-drawer.js' | asset_url }}" defer></script>
+      {%- if request.page_type == 'product' -%}
+        <script src="{{ 'fbt-offer-preview.js' | asset_url }}" defer></script>
+      {%- endif -%}
   </body>
 </html>
 
