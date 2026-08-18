@@ -41,6 +41,10 @@
       {{ 'section-deal.css' | asset_url | stylesheet_tag }}
     {%- endif -%}
 
+    {%- if request.page_type == 'product' -%}
+      {{ 'pdp-v2-layout.css' | asset_url | stylesheet_tag }}
+    {%- endif -%}
+
     {%- if needs_product_card_assets -%}
       {{ 'product-card.css' | asset_url | stylesheet_tag }}
     {%- endif -%}
