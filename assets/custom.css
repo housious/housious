@@ -75,3 +75,8 @@ top:1px !important;
     line-height: 1.7;
   }
 }
+
+/* PDP marketing cleanup: hide the discontinued Combo + Free Gift promo row. */
+.canva-marketing-engine .canva-combo-gift-sub-row {
+  display: none !important;
+}
