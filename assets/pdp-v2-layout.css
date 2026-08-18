@@ -1,0 +1,79 @@
+/* ==========================================================================
+   HOUSIOUS PDP V2 — STEP 1
+   Temu-inspired desktop two-column + sticky purchase rail foundation.
+   Scope: layout only. Product, variant, pricing, cart and offer logic unchanged.
+   ========================================================================== */
+
+@media screen and (min-width: 992px) {
+  .housious-product-page {
+    --pdp-v2-max-width: 1520px;
+    --pdp-v2-page-gutter: clamp(24px, 2.2vw, 34px);
+    --pdp-v2-column-gap: clamp(38px, 4vw, 64px);
+    --pdp-v2-sticky-top: 118px;
+
+    width: min(
+      calc(100% - (var(--pdp-v2-page-gutter) * 2)),
+      var(--pdp-v2-max-width)
+    );
+    max-width: var(--pdp-v2-max-width);
+    margin-inline: auto;
+    padding-inline: 0 !important;
+  }
+
+  .housious-product-page .housious-main-product-content {
+    display: grid;
+    grid-template-columns: minmax(0, 54fr) minmax(420px, 42fr);
+    column-gap: var(--pdp-v2-column-gap);
+    align-items: start;
+    width: 100%;
+    margin-top: 8px;
+  }
+
+  .housious-product-page .housious-media-left-column,
+  .housious-product-page .product-details-container {
+    min-width: 0;
+    width: 100%;
+  }
+
+  /*
+   * Sticky purchase rail foundation.
+   * It releases naturally at the end of .housious-main-product-content.
+   * Later PDP V2 steps will extend the left-content parent through reviews /
+   * details / description so this same rail can remain sticky for longer.
+   */
+  .housious-product-page .product-details-container {
+    position: sticky;
+    top: var(--pdp-v2-sticky-top);
+    align-self: start;
+    z-index: 3;
+    padding-inline: 0 !important;
+  }
+
+  /* Keep gallery inside its own column instead of allowing intrinsic media
+     dimensions to push the purchase rail out of alignment. */
+  .housious-product-page .product-gallery,
+  .housious-product-page .product-main-image {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  /* Breadcrumb stays aligned with the wider V2 product grid. */
+  .housious-product-page .breadcrumbs-full-width {
+    width: 100%;
+    margin-top: 18px;
+    margin-bottom: 20px;
+  }
+}
+
+/* Laptop safeguard: retain the desktop two-column experience without
+   squeezing the purchase rail below a usable width. */
+@media screen and (min-width: 992px) and (max-width: 1180px) {
+  .housious-product-page {
+    --pdp-v2-column-gap: 28px;
+    --pdp-v2-sticky-top: 108px;
+  }
+
+  .housious-product-page .housious-main-product-content {
+    grid-template-columns: minmax(0, 1fr) minmax(390px, 0.9fr);
+  }
+}
