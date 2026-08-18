@@ -8,7 +8,7 @@
   .housious-product-page {
     --pdp-v2-max-width: 1520px;
     --pdp-v2-page-gutter: clamp(24px, 2.2vw, 34px);
-    --pdp-v2-column-gap: clamp(38px, 4vw, 64px);
+    --pdp-v2-column-gap: clamp(28px, 2.6vw, 44px);
     --pdp-v2-sticky-top: 118px;
 
     width: min(
@@ -22,17 +22,27 @@
 
   .housious-product-page .housious-main-product-content {
     display: grid;
-    grid-template-columns: minmax(0, 54fr) minmax(420px, 42fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     column-gap: var(--pdp-v2-column-gap);
     align-items: start;
     width: 100%;
-    margin-top: 8px;
+    margin-top: 0;
   }
 
   .housious-product-page .housious-media-left-column,
   .housious-product-page .product-details-container {
     min-width: 0;
     width: 100%;
+    align-self: start;
+    margin-top: 0 !important;
+  }
+
+  /* Keep the visual top edge of the gallery and purchase rail on the same
+     horizontal line, matching the Temu-style desktop product composition. */
+  .housious-product-page .product-gallery,
+  .housious-product-page .product-details-container,
+  .housious-product-page .product-title-wrapper {
+    margin-top: 0 !important;
   }
 
   /*
@@ -44,36 +54,36 @@
   .housious-product-page .product-details-container {
     position: sticky;
     top: var(--pdp-v2-sticky-top);
-    align-self: start;
     z-index: 3;
     padding-inline: 0 !important;
   }
 
-  /* Keep gallery inside its own column instead of allowing intrinsic media
-     dimensions to push the purchase rail out of alignment. */
+  /* Keep gallery inside its own equal-width column instead of allowing
+     intrinsic media dimensions to push the purchase rail out of alignment. */
   .housious-product-page .product-gallery,
   .housious-product-page .product-main-image {
     min-width: 0;
     max-width: 100%;
   }
 
-  /* Breadcrumb stays aligned with the wider V2 product grid. */
+  /* Breadcrumb stays compact so the two equal columns begin together soon
+     after the header, rather than creating an oversized vertical gap. */
   .housious-product-page .breadcrumbs-full-width {
     width: 100%;
-    margin-top: 18px;
-    margin-bottom: 20px;
+    margin-top: 12px;
+    margin-bottom: 14px;
   }
 }
 
-/* Laptop safeguard: retain the desktop two-column experience without
-   squeezing the purchase rail below a usable width. */
+/* Laptop safeguard: keep the same true 50 / 50 composition while reducing
+   only the gutter and sticky offset. */
 @media screen and (min-width: 992px) and (max-width: 1180px) {
   .housious-product-page {
-    --pdp-v2-column-gap: 28px;
+    --pdp-v2-column-gap: 24px;
     --pdp-v2-sticky-top: 108px;
   }
 
   .housious-product-page .housious-main-product-content {
-    grid-template-columns: minmax(0, 1fr) minmax(390px, 0.9fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
